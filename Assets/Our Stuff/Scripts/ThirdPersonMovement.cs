@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 //using UnityEngine.UIElements;
 
 public class ThirdPersonMovement : MonoBehaviour
