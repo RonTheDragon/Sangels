@@ -243,6 +243,27 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
+--- !u!1 &301903468 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6598293734634356847, guid: 17815853b163b554da771055f6659d6f, type: 3}
+  m_PrefabInstance: {fileID: 6598293734981099165}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &301903472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301903468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb7194dc27b9df64c8beca7482ee8e0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerIndex: -1
+  AutoEnableInputs: 1
+  XYAxis: {fileID: -3791780916971338799, guid: 60ef2386cf8841a4c83b813fa7d5b71b, type: 3}
+  ZAxis: {fileID: 0}
 --- !u!1 &586344377
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,11 +457,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598293733855215904, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000017292042
+      value: 0.000000017306572
       objectReference: {fileID: 0}
     - target: {fileID: 6598293733855215904, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000010798156
+      value: -0.000000001080723
       objectReference: {fileID: 0}
     - target: {fileID: 6598293733980137747, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_BiasX
@@ -469,6 +490,10 @@ PrefabInstance:
     - target: {fileID: 6598293734435211304, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: Jump
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598293734435211304, guid: 17815853b163b554da771055f6659d6f, type: 3}
+      propertyPath: Gravity
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6598293734435211305, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_Name
@@ -551,6 +576,14 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6598293734634356843, guid: 17815853b163b554da771055f6659d6f, type: 3}
+      propertyPath: m_XAxis.m_MaxSpeed
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598293734634356843, guid: 17815853b163b554da771055f6659d6f, type: 3}
+      propertyPath: m_YAxis.m_MaxSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598293734634356843, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_Orbits.Array.data[1].m_Radius
       value: 5
       objectReference: {fileID: 0}
@@ -592,11 +625,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598293734642008242, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000006450383
+      value: -0.0000000042806607
       objectReference: {fileID: 0}
     - target: {fileID: 6598293734642008242, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -6.387138e-10
+      value: 4.238689e-10
       objectReference: {fileID: 0}
     - target: {fileID: 6598293734886125685, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_UpdateMethod
