@@ -8,26 +8,27 @@ using UnityEngine.InputSystem;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
-    public float Speed = 10;
-    public float Gravity = 10;
-    public CharacterController CC;
-    public Transform cam;
+    [SerializeField] float Speed = 10;
+    [SerializeField] float Gravity = 10;
+    CharacterController CC;
+    [SerializeField] Transform cam;
 
     float f;
 
     Vector3 ForceDirection;
     float   ForceStrength;
 
-    public float Jump = 20;
-    public float gravityPull;
+    [SerializeField] float Jump = 20;
+    [SerializeField] float gravityPull;
 
-    public bool Grounded;
+    bool Grounded;
+    bool G;
 
     Vector3 hitNormal;
 
-    public float slopeLimit = 80;
+    [SerializeField] float slopeLimit = 80;
 
-    public float slideFriction;
+    [SerializeField] float slideFriction;
 
     float MoveX;
     float MoveY;
@@ -48,7 +49,23 @@ public class ThirdPersonMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Jumping();
+        Movement();
+        AddForce();
+        slide();
+    }
 
+    private void AddForce()
+    {
+        if (ForceStrength > 0)
+        {
+            CC.Move(ForceDirection.normalized * ForceStrength * Time.deltaTime);
+            ForceStrength -= ForceStrength * 2 * Time.deltaTime;
+        }
+    }
+
+    private void Jumping()
+    {
         if (Grounded)
         {
             gravityPull = 0.1f;
@@ -59,34 +76,17 @@ public class ThirdPersonMovement : MonoBehaviour
         }
         CC.Move(Vector3.down * Gravity * gravityPull * Time.deltaTime);
 
-        bool G = !CC.isGrounded;
-        
+        G = !CC.isGrounded;
+
         if (Jumped && Grounded)
         {
             AddForce(Vector3.up, Jump);
         }
+    }
 
-        Vector2 Movement = new Vector2(MoveY, MoveX).normalized; //Get input from player for movem
-        
-            float targetAngle = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y; //get where player is looking
-            float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, cam.eulerAngles.y, ref f, 0.1f); //Smoothing
-            transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
-
-            if (Movement.magnitude > 0.1f)
-            {
-                Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
-                CC.Move(MoveDir * Speed* Time.deltaTime);
-            }
-        
-
-        if (ForceStrength > 0)
-        {
-            CC.Move(ForceDirection.normalized * ForceStrength * Time.deltaTime);
-            ForceStrength -= ForceStrength* 2 * Time.deltaTime;
-        }
+    private void slide()
+    {
         Grounded = ((Vector3.Angle(Vector3.up, hitNormal) <= slopeLimit) && !G);
-
-        
         if (!Grounded && !G)
         {
             Vector3 slid = Vector3.zero;
@@ -97,6 +97,20 @@ public class ThirdPersonMovement : MonoBehaviour
         }
     }
 
+    void Movement()
+    {
+        Vector2 Movement = new Vector2(MoveY, MoveX).normalized; //Get input from player for movem
+
+        float targetAngle = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y; //get where player is looking
+        float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, cam.eulerAngles.y, ref f, 0.1f); //Smoothing
+        transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
+
+        if (Movement.magnitude > 0.1f)
+        {
+            Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+            CC.Move(MoveDir * Speed * Time.deltaTime);
+        }
+    }
     
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
