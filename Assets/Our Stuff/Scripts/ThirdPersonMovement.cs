@@ -8,10 +8,10 @@ using UnityEngine.InputSystem;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
-    public float               Speed   = 10;
-    public float               Gravity = 10;
+    public float Speed = 10;
+    public float Gravity = 10;
     public CharacterController CC;
-    public Transform           cam;
+    public Transform cam;
 
     float f;
 
@@ -28,6 +28,10 @@ public class ThirdPersonMovement : MonoBehaviour
     public float slopeLimit = 80;
 
     public float slideFriction;
+
+    float MoveX;
+    float MoveY;
+    bool Jumped;
 
     private void Awake()
     {
@@ -57,15 +61,15 @@ public class ThirdPersonMovement : MonoBehaviour
 
         bool G = !CC.isGrounded;
         
-        if (Input.GetKeyDown(KeyCode.Space) && Grounded)
+        if (Jumped && Grounded)
         {
             AddForce(Vector3.up, Jump);
         }
 
-        Vector2 Movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //Get input from player for movem
+        Vector2 Movement = new Vector2(MoveY, MoveX); //Get input from player for movem
         
-            float targetAngle     = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y; //get where player is looking
-            float Angle             = Mathf.SmoothDampAngle(transform.eulerAngles.y, cam.eulerAngles.y, ref f, 0.1f); //Smoothing
+            float targetAngle = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y; //get where player is looking
+            float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, cam.eulerAngles.y, ref f, 0.1f); //Smoothing
             transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
 
             if (Movement.magnitude > 0.1f)
@@ -93,6 +97,8 @@ public class ThirdPersonMovement : MonoBehaviour
         }
     }
 
+    
+
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         hitNormal = hit.normal;
@@ -102,5 +108,18 @@ public class ThirdPersonMovement : MonoBehaviour
     {
         ForceDirection = dir;
         ForceStrength  = force;
+    }
+
+    public void OnMoveX(InputAction.CallbackContext context)
+    {
+        MoveX = context.ReadValue<float>();
+    }
+    public void OnMoveY(InputAction.CallbackContext context)
+    {
+        MoveY = context.ReadValue<float>();
+    }
+    public void OnJump(InputAction.CallbackContext context)
+    {
+       Jumped  = context.action.triggered;
     }
 }

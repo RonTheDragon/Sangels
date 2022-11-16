@@ -37,9 +37,27 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Move"",
+                    ""name"": ""MoveWS"",
                     ""type"": ""Button"",
                     ""id"": ""923f37b8-a5ea-4c58-b46e-1de6bf11ab61"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveAD"",
+                    ""type"": ""Button"",
+                    ""id"": ""2ffc552e-7cba-4298-a4a3-4dccbdfb82d3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""0d330cf9-e00d-4d35-9f0f-9201c7020d9e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -65,7 +83,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveWS"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -76,7 +94,7 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveWS"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -87,42 +105,53 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveWS"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""Left/Right"",
-                    ""id"": ""4cbf9ae9-a6e3-43d8-80d1-1303b893b4fa"",
+                    ""id"": ""21536a06-a708-4651-99a8-b0544bbfddce"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveAD"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""negative"",
-                    ""id"": ""43bb0d25-a265-414a-bd1e-4741c29ddfc6"",
+                    ""id"": ""b61bc26f-5228-4d16-a567-cf27064733d6"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveAD"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""positive"",
-                    ""id"": ""9083139a-5a0e-453d-8d0e-3e1b4a65e3b2"",
+                    ""id"": ""abfdf785-80a5-4084-abd0-bfb8643dcd70"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveAD"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f513b7af-79e9-48ac-aa23-6adc8e71bd7e"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -132,7 +161,9 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
-        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        m_Player_MoveWS = m_Player.FindAction("MoveWS", throwIfNotFound: true);
+        m_Player_MoveAD = m_Player.FindAction("MoveAD", throwIfNotFound: true);
+        m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -193,13 +224,17 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Look;
-    private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_MoveWS;
+    private readonly InputAction m_Player_MoveAD;
+    private readonly InputAction m_Player_Jump;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
         public PlayerActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
         public InputAction @Look => m_Wrapper.m_Player_Look;
-        public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @MoveWS => m_Wrapper.m_Player_MoveWS;
+        public InputAction @MoveAD => m_Wrapper.m_Player_MoveAD;
+        public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -212,9 +247,15 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
-                @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @MoveWS.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveWS;
+                @MoveWS.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveWS;
+                @MoveWS.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveWS;
+                @MoveAD.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveAD;
+                @MoveAD.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveAD;
+                @MoveAD.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveAD;
+                @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -222,9 +263,15 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
+                @MoveWS.started += instance.OnMoveWS;
+                @MoveWS.performed += instance.OnMoveWS;
+                @MoveWS.canceled += instance.OnMoveWS;
+                @MoveAD.started += instance.OnMoveAD;
+                @MoveAD.performed += instance.OnMoveAD;
+                @MoveAD.canceled += instance.OnMoveAD;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
@@ -232,6 +279,8 @@ public partial class @InputMaster : IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnLook(InputAction.CallbackContext context);
-        void OnMove(InputAction.CallbackContext context);
+        void OnMoveWS(InputAction.CallbackContext context);
+        void OnMoveAD(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }

@@ -15,9 +15,27 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Move",
+                    "name": "MoveWS",
                     "type": "Button",
                     "id": "923f37b8-a5ea-4c58-b46e-1de6bf11ab61",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveAD",
+                    "type": "Button",
+                    "id": "2ffc552e-7cba-4298-a4a3-4dccbdfb82d3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "0d330cf9-e00d-4d35-9f0f-9201c7020d9e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -43,7 +61,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "MoveWS",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -54,7 +72,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "MoveWS",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -65,42 +83,53 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "MoveWS",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "Left/Right",
-                    "id": "4cbf9ae9-a6e3-43d8-80d1-1303b893b4fa",
+                    "id": "21536a06-a708-4651-99a8-b0544bbfddce",
                     "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "MoveAD",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "negative",
-                    "id": "43bb0d25-a265-414a-bd1e-4741c29ddfc6",
+                    "id": "b61bc26f-5228-4d16-a567-cf27064733d6",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "MoveAD",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "positive",
-                    "id": "9083139a-5a0e-453d-8d0e-3e1b4a65e3b2",
+                    "id": "abfdf785-80a5-4084-abd0-bfb8643dcd70",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "MoveAD",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "f513b7af-79e9-48ac-aa23-6adc8e71bd7e",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
