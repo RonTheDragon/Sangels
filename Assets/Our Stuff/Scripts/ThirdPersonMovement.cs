@@ -66,7 +66,7 @@ public class ThirdPersonMovement : MonoBehaviour
             AddForce(Vector3.up, Jump);
         }
 
-        Vector2 Movement = new Vector2(MoveY, MoveX); //Get input from player for movem
+        Vector2 Movement = new Vector2(MoveY, MoveX).normalized; //Get input from player for movem
         
             float targetAngle = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y; //get where player is looking
             float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, cam.eulerAngles.y, ref f, 0.1f); //Smoothing
@@ -75,7 +75,7 @@ public class ThirdPersonMovement : MonoBehaviour
             if (Movement.magnitude > 0.1f)
             {
                 Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
-                CC.Move(MoveDir.normalized * Speed* Time.deltaTime);
+                CC.Move(MoveDir * Speed* Time.deltaTime);
             }
         
 
