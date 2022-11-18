@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -10,8 +11,12 @@ public class ThirdPersonMovement : MonoBehaviour
 {
     [SerializeField] float Speed = 10;
     [SerializeField] float Gravity = 10;
+    [SerializeField] float MouseXSpeed = 10;
+    [SerializeField] float MouseYSpeed = 10;
     CharacterController CC;
+    Camera MyCam;
     [SerializeField] Transform cam;
+    [SerializeField] CinemachineFreeLook cfl;
 
     float f;
 
@@ -30,13 +35,17 @@ public class ThirdPersonMovement : MonoBehaviour
 
     [SerializeField] float slideFriction;
 
-    float MoveX;
-    float MoveY;
+    Vector2 movement;
+    Vector2 look;
     bool Jumped;
+
+    public int PlayerNumber;
+    public LayerMask[] masks = new LayerMask[4];
 
     private void Awake()
     {
-        CC = GetComponent<CharacterController>();   
+        CC = GetComponent<CharacterController>();
+        MyCam = cam.GetComponent<Camera>();
     }
 
     // Start is called before the first frame update
@@ -44,6 +53,7 @@ public class ThirdPersonMovement : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible   = false;
+        SetUpPlayer();
     }
 
     // Update is called once per frame
@@ -52,6 +62,7 @@ public class ThirdPersonMovement : MonoBehaviour
         Jumping();
         Movement();
         AddForce();
+        Look();
         slide();
     }
 
@@ -99,7 +110,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
     void Movement()
     {
-        Vector2 Movement = new Vector2(MoveY, MoveX).normalized; //Get input from player for movem
+        Vector2 Movement = movement.normalized; //Get input from player for movem
 
         float targetAngle = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y; //get where player is looking
         float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, cam.eulerAngles.y, ref f, 0.1f); //Smoothing
@@ -110,6 +121,11 @@ public class ThirdPersonMovement : MonoBehaviour
             Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
             CC.Move(MoveDir * Speed * Time.deltaTime);
         }
+    }
+    void Look()
+    {
+        cfl.m_XAxis.Value += look.x * MouseXSpeed * Time.deltaTime;
+        cfl.m_YAxis.Value -= look.y * MouseYSpeed * Time.deltaTime;
     }
     
 
@@ -124,16 +140,36 @@ public class ThirdPersonMovement : MonoBehaviour
         ForceStrength  = force;
     }
 
-    public void OnMoveX(InputAction.CallbackContext context)
+    void SetUpPlayer()
     {
-        MoveX = context.ReadValue<float>();
+        PlayerNumber = GameManager.instance.PlayersAmount;
+        switch (PlayerNumber)
+        {
+            case 1: cfl.gameObject.layer = LayerMask.NameToLayer("Player1"); MyCam.cullingMask = masks[0];
+                break;
+            case 2:
+                cfl.gameObject.layer = LayerMask.NameToLayer("Player2"); MyCam.cullingMask = masks[1];
+                break;
+            case 3:
+                cfl.gameObject.layer = LayerMask.NameToLayer("Player3"); MyCam.cullingMask = masks[2];
+                break;
+            case 4:
+                cfl.gameObject.layer = LayerMask.NameToLayer("Player4"); MyCam.cullingMask = masks[3];
+                break;
+            default: return;
+        }
     }
-    public void OnMoveY(InputAction.CallbackContext context)
+
+    public void OnMove(InputAction.CallbackContext context)
     {
-        MoveY = context.ReadValue<float>();
+        movement = context.ReadValue<Vector2>();
     }
     public void OnJump(InputAction.CallbackContext context)
     {
        Jumped  = context.action.triggered;
+    }
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        look = context.ReadValue<Vector2>();
     }
 }
