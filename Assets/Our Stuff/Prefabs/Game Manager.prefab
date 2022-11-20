@@ -106,6 +106,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayersAmount: 0
+  PlayerMasks:
+  - serializedVersion: 2
+    m_Bits: 127
+  - serializedVersion: 2
+    m_Bits: 191
+  - serializedVersion: 2
+    m_Bits: 319
+  - serializedVersion: 2
+    m_Bits: 575
 --- !u!81 &3626978732403223366
 AudioListener:
   m_ObjectHideFlags: 0

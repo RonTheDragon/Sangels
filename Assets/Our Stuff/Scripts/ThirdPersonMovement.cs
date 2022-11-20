@@ -5,18 +5,21 @@ using System.Linq.Expressions;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 //using UnityEngine.UIElements;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
+    [Header("Walking")]
     [SerializeField] float Speed = 10;
+    [Header("Jumping")]
     [SerializeField] float Gravity = 10;
-    [SerializeField] float MouseXSpeed = 10;
-    [SerializeField] float MouseYSpeed = 10;
-    CharacterController CC;
-    Camera MyCam;
+    CharacterController CC => GetComponent<CharacterController>();
+    Camera MyCam => cam.GetComponent<Camera>();
     [SerializeField] Transform cam;
     [SerializeField] CinemachineFreeLook cfl;
+    InputHandler inputHandler => cfl.GetComponent<InputHandler>();
+    PlayerInput playerInput => GetComponent<PlayerInput>();
 
     float f;
 
@@ -25,9 +28,6 @@ public class ThirdPersonMovement : MonoBehaviour
 
     [SerializeField] float Jump = 20;
     [SerializeField] float gravityPull;
-
-    bool Grounded;
-    bool G;
 
     Vector3 hitNormal;
 
@@ -40,13 +40,17 @@ public class ThirdPersonMovement : MonoBehaviour
     bool Jumped;
 
     public int PlayerNumber;
-    public LayerMask[] masks = new LayerMask[4];
 
-    private void Awake()
-    {
-        CC = GetComponent<CharacterController>();
-        MyCam = cam.GetComponent<Camera>();
-    }
+    public float Y;
+    public float Wide = 0;
+    public float Height = .15f;
+    public LayerMask Jumpable;
+    Vector3 BoxOrigin => CC.transform.position + (Vector3.up * CC.bounds.extents.y) * Y;
+    Vector3 RayCastSize => new Vector3(CC.bounds.extents.x + Wide, Height * 2, CC.bounds.extents.z + Wide);
+
+    bool isGrounded;
+    public bool isSliding;
+    GameManager GM => GameManager.instance;
 
     // Start is called before the first frame update
     void Start()
@@ -59,11 +63,30 @@ public class ThirdPersonMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GroundCheck();
         Jumping();
         Movement();
         AddForce();
-        Look();
         slide();
+    }
+
+    private void GroundCheck()
+    {
+        isGrounded = Physics.CheckBox(BoxOrigin, RayCastSize, quaternion.identity, Jumpable);
+        if (isGrounded)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(BoxOrigin + Vector3.up * 0.5f, Vector3.down, out hit, 1, Jumpable))
+            {
+                hitNormal = hit.normal;
+                //Debug.Log(hit.transform.name);
+            }
+        }
+        else
+        {
+            hitNormal = hitNormal * 0.99f;
+        }
+        isSliding = (!(Vector3.Angle(Vector3.up, hitNormal) <= slopeLimit));
     }
 
     private void AddForce()
@@ -77,7 +100,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
     private void Jumping()
     {
-        if (Grounded)
+        if (isGrounded)
         {
             gravityPull = 0.1f;
         }
@@ -87,9 +110,7 @@ public class ThirdPersonMovement : MonoBehaviour
         }
         CC.Move(Vector3.down * Gravity * gravityPull * Time.deltaTime);
 
-        G = !CC.isGrounded;
-
-        if (Jumped && Grounded)
+        if (Jumped && isGrounded && !isSliding)
         {
             AddForce(Vector3.up, Jump);
         }
@@ -97,8 +118,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
     private void slide()
     {
-        Grounded = ((Vector3.Angle(Vector3.up, hitNormal) <= slopeLimit) && !G);
-        if (!Grounded && !G)
+        if (isSliding)
         {
             Vector3 slid = Vector3.zero;
             slid.x += ((1f - hitNormal.y) * hitNormal.x * (1f - slideFriction));
@@ -122,17 +142,6 @@ public class ThirdPersonMovement : MonoBehaviour
             CC.Move(MoveDir * Speed * Time.deltaTime);
         }
     }
-    void Look()
-    {
-        cfl.m_XAxis.Value += look.x * MouseXSpeed * Time.deltaTime;
-        cfl.m_YAxis.Value -= look.y * MouseYSpeed * Time.deltaTime;
-    }
-    
-
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        hitNormal = hit.normal;
-    }
 
     void AddForce(Vector3 dir, float force)
     {
@@ -142,19 +151,21 @@ public class ThirdPersonMovement : MonoBehaviour
 
     void SetUpPlayer()
     {
-        PlayerNumber = GameManager.instance.PlayersAmount;
+        inputHandler.horizontal = playerInput.actions.FindAction("Look"); // Set up Looking Controls 
+
+        PlayerNumber = GameManager.instance.PlayersAmount; // Give The Player a Number
         switch (PlayerNumber)
         {
-            case 1: cfl.gameObject.layer = LayerMask.NameToLayer("Player1"); MyCam.cullingMask = masks[0];
+            case 1: cfl.gameObject.layer = LayerMask.NameToLayer("Player1"); MyCam.cullingMask = GM.PlayerMasks[0];
                 break;
             case 2:
-                cfl.gameObject.layer = LayerMask.NameToLayer("Player2"); MyCam.cullingMask = masks[1];
+                cfl.gameObject.layer = LayerMask.NameToLayer("Player2"); MyCam.cullingMask = GM.PlayerMasks[1];
                 break;
             case 3:
-                cfl.gameObject.layer = LayerMask.NameToLayer("Player3"); MyCam.cullingMask = masks[2];
+                cfl.gameObject.layer = LayerMask.NameToLayer("Player3"); MyCam.cullingMask = GM.PlayerMasks[2];
                 break;
             case 4:
-                cfl.gameObject.layer = LayerMask.NameToLayer("Player4"); MyCam.cullingMask = masks[3];
+                cfl.gameObject.layer = LayerMask.NameToLayer("Player4"); MyCam.cullingMask = GM.PlayerMasks[3];
                 break;
             default: return;
         }
@@ -171,5 +182,12 @@ public class ThirdPersonMovement : MonoBehaviour
     public void OnLook(InputAction.CallbackContext context)
     {
         look = context.ReadValue<Vector2>();
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Draw a line in the Editor to show whether we are touching the ground.
+        Gizmos.color = isGrounded ? Color.blue : Color.red; Gizmos.DrawCube(BoxOrigin, RayCastSize * 2);
+        //Debug.DrawLine(RaycastOrigin, RaycastOrigin + Vector3.down * RaycastDistance, isGrounded ? Color.white : Color.red);
     }
 }

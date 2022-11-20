@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public static GameManager instance;
     public int PlayersAmount = 0;
     bool TurnedOffStartingCam;
+    public LayerMask[] PlayerMasks = new LayerMask[4];
 
     private void Awake()
     {
