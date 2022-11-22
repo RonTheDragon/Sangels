@@ -122,6 +122,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  LeaveOnDisconnect: 0
   PlayerMasks:
   - serializedVersion: 2
     m_Bits: 127
@@ -292,7 +293,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1902b80f77af66e4f8a7929ab43b4ebd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Groups: []
+  Groups:
+  - tag: Projectiles
+    pools:
+    - tag: Luber
+      prefab: {fileID: 8328853403786945772, guid: 13ca0b5215f497c4ca69fe5b9418f2b5, type: 3}
+      size: 20
 --- !u!1 &7100667302818920659
 GameObject:
   m_ObjectHideFlags: 0

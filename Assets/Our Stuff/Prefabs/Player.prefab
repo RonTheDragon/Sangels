@@ -177,6 +177,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &1502166585007289256
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3508164622942909835}
+  m_Layer: 3
+  m_Name: SlingshotShooter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3508164622942909835
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502166585007289256}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2, y: 4, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2155734563653018179}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6598293733855215905
 GameObject:
   m_ObjectHideFlags: 3
@@ -473,6 +504,7 @@ GameObject:
   - component: {fileID: 6598293734435211304}
   - component: {fileID: 6598293734981099168}
   - component: {fileID: 8491351641926639698}
+  - component: {fileID: 6750264215103236152}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -693,6 +725,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPos: {x: 0, y: 0, z: 0}
+--- !u!114 &6750264215103236152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6598293734435211305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27da14a744ac0cb46a0a9b759ff21eb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CoolDown: 0.2
+  ProjectileSpawnLocation: {fileID: 3508164622942909835}
+  cam: {fileID: 6598293734886125691}
+  cinemachine: {fileID: 6598293734634356843}
+  AimingFOV: 20
+  NotAimingFOV: 40
+  FovChangingSpeed: 60
+  CurrentFOV: 0
+  isAiming: 0
+  CurrentAmmo: 
+  AmmoTypes:
+  - Luber
+  MaxCharge: 2000
+  StartCharge: 100
+  ChargingSpeed: 1900
+  CurrentCharge: 0
 --- !u!1 &6598293734634356847
 GameObject:
   m_ObjectHideFlags: 0
