@@ -48,7 +48,7 @@ namespace UnityEngine.InputSystem
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Fire"",
+                    ""name"": ""Shoot"",
                     ""type"": ""Button"",
                     ""id"": ""6c2ab1b8-8984-453a-af3d-a3c78ae1679a"",
                     ""expectedControlType"": ""Button"",
@@ -204,7 +204,7 @@ namespace UnityEngine.InputSystem
                     ""id"": ""c1f7a91b-d0fd-4a62-997e-7fb9b69bf235"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": ""ScaleVector2(x=5,y=5)"",
+                    ""processors"": ""ScaleVector2(x=15,y=15)"",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
@@ -226,7 +226,7 @@ namespace UnityEngine.InputSystem
                     ""id"": ""3e5f5442-8668-4b27-a940-df99bad7e831"",
                     ""path"": ""<Joystick>/{Hatswitch}"",
                     ""interactions"": """",
-                    ""processors"": ""ScaleVector2(x=5,y=5)"",
+                    ""processors"": ""ScaleVector2(x=10,y=10)"",
                     ""groups"": ""Joystick"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
@@ -239,18 +239,18 @@ namespace UnityEngine.InputSystem
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Fire"",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""05f6913d-c316-48b2-a6bb-e225f14c7960"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Fire"",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -261,7 +261,7 @@ namespace UnityEngine.InputSystem
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Touch"",
-                    ""action"": ""Fire"",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -272,7 +272,7 @@ namespace UnityEngine.InputSystem
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Joystick"",
-                    ""action"": ""Fire"",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -283,7 +283,7 @@ namespace UnityEngine.InputSystem
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""XR"",
-                    ""action"": ""Fire"",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -895,7 +895,7 @@ namespace UnityEngine.InputSystem
             m_Sangel = asset.FindActionMap("Sangel", throwIfNotFound: true);
             m_Sangel_Move = m_Sangel.FindAction("Move", throwIfNotFound: true);
             m_Sangel_Look = m_Sangel.FindAction("Look", throwIfNotFound: true);
-            m_Sangel_Fire = m_Sangel.FindAction("Fire", throwIfNotFound: true);
+            m_Sangel_Shoot = m_Sangel.FindAction("Shoot", throwIfNotFound: true);
             m_Sangel_Jump = m_Sangel.FindAction("Jump", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -970,7 +970,7 @@ namespace UnityEngine.InputSystem
         private ISangelActions m_SangelActionsCallbackInterface;
         private readonly InputAction m_Sangel_Move;
         private readonly InputAction m_Sangel_Look;
-        private readonly InputAction m_Sangel_Fire;
+        private readonly InputAction m_Sangel_Shoot;
         private readonly InputAction m_Sangel_Jump;
         public struct SangelActions
         {
@@ -978,7 +978,7 @@ namespace UnityEngine.InputSystem
             public SangelActions(@PlayerInputManager wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Sangel_Move;
             public InputAction @Look => m_Wrapper.m_Sangel_Look;
-            public InputAction @Fire => m_Wrapper.m_Sangel_Fire;
+            public InputAction @Shoot => m_Wrapper.m_Sangel_Shoot;
             public InputAction @Jump => m_Wrapper.m_Sangel_Jump;
             public InputActionMap Get() { return m_Wrapper.m_Sangel; }
             public void Enable() { Get().Enable(); }
@@ -995,9 +995,9 @@ namespace UnityEngine.InputSystem
                     @Look.started -= m_Wrapper.m_SangelActionsCallbackInterface.OnLook;
                     @Look.performed -= m_Wrapper.m_SangelActionsCallbackInterface.OnLook;
                     @Look.canceled -= m_Wrapper.m_SangelActionsCallbackInterface.OnLook;
-                    @Fire.started -= m_Wrapper.m_SangelActionsCallbackInterface.OnFire;
-                    @Fire.performed -= m_Wrapper.m_SangelActionsCallbackInterface.OnFire;
-                    @Fire.canceled -= m_Wrapper.m_SangelActionsCallbackInterface.OnFire;
+                    @Shoot.started -= m_Wrapper.m_SangelActionsCallbackInterface.OnShoot;
+                    @Shoot.performed -= m_Wrapper.m_SangelActionsCallbackInterface.OnShoot;
+                    @Shoot.canceled -= m_Wrapper.m_SangelActionsCallbackInterface.OnShoot;
                     @Jump.started -= m_Wrapper.m_SangelActionsCallbackInterface.OnJump;
                     @Jump.performed -= m_Wrapper.m_SangelActionsCallbackInterface.OnJump;
                     @Jump.canceled -= m_Wrapper.m_SangelActionsCallbackInterface.OnJump;
@@ -1011,9 +1011,9 @@ namespace UnityEngine.InputSystem
                     @Look.started += instance.OnLook;
                     @Look.performed += instance.OnLook;
                     @Look.canceled += instance.OnLook;
-                    @Fire.started += instance.OnFire;
-                    @Fire.performed += instance.OnFire;
-                    @Fire.canceled += instance.OnFire;
+                    @Shoot.started += instance.OnShoot;
+                    @Shoot.performed += instance.OnShoot;
+                    @Shoot.canceled += instance.OnShoot;
                     @Jump.started += instance.OnJump;
                     @Jump.performed += instance.OnJump;
                     @Jump.canceled += instance.OnJump;
@@ -1175,7 +1175,7 @@ namespace UnityEngine.InputSystem
         {
             void OnMove(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
-            void OnFire(InputAction.CallbackContext context);
+            void OnShoot(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
         }
         public interface IUIActions

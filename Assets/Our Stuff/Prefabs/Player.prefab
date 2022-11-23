@@ -632,10 +632,14 @@ MonoBehaviour:
     m_ActionId: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6b444451-8a00-4d00-a97e-f47457f736a8
+    m_ActionName: Player/Look[/Mouse/delta]
+  - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6598293734435211304}
-        m_TargetAssemblyTypeName: ThirdPersonMovement, Assembly-CSharp
-        m_MethodName: OnLook
+      - m_Target: {fileID: 6750264215103236152}
+        m_TargetAssemblyTypeName: Slingshot, Assembly-CSharp
+        m_MethodName: OnShoot
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -645,10 +649,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 6b444451-8a00-4d00-a97e-f47457f736a8
-    m_ActionName: Player/Look[/Mouse/delta]
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 6c2ab1b8-8984-453a-af3d-a3c78ae1679a
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
@@ -741,7 +741,7 @@ MonoBehaviour:
   ProjectileSpawnLocation: {fileID: 3508164622942909835}
   cam: {fileID: 6598293734886125691}
   cinemachine: {fileID: 6598293734634356843}
-  AimingFOV: 20
+  AimingFOV: 30
   NotAimingFOV: 40
   FovChangingSpeed: 60
   CurrentFOV: 0

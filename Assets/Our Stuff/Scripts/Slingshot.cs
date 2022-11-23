@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
 public class Slingshot : MonoBehaviour
@@ -31,17 +32,17 @@ public class Slingshot : MonoBehaviour
     [SerializeField] float ChargingSpeed = 1900;
     [ReadOnly][SerializeField] float CurrentCharge;
 
-
-
     //Private 
     float _cd;
     int _currentAmmo;
-    bool _charging;
+    bool _charging, _shoot, _shootLastFrame;
     Projectile fruit;
+    event EventHandler OnStopHoldShoot;
 
     // Start is called before the first frame update
     void Start()
     {
+        OnStopHoldShoot += OnStoppedShooting;
         cinemachine.m_Lens.FieldOfView = NotAimingFOV;
         SwitchAmmo();
     }
@@ -65,7 +66,7 @@ public class Slingshot : MonoBehaviour
         {
             ProjectileSpawnLocation.LookAt(cam.position+cam.forward*200);
         }
-        if (Input.GetMouseButtonDown(1) && _cd <= 0 && !fruit)
+        if (_shoot && _cd <= 0 && !fruit && !string.IsNullOrEmpty(CurrentAmmo))
         {
             fruit = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo, ProjectileSpawnLocation.position, ProjectileSpawnLocation.rotation).GetComponent<Projectile>();
             fruit.SpawnOnSlingShot(ProjectileSpawnLocation);
@@ -77,28 +78,23 @@ public class Slingshot : MonoBehaviour
             CurrentCharge += ChargingSpeed * Time.deltaTime;
             if (CurrentCharge > MaxCharge) CurrentCharge = MaxCharge;
         }
-        if (Input.GetMouseButtonUp(1)&&fruit)
-        {
-            fruit.LaunchProjectile(CurrentCharge);
-            CurrentCharge = 0;
-            _charging = false;
-            _cd = CoolDown;
-            fruit = null;
-        }
+       
         if (_cd > 0)
         {
             _cd -= Time.deltaTime;
         }
+        
+        if(_shootLastFrame && !_shoot)
+        {
+            OnStopHoldShoot?.Invoke(this, EventArgs.Empty);
+        }
+        _shootLastFrame = _shoot;
     }
     void Aim()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (_shoot)
         {
             isAiming = true;
-        }
-        else if (Input.GetMouseButtonUp(1))
-        {
-            isAiming = false;
         }
 
         CurrentFOV = cinemachine.m_Lens.FieldOfView;
@@ -118,6 +114,19 @@ public class Slingshot : MonoBehaviour
                 cinemachine.m_Lens.FieldOfView += FovChangingSpeed * Time.deltaTime;
             }
             else { cinemachine.m_Lens.FieldOfView = NotAimingFOV; }
+        }
+    }
+
+    void OnStoppedShooting(object sender,EventArgs eventArgs)
+    {
+        isAiming = false;
+        if (fruit)
+        {
+            fruit.LaunchProjectile(CurrentCharge);
+            CurrentCharge = 0;
+            _charging = false;
+            _cd = CoolDown;
+            fruit = null;
         }
     }
 
@@ -157,5 +166,12 @@ public class Slingshot : MonoBehaviour
             CurrentAmmo = string.Empty;
         }
     }
+
+    //Inputs
+    public void OnShoot(InputAction.CallbackContext context)
+    {
+       _shoot= context.action.triggered;
+    }
+   
 
 }

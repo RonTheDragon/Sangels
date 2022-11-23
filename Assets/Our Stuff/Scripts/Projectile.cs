@@ -3,23 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Projectile : MonoBehaviour,IpooledObject
+public class Projectile : MonoBehaviour
 {
     [Tooltip("Multiply The Speed")]
     [SerializeField] protected float ForceMultiplier = 1;
     protected Rigidbody RB => GetComponent<Rigidbody>();
+    protected Collider c => GetComponent<Collider>();
 
     protected Transform SlingshotSit;
-    public void OnObjectSpawn()
-    {
-        RB.velocity = Vector3.zero;
-    }
 
     public void LaunchProjectile(float Force)
     {
         RB.velocity = Vector3.zero;
         SlingshotSit = null;
         RB.useGravity = true;
+        c.enabled = true;
         transform.parent = ObjectPooler.Instance.transform;
         RB.AddForce(transform.forward * Force * ForceMultiplier);
     }
@@ -28,6 +26,9 @@ public class Projectile : MonoBehaviour,IpooledObject
     {
         SlingshotSit = position;
         RB.useGravity = false;
+        RB.velocity = Vector3.zero;
+        RB.angularVelocity = Vector3.zero;
+        c.enabled = false;
         transform.parent = SlingshotSit;
     }
 
