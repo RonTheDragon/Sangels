@@ -161,12 +161,13 @@ public class AI : MonoBehaviour
     bool CheckIfInFront(Vector3 pos)
     {
         float targetAngle = Mathf.Atan2(transform.position.z- pos.z, transform.position.x - pos.x) * Mathf.Rad2Deg ;
-        float deltaAngleAIAndTarget = targetAngle - transform.eulerAngles.y;
+        float deltaAngleAIAndTarget = targetAngle - transform.localEulerAngles.y;
+        Debug.Log($"{targetAngle} - {transform.eulerAngles.y} = {deltaAngleAIAndTarget}");
         if (deltaAngleAIAndTarget < 45 && deltaAngleAIAndTarget > -45)
         {
             return true;
         }
-        return false;
+            return false;
     }
 
     void RayCastDoSomething() 
