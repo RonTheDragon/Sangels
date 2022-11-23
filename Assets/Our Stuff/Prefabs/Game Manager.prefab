@@ -299,6 +299,9 @@ MonoBehaviour:
     - tag: Luber
       prefab: {fileID: 8328853403786945772, guid: 13ca0b5215f497c4ca69fe5b9418f2b5, type: 3}
       size: 20
+    - tag: Albert
+      prefab: {fileID: 1417715162589546882, guid: f2eece5782c09d24ca43281d4207bfd4, type: 3}
+      size: 20
 --- !u!1 &7100667302818920659
 GameObject:
   m_ObjectHideFlags: 0

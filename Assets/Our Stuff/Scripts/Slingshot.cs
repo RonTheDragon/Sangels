@@ -134,7 +134,7 @@ public class Slingshot : MonoBehaviour
     {
         if (AmmoTypes.Count > 1)
         {
-            if (_switchUp || _scroll > 0)
+            if (_scroll > 0)
             {
                 _currentAmmo++;
                 if (_currentAmmo > AmmoTypes.Count-1)
@@ -143,7 +143,7 @@ public class Slingshot : MonoBehaviour
                 }
                     SwitchAmmo();
             }
-            else if (_switchDown || _scroll < 0)
+            else if (_scroll < 0)
             {
                 _currentAmmo--;
                 if (_currentAmmo < 0)
@@ -174,21 +174,9 @@ public class Slingshot : MonoBehaviour
        _shoot= context.action.triggered;
     }
 
-    public void OnSwitchUp(InputAction.CallbackContext context)
-    {
-        Debug.Log("<color=Red>Up</color>");
-        //_switchUp = context.action.triggered;
-    }
-    public void OnSwitchDown(InputAction.CallbackContext context)
-    {
-        //_switchDown = context.action.triggered;
-        Debug.Log("<color=Yellow>Down</color>");
-    }
-
     public void OnScroll(InputAction.CallbackContext context)
     {
-       // _scroll = context.action.ReadValue<float>();
-        Debug.Log("<color=Yellow>Mouse</color>");
+        _scroll = context.action.ReadValue<float>();
     }
 
 }
