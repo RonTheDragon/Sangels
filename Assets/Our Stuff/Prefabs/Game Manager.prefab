@@ -302,6 +302,9 @@ MonoBehaviour:
     - tag: Albert
       prefab: {fileID: 1417715162589546882, guid: f2eece5782c09d24ca43281d4207bfd4, type: 3}
       size: 20
+    - tag: Fepler
+      prefab: {fileID: 3818098567790889554, guid: ae1430203fa0d9142a1d046bbb3e1f44, type: 3}
+      size: 20
 --- !u!1 &7100667302818920659
 GameObject:
   m_ObjectHideFlags: 0

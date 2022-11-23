@@ -20,6 +20,7 @@ public class Projectile : MonoBehaviour
         c.enabled = true;
         transform.parent = ObjectPooler.Instance.transform;
         RB.AddForce(transform.forward * Force * ForceMultiplier);
+        RB.AddTorque(new Vector3(1, 1, 1) * Force);
     }
 
     public void SpawnOnSlingShot(Transform position)
