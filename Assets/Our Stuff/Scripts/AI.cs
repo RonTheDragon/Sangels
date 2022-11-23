@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,10 +11,15 @@ public class AI : MonoBehaviour
     NavMeshAgent agent => GetComponent<NavMeshAgent>();
     [SerializeField] float _patrolRange = 20;
     Vector3 spawnPoint=> transform.position;
+
+    [ReadOnly][SerializeField] Transform Target;
     //stored data
     float _roamCD;
-    
-    
+    float _scanCD;
+    [SerializeField] float _scanRadius;
+
+    List<Collider> colliders;
+    //List<Collider> _colidersList = new List<Collider>();   
     //void Start()
     //{
     //    
@@ -22,21 +28,53 @@ public class AI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RoamCooldown();
+        AIbrain();
+    }
+
+    void AIbrain()
+    {
+        if (Target)
+        {
+            FollowTaget();
+        }
+        else
+        {
+            RoamCooldown();
+            ScanCooldown();
+        }
+
     }
 
     void RoamCooldown()
     {
-        if (_roamCD <= 0)
+        
+            if (_roamCD <= 0)
+            {
+                _roamCD = Random.Range(_roamCooldown.x, _roamCooldown.y);
+                WalkAround();
+            }
+            else
+            {
+                _scanCD -= Time.deltaTime;
+            }
+    }
+
+    void ScanCooldown()
+    {
+
+        if (_scanCD <= 0)
         {
-            _roamCD = Random.Range(_roamCooldown.x, _roamCooldown.y);
-            WalkAround();
+            ScanForTarget();
+            _scanCD = 1;
         }
         else
         {
-            _roamCD -= Time.deltaTime;
+            _scanCD -= Time.deltaTime;
         }
     }
+
+
+
 
     void WalkAround()
     {
@@ -55,6 +93,34 @@ public class AI : MonoBehaviour
         }
         else
             agent.SetDestination(spawnPoint);
+    }
+
+    void ScanForTarget()
+    {
+        colliders = Physics.OverlapSphere(transform.position, _scanRadius).ToList();
+        foreach (Collider collider in colliders)
+        {
+            if (!CheckIfInFront(collider.transform.position)) // if not in front of player
+            {
+                colliders.Remove(collider);
+            }
+        }
+    }
+
+    void FollowTaget()
+    {
+        agent.SetDestination(Target.position);
+    }
+
+    bool CheckIfInFront(Vector3 pos)
+    {
+        float targetAngle = Mathf.Atan2(transform.position.z-Target.position.z, transform.position.x - Target.position.x) * Mathf.Rad2Deg ;
+        float deltaAngleAIAndTarget = targetAngle - transform.eulerAngles.y;
+        if (deltaAngleAIAndTarget < 45 && deltaAngleAIAndTarget > -45)
+        {
+            return true;
+        }
+        return false;
     }
 }
 
