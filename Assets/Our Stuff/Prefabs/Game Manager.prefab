@@ -125,13 +125,13 @@ MonoBehaviour:
   LeaveOnDisconnect: 0
   PlayerMasks:
   - serializedVersion: 2
-    m_Bits: 127
+    m_Bits: 1151
   - serializedVersion: 2
-    m_Bits: 191
+    m_Bits: 1215
   - serializedVersion: 2
-    m_Bits: 319
+    m_Bits: 1343
   - serializedVersion: 2
-    m_Bits: 575
+    m_Bits: 1599
 --- !u!81 &3626978732403223366
 AudioListener:
   m_ObjectHideFlags: 0

@@ -17,18 +17,20 @@ public class AI : MonoBehaviour
     float _roamCD;
     float _scanCD;
     [SerializeField] float _scanRadius;
-
-    List<Collider> colliders;
+    [SerializeField] LayerMask _canSee;
+    [SerializeField] LayerMask _attackable; 
     //List<Collider> _colidersList = new List<Collider>();   
     //void Start()
     //{
     //    
     //}
 
-    // Update is called once per frame
     void Update()
     {
         AIbrain();
+        RayCastDoSomething();
+        if (Target != null)
+            Debug.DrawRay(transform.position, Target.position-transform.position, Color.blue);
     }
 
     void AIbrain()
@@ -97,14 +99,58 @@ public class AI : MonoBehaviour
 
     void ScanForTarget()
     {
-        colliders = Physics.OverlapSphere(transform.position, _scanRadius).ToList();
-        foreach (Collider collider in colliders)
+        List<Collider> coliders = Physics.OverlapSphere(transform.position, _scanRadius, _attackable).ToList();
+        if (coliders == null)
+            return;
+       
+        int b = coliders.Count;
+        for (int i = 0; i < b; i++)
         {
-            if (!CheckIfInFront(collider.transform.position)) // if not in front of player
+            if (!CheckIfInFront(coliders[i].transform.position)) // if not in front of player
             {
-                colliders.Remove(collider);
+                coliders.Remove(coliders[i]);
+                b--;
+                i--;
             }
         }
+        int a = coliders.Count;
+        for (int i = 0; i < a; i++)
+        {
+
+
+            Collider c = ClosestTarget(coliders);//if doesnt work, lets check if its the same object.
+
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, c.transform.position - transform.position, out hit, _scanRadius, _canSee))
+            {
+                if (hit.collider == c)
+                {
+                    Target = c.transform;
+                    return;
+                }
+            }
+            coliders.Remove(c);
+        }
+    }
+
+    public Collider ClosestTarget( List<Collider> coliders) 
+    {
+        if (coliders== null)
+            return null;
+        if(coliders.Count==1)
+            return coliders.FirstOrDefault();
+        float MinDist = Mathf.Infinity;
+        int ClosestColliderIndex = 0;
+        for (int i = 0; i < coliders.Count -1; i++)
+        {
+            float dist =Vector3.Distance(coliders[i].transform.position, transform.position);
+            if (MinDist > dist)
+            { 
+                MinDist = dist;
+                ClosestColliderIndex = i;
+            }
+        }
+        return coliders[ClosestColliderIndex];
     }
 
     void FollowTaget()
@@ -114,7 +160,7 @@ public class AI : MonoBehaviour
 
     bool CheckIfInFront(Vector3 pos)
     {
-        float targetAngle = Mathf.Atan2(transform.position.z-Target.position.z, transform.position.x - Target.position.x) * Mathf.Rad2Deg ;
+        float targetAngle = Mathf.Atan2(transform.position.z- pos.z, transform.position.x - pos.x) * Mathf.Rad2Deg ;
         float deltaAngleAIAndTarget = targetAngle - transform.eulerAngles.y;
         if (deltaAngleAIAndTarget < 45 && deltaAngleAIAndTarget > -45)
         {
@@ -122,6 +168,15 @@ public class AI : MonoBehaviour
         }
         return false;
     }
+
+    void RayCastDoSomething() 
+    {
+        
+        
+    }
+
+
+
 }
 
 
