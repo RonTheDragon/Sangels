@@ -33,9 +33,9 @@ public class Slingshot : MonoBehaviour
     [ReadOnly][SerializeField] float CurrentCharge;
 
     //Private 
-    float _cd;
+    float _cd, _scroll;
     int _currentAmmo;
-    bool _charging, _shoot, _shootLastFrame;
+    bool _charging, _shoot, _shootLastFrame,_switchUp,_switchDown;
     Projectile fruit;
     event EventHandler OnStopHoldShoot;
 
@@ -134,23 +134,23 @@ public class Slingshot : MonoBehaviour
     {
         if (AmmoTypes.Count > 1)
         {
-            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            if (_switchUp || _scroll > 0)
             {
                 _currentAmmo++;
                 if (_currentAmmo > AmmoTypes.Count-1)
                 {
                     _currentAmmo = 0;
-                    SwitchAmmo();
                 }
+                    SwitchAmmo();
             }
-            else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            else if (_switchDown || _scroll < 0)
             {
                 _currentAmmo--;
                 if (_currentAmmo < 0)
                 {
                     _currentAmmo = AmmoTypes.Count-1;
-                    SwitchAmmo();
                 }
+                    SwitchAmmo();
             }
         }
     }
@@ -160,6 +160,7 @@ public class Slingshot : MonoBehaviour
         if (AmmoTypes.Count > 0)
         {
             CurrentAmmo = AmmoTypes[_currentAmmo];
+        //    Debug.Log(CurrentAmmo);
         }
         else
         {
@@ -172,6 +173,22 @@ public class Slingshot : MonoBehaviour
     {
        _shoot= context.action.triggered;
     }
-   
+
+    public void OnSwitchUp(InputAction.CallbackContext context)
+    {
+        Debug.Log("<color=Red>Up</color>");
+        //_switchUp = context.action.triggered;
+    }
+    public void OnSwitchDown(InputAction.CallbackContext context)
+    {
+        //_switchDown = context.action.triggered;
+        Debug.Log("<color=Yellow>Down</color>");
+    }
+
+    public void OnScroll(InputAction.CallbackContext context)
+    {
+       // _scroll = context.action.ReadValue<float>();
+        Debug.Log("<color=Yellow>Mouse</color>");
+    }
 
 }
