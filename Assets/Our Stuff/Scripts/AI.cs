@@ -14,7 +14,7 @@ public class AI : MonoBehaviour
 
     [ReadOnly][SerializeField] Transform Target;
     //stored data
-    float _roamCD;
+    [ReadOnly][SerializeField] float _roamCD;
     float _scanCD;
     [SerializeField] float _scanRadius;
     [SerializeField] LayerMask _canSee;
@@ -35,7 +35,7 @@ public class AI : MonoBehaviour
 
     void AIbrain()
     {
-        if (Target)
+        if (Target !=null) 
         {
             FollowTaget();
         }
@@ -49,7 +49,6 @@ public class AI : MonoBehaviour
 
     void RoamCooldown()
     {
-        
             if (_roamCD <= 0)
             {
                 _roamCD = Random.Range(_roamCooldown.x, _roamCooldown.y);
@@ -57,7 +56,7 @@ public class AI : MonoBehaviour
             }
             else
             {
-                _scanCD -= Time.deltaTime;
+                 _roamCD -= Time.deltaTime;
             }
     }
 
@@ -161,8 +160,8 @@ public class AI : MonoBehaviour
     bool CheckIfInFront(Vector3 pos)
     {
         float targetAngle = Mathf.Atan2(transform.position.z- pos.z, transform.position.x - pos.x) * Mathf.Rad2Deg ;
-        float deltaAngleAIAndTarget = targetAngle - transform.localEulerAngles.y;
-        Debug.Log($"{targetAngle} - {transform.eulerAngles.y} = {deltaAngleAIAndTarget}");
+        float deltaAngleAIAndTarget = AngleDifference(targetAngle, transform.eulerAngles.y);
+        //Debug.Log($"{targetAngle} , {transform.eulerAngles.y} = {deltaAngleAIAndTarget}");
         if (deltaAngleAIAndTarget < 45 && deltaAngleAIAndTarget > -45)
         {
             return true;
@@ -174,6 +173,12 @@ public class AI : MonoBehaviour
     {
         
         
+    }
+
+    public float AngleDifference(float angle1, float angle2)
+    {
+        float diff = (angle2 - angle1 + 180) % 360 - 180;
+        return diff < -180 ? diff + 360 : diff;
     }
 
 

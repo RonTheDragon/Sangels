@@ -162,7 +162,7 @@ public class Slingshot : MonoBehaviour
             CurrentAmmo = AmmoTypes[_currentAmmo];
             _scroll = 0;
 
-            Debug.Log(CurrentAmmo);
+            //Debug.Log(CurrentAmmo);
         }
         else
         {
@@ -179,7 +179,7 @@ public class Slingshot : MonoBehaviour
     public void OnScroll(InputAction.CallbackContext context)
     {
         _scroll = context.action.ReadValue<float>();
-        Debug.Log(_scroll);
+       // Debug.Log(_scroll);
     }
 
 }

@@ -68,7 +68,8 @@ MonoBehaviour:
   _roamCooldown: {x: 1, y: 3}
   _patrolRange: 20
   Target: {fileID: 0}
-  _scanRadius: 30
+  _roamCD: 0
+  _scanRadius: 10
   _canSee:
     serializedVersion: 2
     m_Bits: 1023
