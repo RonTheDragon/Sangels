@@ -3,46 +3,75 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class AI : MonoBehaviour
 {
-    [Tooltip("x = Min Cooldown\n y = Max Cooldown\n and the random picks between them")]
-    [SerializeField] Vector2 _roamCooldown = new Vector2(5, 10);
-    NavMeshAgent agent => GetComponent<NavMeshAgent>();
-    [SerializeField] float _patrolRange = 20;
-    Vector3 spawnPoint=> transform.position;
+    // Visible
 
-    [ReadOnly][SerializeField] Transform Target;
-    //stored data
+    [Header("Roaming")]
+    [Tooltip("x = Min Cooldown\n y = Max Cooldown\n and the random picks between them")]
+    [SerializeField] Vector2 _roamCooldown = new Vector2(1, 3);
     [ReadOnly][SerializeField] float _roamCD;
-    float _scanCD;
+    [SerializeField] float _patrolRange = 20;
+
+    [Header("Scanning")]
     [SerializeField] float _scanRadius;
-    [SerializeField] LayerMask _canSee;
-    [SerializeField] LayerMask _attackable; 
-    //List<Collider> _colidersList = new List<Collider>();   
-    //void Start()
-    //{
-    //    
-    //}
+    [SerializeField] float _angleOfVision = 90;
+    [SerializeField] float ScanFrequent = 1;
+    [ReadOnly][SerializeField] float _scanCD;
+    [ReadOnly][SerializeField] Transform Target;
+
+    [Header("Alertion")]
+    [SerializeField] float AlertRadius;
+    [ReadOnly][SerializeField] float CurrentAlert;
+    [SerializeField] float AttackAlert = 0.5f;
+    [SerializeField] float MaxAlert = 3;
+
+    // Invisible
+
+    //Layer Masks
+    LayerMask _canSee;
+    LayerMask _attackable;
+
+    // Refrences
+    GameManager GM => GameManager.instance;
+    Vector3 spawnPoint=> transform.position;
+    NavMeshAgent agent => GetComponent<NavMeshAgent>();
+
+
+    private void Start()
+    {
+        _canSee = GM.EnemiesCanSee;
+        _attackable = GM.EnemiesCanAttack;
+    }
 
     void Update()
     {
         AIbrain();
-        RayCastDoSomething();
-        if (Target != null)
-            Debug.DrawRay(transform.position, Target.position-transform.position, Color.blue);
     }
 
     void AIbrain()
     {
-        if (Target !=null) 
+
+
+        if (Target != null)
         {
+            AlertSystem();
+        }
+        else
+        {
+            DetectionRay();
+            ScanCooldown();
+        }
+
+        if (CurrentAlert > AttackAlert && Target != null) 
+        {           
             FollowTaget();
         }
         else
         {
             RoamCooldown();
-            ScanCooldown();
         }
 
     }
@@ -66,7 +95,7 @@ public class AI : MonoBehaviour
         if (_scanCD <= 0)
         {
             ScanForTarget();
-            _scanCD = 1;
+            _scanCD = ScanFrequent;
         }
         else
         {
@@ -117,7 +146,7 @@ public class AI : MonoBehaviour
         {
 
 
-            Collider c = ClosestTarget(coliders);//if doesnt work, lets check if its the same object.
+            Collider c = GM.ClosestColliderInList(coliders);//if doesnt work, lets check if its the same object.
 
             RaycastHit hit;
             if (Physics.Raycast(transform.position, c.transform.position - transform.position, out hit, _scanRadius, _canSee))
@@ -125,31 +154,12 @@ public class AI : MonoBehaviour
                 if (hit.collider == c)
                 {
                     Target = c.transform;
+                    CurrentAlert = 0;
                     return;
                 }
             }
             coliders.Remove(c);
         }
-    }
-
-    public Collider ClosestTarget( List<Collider> coliders) 
-    {
-        if (coliders== null)
-            return null;
-        if(coliders.Count==1)
-            return coliders.FirstOrDefault();
-        float MinDist = Mathf.Infinity;
-        int ClosestColliderIndex = 0;
-        for (int i = 0; i < coliders.Count -1; i++)
-        {
-            float dist =Vector3.Distance(coliders[i].transform.position, transform.position);
-            if (MinDist > dist)
-            { 
-                MinDist = dist;
-                ClosestColliderIndex = i;
-            }
-        }
-        return coliders[ClosestColliderIndex];
     }
 
     void FollowTaget()
@@ -159,26 +169,48 @@ public class AI : MonoBehaviour
 
     bool CheckIfInFront(Vector3 pos)
     {
-        float targetAngle = Mathf.Atan2(transform.position.z- pos.z, transform.position.x - pos.x) * Mathf.Rad2Deg ;
-        float deltaAngleAIAndTarget = AngleDifference(targetAngle, transform.eulerAngles.y);
-        //Debug.Log($"{targetAngle} , {transform.eulerAngles.y} = {deltaAngleAIAndTarget}");
-        if (deltaAngleAIAndTarget < 45 && deltaAngleAIAndTarget > -45)
+
+        float targetAngle = Mathf.Atan2(transform.position.z- pos.z, transform.position.x - pos.x) * Mathf.Rad2Deg +90 ;
+        float deltaAngleAIAndTarget = GM.AngleDifference(targetAngle, -transform.eulerAngles.y);
+        //Debug.Log($"{targetAngle} , {-transform.eulerAngles.y} = {deltaAngleAIAndTarget}");
+        if (deltaAngleAIAndTarget < _angleOfVision/2 && deltaAngleAIAndTarget > -_angleOfVision/2)
         {
             return true;
         }
             return false;
     }
 
-    void RayCastDoSomething() 
+    void AlertSystem() 
     {
-        
-        
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Target.transform.position - transform.position, out hit, AlertRadius, _canSee))
+        {
+            if (hit.transform == Target)
+            {
+                AlertionRay(Color.blue);
+                CurrentAlert += Time.deltaTime;
+                CurrentAlert = CurrentAlert > MaxAlert ? MaxAlert : CurrentAlert;
+                return;
+            }
+        }
+        AlertionRay(Color.red);
+        CurrentAlert -= Time.deltaTime;
+        if (CurrentAlert < 0) { Target = null; }
     }
 
-    public float AngleDifference(float angle1, float angle2)
+    void AlertionRay(Color c)
     {
-        float diff = (angle2 - angle1 + 180) % 360 - 180;
-        return diff < -180 ? diff + 360 : diff;
+        Debug.DrawRay(transform.position, Target.position - transform.position, c);
+    }
+    void DetectionRay()
+    {
+        Vector3 RightEye = new Vector3(Mathf.Sin(Mathf.Deg2Rad * _angleOfVision / 2), 0, Mathf.Cos(Mathf.Deg2Rad * _angleOfVision / 2));
+        Vector3 LeftEye = new Vector3(Mathf.Sin(Mathf.Deg2Rad * -_angleOfVision / 2), 0, Mathf.Cos(Mathf.Deg2Rad * -_angleOfVision / 2));
+
+
+        Debug.DrawRay(transform.position, transform.rotation * RightEye * _scanRadius, Color.green);
+        Debug.DrawRay(transform.position, transform.rotation * LeftEye * _scanRadius, Color.green);
     }
 
 

@@ -562,9 +562,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerNumber: 0
-  Speed: 10
-  Jump: 10
-  Gravity: 20
+  _speed: 10
+  _jump: 15
+  _gravity: 20
   slopeLimit: 45
   SlideSpeed: 5
   isSliding: 0
@@ -572,9 +572,6 @@ MonoBehaviour:
   Y: -1.2
   Wide: -0.1
   Height: 0.04
-  Jumpable:
-    serializedVersion: 2
-    m_Bits: 1
   isGrounded: 0
   cam: {fileID: 6598293734886125691}
   cfl: {fileID: 6598293734634356843}

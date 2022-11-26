@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 285133754880836023}
-  - component: {fileID: 285133754880836020}
   - component: {fileID: 285133754880836022}
+  - component: {fileID: 285133754880836020}
   - component: {fileID: 3626978732403223366}
   m_Layer: 0
   m_Name: Game Manager
@@ -37,6 +37,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &285133754880836022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285133754880836021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9c8b2a84bdb83847934672f7b1e4bc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Players:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  LeaveOnDisconnect: 0
+  EnemiesCanSee:
+    serializedVersion: 2
+    m_Bits: 0
+  EnemiesCanAttack:
+    serializedVersion: 2
+    m_Bits: 0
+  PlayerMasks:
+  - serializedVersion: 2
+    m_Bits: 1151
+  - serializedVersion: 2
+    m_Bits: 1215
+  - serializedVersion: 2
+    m_Bits: 1343
+  - serializedVersion: 2
+    m_Bits: 1599
 --- !u!114 &285133754880836020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,33 +138,6 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &285133754880836022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 285133754880836021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9c8b2a84bdb83847934672f7b1e4bc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Players:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  LeaveOnDisconnect: 0
-  PlayerMasks:
-  - serializedVersion: 2
-    m_Bits: 1151
-  - serializedVersion: 2
-    m_Bits: 1215
-  - serializedVersion: 2
-    m_Bits: 1343
-  - serializedVersion: 2
-    m_Bits: 1599
 --- !u!81 &3626978732403223366
 AudioListener:
   m_ObjectHideFlags: 0

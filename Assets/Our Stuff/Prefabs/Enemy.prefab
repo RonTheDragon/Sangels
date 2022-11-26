@@ -66,16 +66,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _roamCooldown: {x: 1, y: 3}
-  _patrolRange: 20
-  Target: {fileID: 0}
   _roamCD: 0
+  _patrolRange: 20
   _scanRadius: 10
-  _canSee:
-    serializedVersion: 2
-    m_Bits: 1023
-  _attackable:
-    serializedVersion: 2
-    m_Bits: 8
+  _angleOfVision: 90
+  ScanFrequent: 1
+  _scanCD: 0
+  Target: {fileID: 0}
+  AlertRadius: 15
+  CurrentAlert: 0
+  AttackAlert: 0.5
+  MaxAlert: 3
 --- !u!195 &6394502825093494616
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -90,7 +91,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,6 +13,11 @@ public class GameManager : MonoBehaviour
 
     [Tooltip("True - will Remove a player that disconnected his Controller\n\nFalse - will Keep the player inside, allowing him to rejoin to where he left off")]
     public bool LeaveOnDisconnect;
+
+    [Header("Layer Masks")]
+    public LayerMask PlayersCanJumpOn;
+    public LayerMask EnemiesCanSee;
+    public LayerMask EnemiesCanAttack;
 
     [Header("Camera Layers For Each Player")]
     [Tooltip("These LayerMasks are needed for local Co-op so Cinemachine can work properly\n\n Just Make Sure Each Layer Mask cant see other numbered player but itself")]
@@ -77,6 +83,32 @@ public class GameManager : MonoBehaviour
             }
         }
         return count;
+    }
+
+    public float AngleDifference(float angle1, float angle2)
+    {
+        float diff = (angle2 - angle1 + 180) % 360 - 180;
+        return diff < -180 ? diff + 360 : diff;
+    }
+
+    public Collider ClosestColliderInList(List<Collider> coliders)
+    {
+        if (coliders == null)
+            return null;
+        if (coliders.Count == 1)
+            return coliders.FirstOrDefault();
+        float MinDist = Mathf.Infinity;
+        int ClosestColliderIndex = 0;
+        for (int i = 0; i < coliders.Count - 1; i++)
+        {
+            float dist = Vector3.Distance(coliders[i].transform.position, transform.position);
+            if (MinDist > dist)
+            {
+                MinDist = dist;
+                ClosestColliderIndex = i;
+            }
+        }
+        return coliders[ClosestColliderIndex];
     }
 }
 
