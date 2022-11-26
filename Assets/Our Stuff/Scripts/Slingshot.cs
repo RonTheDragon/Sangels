@@ -19,18 +19,30 @@ public class Slingshot : MonoBehaviour
     [SerializeField] float AimingFOV =40;
     [SerializeField] float NotAimingFOV=70;
     [SerializeField] float FovChangingSpeed = 60;
-    [ReadOnly][SerializeField] float CurrentFOV;
-    [ReadOnly][SerializeField] bool isAiming;
+#if UNITY_EDITOR
+    [ReadOnly]
+#endif
+    [SerializeField] float CurrentFOV;
+#if UNITY_EDITOR
+    [ReadOnly]
+#endif
+    [SerializeField] bool isAiming;
 
     [Header("Ammo Switching")]
-    [ReadOnly][SerializeField] string CurrentAmmo;
+#if UNITY_EDITOR
+    [ReadOnly]
+#endif
+    [SerializeField] string CurrentAmmo;
     [SerializeField] List<string> AmmoTypes;
 
     [Header("Charge")]
     [SerializeField] float MaxCharge = 2000;
     [SerializeField] float StartCharge = 100;
     [SerializeField] float ChargingSpeed = 1900;
-    [ReadOnly][SerializeField] float CurrentCharge;
+#if UNITY_EDITOR
+    [ReadOnly]
+#endif
+    [SerializeField] float CurrentCharge;
 
     //Private 
     float _cd, _scroll;

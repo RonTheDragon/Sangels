@@ -12,19 +12,31 @@ public class AI : MonoBehaviour
     [Header("Roaming")]
     [Tooltip("x = Min Cooldown\n y = Max Cooldown\n and the random picks between them")]
     [SerializeField] Vector2 _roamCooldown = new Vector2(1, 3);
-    [ReadOnly][SerializeField] float _roamCD;
+#if UNITY_EDITOR
+    [ReadOnly]
+#endif
+    [SerializeField] float _roamCD;
     [SerializeField] float _patrolRange = 20;
 
     [Header("Scanning")]
     [SerializeField] float _scanRadius;
     [SerializeField] float _angleOfVision = 90;
     [SerializeField] float ScanFrequent = 1;
-    [ReadOnly][SerializeField] float _scanCD;
-    [ReadOnly][SerializeField] Transform Target;
+#if UNITY_EDITOR
+    [ReadOnly]
+#endif
+    [SerializeField] float _scanCD;
+#if UNITY_EDITOR
+    [ReadOnly]
+#endif
+    [SerializeField] Transform Target;
 
     [Header("Alertion")]
     [SerializeField] float AlertRadius;
-    [ReadOnly][SerializeField] float CurrentAlert;
+#if UNITY_EDITOR
+    [ReadOnly]
+#endif
+    [SerializeField] float CurrentAlert;
     [SerializeField] float AttackAlert = 0.5f;
     [SerializeField] float MaxAlert = 3;
 
