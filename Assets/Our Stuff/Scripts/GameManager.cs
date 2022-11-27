@@ -9,10 +9,7 @@ public class GameManager : MonoBehaviour
     // Visible //
 
     [Tooltip("List of all The Players")]
-#if UNITY_EDITOR
-    [ReadOnly]
-#endif
-    [SerializeField] GameObject[] Players = new GameObject[4];
+    [ReadOnly][SerializeField] GameObject[] Players = new GameObject[4];
 
     [Tooltip("True - will Remove a player that disconnected his Controller\n\nFalse - will Keep the player inside, allowing him to rejoin to where he left off")]
     public bool LeaveOnDisconnect;
@@ -117,30 +114,9 @@ public class GameManager : MonoBehaviour
 
 #region Magic Trick That enables ReadOnly
 
-#if UNITY_EDITOR
 public class ReadOnlyAttribute : PropertyAttribute
 {
 
 }
-
-[CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
-public class ReadOnlyDrawer : PropertyDrawer
-{
-    public override float GetPropertyHeight(SerializedProperty property,
-                                            GUIContent label)
-    {
-        return EditorGUI.GetPropertyHeight(property, label, true);
-    }
-
-    public override void OnGUI(Rect position,
-                               SerializedProperty property,
-                               GUIContent label)
-    {
-        GUI.enabled = false;
-        EditorGUI.PropertyField(position, property, label, true);
-        GUI.enabled = true;
-    }
-}
-#endif
 
 #endregion

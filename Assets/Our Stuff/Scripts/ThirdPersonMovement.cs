@@ -12,10 +12,7 @@ public class ThirdPersonMovement : MonoBehaviour
 {
     // Visible //
 
-#if UNITY_EDITOR
-    [ReadOnly]
-#endif
-    [SerializeField] int PlayerNumber;
+    [ReadOnly][SerializeField] int PlayerNumber;
 
     [Header("Walking")]
     [Tooltip("The movement speed of the player")]
@@ -33,15 +30,9 @@ public class ThirdPersonMovement : MonoBehaviour
     [Tooltip("The Speed of sliding")]
     [SerializeField] float SlideSpeed = 5;
     [Tooltip("Are we sliding?")]
-#if UNITY_EDITOR
-    [ReadOnly]
-#endif
-    [SerializeField] bool isSliding;
+    [ReadOnly][SerializeField] bool isSliding;
     [Tooltip("The Normal of the floor, (how steep is the floor)")]
-#if UNITY_EDITOR
-    [ReadOnly]
-#endif
-    [SerializeField] Vector3 hitNormal;
+    [ReadOnly][SerializeField] Vector3 hitNormal;
 
     [Header("Ground Check")]
     [Tooltip("the Y position of the Ground Checkbox")]
@@ -51,10 +42,7 @@ public class ThirdPersonMovement : MonoBehaviour
     [Tooltip("how tall the Ground Checkbox")]
     [SerializeField] float Height = .15f;
     [Tooltip("Are we On The Ground?")]
-#if UNITY_EDITOR
-    [ReadOnly]
-#endif
-    [SerializeField] bool isGrounded;
+    [ReadOnly][SerializeField] bool isGrounded;
 
     [Header("References")]
     [Tooltip("Place The Player's Camera Here")]
