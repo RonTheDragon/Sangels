@@ -54,6 +54,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
     // Auto Referencing
     CharacterController CC => GetComponent<CharacterController>();
+    Slingshot SlingShot  => GetComponent<Slingshot>();
     Camera _cam => cam.GetComponent<Camera>();
     InputHandler _inputHandler => cfl.GetComponent<InputHandler>();
     PlayerInput _playerInput => GetComponent<PlayerInput>();
@@ -99,11 +100,17 @@ public class ThirdPersonMovement : MonoBehaviour
         Vector2 Movement = _movement.normalized; //Get input from player for movem
 
         float targetAngle = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y; //get where player is looking
-        float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, cam.eulerAngles.y, ref f, 0.1f); //Smoothing
-        transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
+        float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, !SlingShot.isAiming? targetAngle : cam.eulerAngles.y, ref f, 0.1f); //Smoothing
+        Debug.Log($"targetAngle: {targetAngle}, Angle: {Angle}");
+        if (SlingShot.isAiming)
+            transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
+        
+
 
         if (Movement.magnitude > 0.1f)
         {
+            if(!SlingShot.isAiming)
+                transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
             Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
             CC.Move(MoveDir * _speed * Time.deltaTime);
         }

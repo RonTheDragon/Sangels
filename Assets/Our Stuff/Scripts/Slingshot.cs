@@ -20,7 +20,7 @@ public class Slingshot : MonoBehaviour
     [SerializeField] float NotAimingFOV=70;
     [SerializeField] float FovChangingSpeed = 60;
     [ReadOnly][SerializeField] float CurrentFOV;
-    [ReadOnly][SerializeField] bool isAiming;
+    [ReadOnly]public bool isAiming;
 
     [Header("Ammo Switching")]
     [ReadOnly][SerializeField] string CurrentAmmo;

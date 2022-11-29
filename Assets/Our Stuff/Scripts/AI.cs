@@ -53,8 +53,7 @@ public class AI : MonoBehaviour
 
     void AIbrain()
     {
-
-
+  
         if (Target != null)
         {
             AlertSystem();
@@ -67,13 +66,13 @@ public class AI : MonoBehaviour
 
         if (CurrentAlert > AttackAlert && Target != null) 
         {           
-            FollowTaget();
+            FollowTarget();
         }
         else
         {
             RoamCooldown();
         }
-
+        
     }
 
     void RoamCooldown()
@@ -127,26 +126,26 @@ public class AI : MonoBehaviour
 
     void ScanForTarget()
     {
-        List<Collider> coliders = Physics.OverlapSphere(transform.position, _scanRadius, _attackable).ToList();
-        if (coliders == null)
+        List<Collider> colliders = Physics.OverlapSphere(transform.position, _scanRadius, _attackable).ToList();
+        if (colliders == null)
             return;
        
-        int b = coliders.Count;
-        for (int i = 0; i < b; i++)
+        int colliderCount = colliders.Count;
+        for (int i = 0; i < colliderCount; i++)
         {
-            if (!CheckIfInFront(coliders[i].transform.position)) // if not in front of player
+            if (!CheckIfInFront(colliders[i].transform.position)) // if not in front of player
             {
-                coliders.Remove(coliders[i]);
-                b--;
+                colliders.Remove(colliders[i]);
+                colliderCount--;
                 i--;
             }
         }
-        int a = coliders.Count;
-        for (int i = 0; i < a; i++)
+        colliderCount = colliders.Count;
+        for (int i = 0; i < colliderCount; i++)
         {
 
 
-            Collider c = GM.ClosestColliderInList(coliders);//if doesnt work, lets check if its the same object.
+            Collider c = GM.ClosestColliderInList(colliders);//if doesnt work, lets check if its the same object.
 
             RaycastHit hit;
             if (Physics.Raycast(transform.position, c.transform.position - transform.position, out hit, _scanRadius, _canSee))
@@ -158,11 +157,11 @@ public class AI : MonoBehaviour
                     return;
                 }
             }
-            coliders.Remove(c);
+            colliders.Remove(c);
         }
     }
 
-    void FollowTaget()
+    void FollowTarget()
     {
         agent.SetDestination(Target.position);
     }

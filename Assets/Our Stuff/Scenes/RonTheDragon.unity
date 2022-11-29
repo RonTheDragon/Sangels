@@ -966,7 +966,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1730846895
 Transform:
   m_ObjectHideFlags: 0
@@ -1359,6 +1359,10 @@ PrefabInstance:
     - target: {fileID: 285133754880836021, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
       propertyPath: m_Name
       value: Game Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 285133754880836021, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 285133754880836022, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
       propertyPath: EnemiesCanSee.m_Bits
