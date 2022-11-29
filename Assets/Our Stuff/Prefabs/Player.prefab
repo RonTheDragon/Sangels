@@ -562,9 +562,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerNumber: 0
-  Speed: 10
-  Jump: 10
-  Gravity: 20
+  _speed: 10
+  _jump: 15
+  _gravity: 20
   slopeLimit: 45
   SlideSpeed: 5
   isSliding: 0
@@ -572,9 +572,6 @@ MonoBehaviour:
   Y: -1.2
   Wide: -0.1
   Height: 0.04
-  Jumpable:
-    serializedVersion: 2
-    m_Bits: 1
   isGrounded: 0
   cam: {fileID: 6598293734886125691}
   cfl: {fileID: 6598293734634356843}
@@ -632,10 +629,14 @@ MonoBehaviour:
     m_ActionId: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6b444451-8a00-4d00-a97e-f47457f736a8
+    m_ActionName: Player/Look[/Mouse/delta]
+  - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6598293734435211304}
-        m_TargetAssemblyTypeName: ThirdPersonMovement, Assembly-CSharp
-        m_MethodName: OnLook
+      - m_Target: {fileID: 6750264215103236152}
+        m_TargetAssemblyTypeName: Slingshot, Assembly-CSharp
+        m_MethodName: OnShoot
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -645,10 +646,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 6b444451-8a00-4d00-a97e-f47457f736a8
-    m_ActionName: Player/Look[/Mouse/delta]
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 6c2ab1b8-8984-453a-af3d-a3c78ae1679a
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
@@ -707,6 +704,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b059f03c-0149-467d-8e6c-1d28d1469c35
     m_ActionName: Player/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6750264215103236152}
+        m_TargetAssemblyTypeName: Slingshot, Assembly-CSharp
+        m_MethodName: OnScroll
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 7afe3fd5-3e16-4514-8463-bf6fc0f62efc
+    m_ActionName: Sangel/Scroll[/Mouse/scroll]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Sangel
@@ -741,7 +754,7 @@ MonoBehaviour:
   ProjectileSpawnLocation: {fileID: 3508164622942909835}
   cam: {fileID: 6598293734886125691}
   cinemachine: {fileID: 6598293734634356843}
-  AimingFOV: 20
+  AimingFOV: 30
   NotAimingFOV: 40
   FovChangingSpeed: 60
   CurrentFOV: 0
@@ -749,6 +762,8 @@ MonoBehaviour:
   CurrentAmmo: 
   AmmoTypes:
   - Luber
+  - Albert
+  - Fepler
   MaxCharge: 2000
   StartCharge: 100
   ChargingSpeed: 1900

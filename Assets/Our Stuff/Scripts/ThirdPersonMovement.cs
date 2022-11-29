@@ -16,13 +16,13 @@ public class ThirdPersonMovement : MonoBehaviour
 
     [Header("Walking")]
     [Tooltip("The movement speed of the player")]
-    [SerializeField] float Speed = 10;
+    [SerializeField] float _speed = 10;
 
     [Header("Jumping")]
     [Tooltip("The Height of the jumps")]
-    [SerializeField] float Jump = 20;
+    [SerializeField] float _jump = 20;
     [Tooltip("The Falling Speed")]
-    [SerializeField] float Gravity = 10;
+    [SerializeField] float _gravity = 10;
 
     [Header("Sliding")]
     [Tooltip("on What floor angle we start to slide and cant jump on")]
@@ -41,8 +41,6 @@ public class ThirdPersonMovement : MonoBehaviour
     [SerializeField] float Wide = 0;
     [Tooltip("how tall the Ground Checkbox")]
     [SerializeField] float Height = .15f;
-    [Tooltip("a layer that contains anything we can jump on")]
-    [SerializeField] LayerMask Jumpable;
     [Tooltip("Are we On The Ground?")]
     [ReadOnly][SerializeField] bool isGrounded;
 
@@ -68,6 +66,7 @@ public class ThirdPersonMovement : MonoBehaviour
     Vector3 _forceDirection;
     float   _forceStrength;
     float f;
+    LayerMask Jumpable;
 
     // Ground Check 
     Vector3 _boxPosition => CC.transform.position + (Vector3.up * CC.bounds.extents.y) * Y;
@@ -79,6 +78,7 @@ public class ThirdPersonMovement : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible   = false;
+        Jumpable = GM.PlayersCanJumpOn;
         setUpPlayer();
     }
 
@@ -105,7 +105,7 @@ public class ThirdPersonMovement : MonoBehaviour
         if (Movement.magnitude > 0.1f)
         {
             Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
-            CC.Move(MoveDir * Speed * Time.deltaTime);
+            CC.Move(MoveDir * _speed * Time.deltaTime);
         }
     }
 
@@ -114,7 +114,7 @@ public class ThirdPersonMovement : MonoBehaviour
     {
         if (_jumped && isGrounded && !isSliding)
         {
-            AddForce(Vector3.up, Jump);
+            AddForce(Vector3.up, _jump);
         }
     }
 
@@ -129,7 +129,7 @@ public class ThirdPersonMovement : MonoBehaviour
         {
             _gravityPull += .2f * Time.deltaTime;
         }
-        CC.Move(Vector3.down * Gravity * _gravityPull * Time.deltaTime);
+        CC.Move(Vector3.down * _gravity * _gravityPull * Time.deltaTime);
     }
 
     /// <summary> Checking the ground and tell the player if he is grounded or sliding. </summary>

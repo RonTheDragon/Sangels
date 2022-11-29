@@ -48,7 +48,7 @@ namespace UnityEngine.InputSystem
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Fire"",
+                    ""name"": ""Shoot"",
                     ""type"": ""Button"",
                     ""id"": ""6c2ab1b8-8984-453a-af3d-a3c78ae1679a"",
                     ""expectedControlType"": ""Button"",
@@ -61,6 +61,15 @@ namespace UnityEngine.InputSystem
                     ""type"": ""Button"",
                     ""id"": ""b059f03c-0149-467d-8e6c-1d28d1469c35"",
                     ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Scroll"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""7afe3fd5-3e16-4514-8463-bf6fc0f62efc"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -204,7 +213,7 @@ namespace UnityEngine.InputSystem
                     ""id"": ""c1f7a91b-d0fd-4a62-997e-7fb9b69bf235"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": ""ScaleVector2(x=5,y=5)"",
+                    ""processors"": ""ScaleVector2(x=10,y=10)"",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
@@ -239,18 +248,18 @@ namespace UnityEngine.InputSystem
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Fire"",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""05f6913d-c316-48b2-a6bb-e225f14c7960"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Fire"",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -261,7 +270,7 @@ namespace UnityEngine.InputSystem
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Touch"",
-                    ""action"": ""Fire"",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -272,7 +281,7 @@ namespace UnityEngine.InputSystem
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Joystick"",
-                    ""action"": ""Fire"",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -283,7 +292,7 @@ namespace UnityEngine.InputSystem
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""XR"",
-                    ""action"": ""Fire"",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -308,6 +317,72 @@ namespace UnityEngine.InputSystem
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""b3c06ee7-52ac-4e12-bdd5-9dc6adcdbc03"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""66426e76-e144-47f6-a3f5-8832a20bcf6c"",
+                    ""path"": ""<Mouse>/scroll/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""991a617f-893c-4c5e-b14d-2ab810e263f8"",
+                    ""path"": ""<Mouse>/scroll/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""862b5ba3-b79b-4f8f-9bd3-d45cbac950ce"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""315c99d9-19fc-4a19-91fa-4ce3b402375f"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""20b39339-92d2-4751-9a08-d385ad5be819"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -895,8 +970,9 @@ namespace UnityEngine.InputSystem
             m_Sangel = asset.FindActionMap("Sangel", throwIfNotFound: true);
             m_Sangel_Move = m_Sangel.FindAction("Move", throwIfNotFound: true);
             m_Sangel_Look = m_Sangel.FindAction("Look", throwIfNotFound: true);
-            m_Sangel_Fire = m_Sangel.FindAction("Fire", throwIfNotFound: true);
+            m_Sangel_Shoot = m_Sangel.FindAction("Shoot", throwIfNotFound: true);
             m_Sangel_Jump = m_Sangel.FindAction("Jump", throwIfNotFound: true);
+            m_Sangel_Scroll = m_Sangel.FindAction("Scroll", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -970,16 +1046,18 @@ namespace UnityEngine.InputSystem
         private ISangelActions m_SangelActionsCallbackInterface;
         private readonly InputAction m_Sangel_Move;
         private readonly InputAction m_Sangel_Look;
-        private readonly InputAction m_Sangel_Fire;
+        private readonly InputAction m_Sangel_Shoot;
         private readonly InputAction m_Sangel_Jump;
+        private readonly InputAction m_Sangel_Scroll;
         public struct SangelActions
         {
             private @PlayerInputManager m_Wrapper;
             public SangelActions(@PlayerInputManager wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Sangel_Move;
             public InputAction @Look => m_Wrapper.m_Sangel_Look;
-            public InputAction @Fire => m_Wrapper.m_Sangel_Fire;
+            public InputAction @Shoot => m_Wrapper.m_Sangel_Shoot;
             public InputAction @Jump => m_Wrapper.m_Sangel_Jump;
+            public InputAction @Scroll => m_Wrapper.m_Sangel_Scroll;
             public InputActionMap Get() { return m_Wrapper.m_Sangel; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -995,12 +1073,15 @@ namespace UnityEngine.InputSystem
                     @Look.started -= m_Wrapper.m_SangelActionsCallbackInterface.OnLook;
                     @Look.performed -= m_Wrapper.m_SangelActionsCallbackInterface.OnLook;
                     @Look.canceled -= m_Wrapper.m_SangelActionsCallbackInterface.OnLook;
-                    @Fire.started -= m_Wrapper.m_SangelActionsCallbackInterface.OnFire;
-                    @Fire.performed -= m_Wrapper.m_SangelActionsCallbackInterface.OnFire;
-                    @Fire.canceled -= m_Wrapper.m_SangelActionsCallbackInterface.OnFire;
+                    @Shoot.started -= m_Wrapper.m_SangelActionsCallbackInterface.OnShoot;
+                    @Shoot.performed -= m_Wrapper.m_SangelActionsCallbackInterface.OnShoot;
+                    @Shoot.canceled -= m_Wrapper.m_SangelActionsCallbackInterface.OnShoot;
                     @Jump.started -= m_Wrapper.m_SangelActionsCallbackInterface.OnJump;
                     @Jump.performed -= m_Wrapper.m_SangelActionsCallbackInterface.OnJump;
                     @Jump.canceled -= m_Wrapper.m_SangelActionsCallbackInterface.OnJump;
+                    @Scroll.started -= m_Wrapper.m_SangelActionsCallbackInterface.OnScroll;
+                    @Scroll.performed -= m_Wrapper.m_SangelActionsCallbackInterface.OnScroll;
+                    @Scroll.canceled -= m_Wrapper.m_SangelActionsCallbackInterface.OnScroll;
                 }
                 m_Wrapper.m_SangelActionsCallbackInterface = instance;
                 if (instance != null)
@@ -1011,12 +1092,15 @@ namespace UnityEngine.InputSystem
                     @Look.started += instance.OnLook;
                     @Look.performed += instance.OnLook;
                     @Look.canceled += instance.OnLook;
-                    @Fire.started += instance.OnFire;
-                    @Fire.performed += instance.OnFire;
-                    @Fire.canceled += instance.OnFire;
+                    @Shoot.started += instance.OnShoot;
+                    @Shoot.performed += instance.OnShoot;
+                    @Shoot.canceled += instance.OnShoot;
                     @Jump.started += instance.OnJump;
                     @Jump.performed += instance.OnJump;
                     @Jump.canceled += instance.OnJump;
+                    @Scroll.started += instance.OnScroll;
+                    @Scroll.performed += instance.OnScroll;
+                    @Scroll.canceled += instance.OnScroll;
                 }
             }
         }
@@ -1175,8 +1259,9 @@ namespace UnityEngine.InputSystem
         {
             void OnMove(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
-            void OnFire(InputAction.CallbackContext context);
+            void OnShoot(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
+            void OnScroll(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

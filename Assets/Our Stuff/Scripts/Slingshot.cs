@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
 public class Slingshot : MonoBehaviour
@@ -31,17 +32,17 @@ public class Slingshot : MonoBehaviour
     [SerializeField] float ChargingSpeed = 1900;
     [ReadOnly][SerializeField] float CurrentCharge;
 
-
-
     //Private 
-    float _cd;
+    float _cd, _scroll;
     int _currentAmmo;
-    bool _charging;
+    bool _charging, _shoot, _shootLastFrame,_switchUp,_switchDown;
     Projectile fruit;
+    event EventHandler OnStopHoldShoot;
 
     // Start is called before the first frame update
     void Start()
     {
+        OnStopHoldShoot += OnStoppedShooting;
         cinemachine.m_Lens.FieldOfView = NotAimingFOV;
         SwitchAmmo();
     }
@@ -65,7 +66,7 @@ public class Slingshot : MonoBehaviour
         {
             ProjectileSpawnLocation.LookAt(cam.position+cam.forward*200);
         }
-        if (Input.GetMouseButtonDown(1) && _cd <= 0 && !fruit)
+        if (_shoot && _cd <= 0 && !fruit && !string.IsNullOrEmpty(CurrentAmmo))
         {
             fruit = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo, ProjectileSpawnLocation.position, ProjectileSpawnLocation.rotation).GetComponent<Projectile>();
             fruit.SpawnOnSlingShot(ProjectileSpawnLocation);
@@ -77,28 +78,23 @@ public class Slingshot : MonoBehaviour
             CurrentCharge += ChargingSpeed * Time.deltaTime;
             if (CurrentCharge > MaxCharge) CurrentCharge = MaxCharge;
         }
-        if (Input.GetMouseButtonUp(1)&&fruit)
-        {
-            fruit.LaunchProjectile(CurrentCharge);
-            CurrentCharge = 0;
-            _charging = false;
-            _cd = CoolDown;
-            fruit = null;
-        }
+       
         if (_cd > 0)
         {
             _cd -= Time.deltaTime;
         }
+        
+        if(_shootLastFrame && !_shoot)
+        {
+            OnStopHoldShoot?.Invoke(this, EventArgs.Empty);
+        }
+        _shootLastFrame = _shoot;
     }
     void Aim()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (_shoot)
         {
             isAiming = true;
-        }
-        else if (Input.GetMouseButtonUp(1))
-        {
-            isAiming = false;
         }
 
         CurrentFOV = cinemachine.m_Lens.FieldOfView;
@@ -121,27 +117,40 @@ public class Slingshot : MonoBehaviour
         }
     }
 
+    void OnStoppedShooting(object sender,EventArgs eventArgs)
+    {
+        isAiming = false;
+        if (fruit)
+        {
+            fruit.LaunchProjectile(CurrentCharge);
+            CurrentCharge = 0;
+            _charging = false;
+            _cd = CoolDown;
+            fruit = null;
+        }
+    }
+
     void AmmoSwitching()
     {
         if (AmmoTypes.Count > 1)
         {
-            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            if (_scroll > 0)
             {
                 _currentAmmo++;
                 if (_currentAmmo > AmmoTypes.Count-1)
                 {
                     _currentAmmo = 0;
-                    SwitchAmmo();
                 }
+                    SwitchAmmo();
             }
-            else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            else if (_scroll < 0)
             {
                 _currentAmmo--;
                 if (_currentAmmo < 0)
                 {
                     _currentAmmo = AmmoTypes.Count-1;
-                    SwitchAmmo();
                 }
+                    SwitchAmmo();
             }
         }
     }
@@ -151,11 +160,26 @@ public class Slingshot : MonoBehaviour
         if (AmmoTypes.Count > 0)
         {
             CurrentAmmo = AmmoTypes[_currentAmmo];
+            _scroll = 0;
+
+            //Debug.Log(CurrentAmmo);
         }
         else
         {
             CurrentAmmo = string.Empty;
         }
+    }
+
+    //Inputs
+    public void OnShoot(InputAction.CallbackContext context)
+    {
+       _shoot= context.action.triggered;
+    }
+
+    public void OnScroll(InputAction.CallbackContext context)
+    {
+        _scroll = context.action.ReadValue<float>();
+       // Debug.Log(_scroll);
     }
 
 }

@@ -20,6 +20,7 @@ public class RespawmIfFallsOffMap : MonoBehaviour
             if (rb != null)
             {
                 rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
             }
             if (CC != null)
             {
