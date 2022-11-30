@@ -7,7 +7,12 @@ public class PlayerHealth : Health
 {
     public override void TakeDamage(float damage, float knockback, Vector3 pushFrom)
     {
-        throw new System.NotImplementedException();
+        CurrentHealth-=damage;
+        if (CurrentHealth <= 0)
+        {
+            CurrentHealth = 0;
+            death();
+        }
     }
     public override void TakeFire()
     {
@@ -17,4 +22,14 @@ public class PlayerHealth : Health
     {
         throw new NotImplementedException();
     }
+
+    void death() 
+    {
+        // gameObject.SetActive(false);
+
+        Debug.Log("you fucking loser");
+        
+    }
+
+
 }
