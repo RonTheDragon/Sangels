@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class MeleeDamage : Damage
 {
-    List<TriggerRegistration> _meleeTriggers;
+    [ReadOnly][SerializeField]List<TriggerRegistration> _meleeTriggers;
     public float GetDamageCD;
-
+    
+    Animator anim => GetComponent<Animator>();
 
     void Start()
     {
@@ -15,6 +16,18 @@ public class MeleeDamage : Damage
             meleeTrigger.Attackable = Attackable;
         }
     }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0)) 
+        {
+            anim.SetTrigger("PunchCombo");
+
+        }
+    }
+
+
+
 
     public RegisteredDamaged SubmitToRegisteredObjects(Health mom) 
     {

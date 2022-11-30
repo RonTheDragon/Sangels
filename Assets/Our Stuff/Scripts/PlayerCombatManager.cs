@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
-public class Slingshot : MonoBehaviour
+public class PlayerCombatManager : CombatS/ystem
 {
     //Serializefield 
     [Tooltip("shooting cooldown")]

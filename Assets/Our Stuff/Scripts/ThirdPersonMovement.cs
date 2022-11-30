@@ -54,7 +54,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
     // Auto Referencing
     CharacterController CC => GetComponent<CharacterController>();
-    Slingshot SlingShot  => GetComponent<Slingshot>();
+    PlayerCombatManager SlingShot  => transform.GetChild(0).GetComponent<PlayerCombatManager>();
     Camera _cam => cam.GetComponent<Camera>();
     InputHandler _inputHandler => cfl.GetComponent<InputHandler>();
     PlayerInput _playerInput => GetComponent<PlayerInput>();
