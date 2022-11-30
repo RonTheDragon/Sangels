@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
-public class PlayerCombatManager : CombatS/ystem
+public class PlayerCombatManager : AttackManager
 {
     //Serializefield 
     [Tooltip("shooting cooldown")]
