@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-abstract class Health 
+abstract class Health : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //data
+    public float MaxHealth;
+    public float CurrentHealth;
+    private bool _isDead;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public abstract void TakeDamage(float damage, float knockback, Vector3 pushFrom);
+
+    public abstract void TakeFire();
+
+    public abstract void TakeStun();
+
+
+
 }
