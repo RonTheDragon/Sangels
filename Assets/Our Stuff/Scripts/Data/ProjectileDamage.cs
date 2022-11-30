@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileDamage
+public class ProjectileDamage : Damage
 {
     // Start is called before the first frame update
     void Start()
@@ -14,5 +14,17 @@ public class ProjectileDamage
     void Update()
     {
         
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (Attackable == (Attackable | (1 << collision.gameObject.layer)))
+        {
+            Health hp = collision.gameObject.GetComponent<Health>();
+            if (hp!=null)
+            {
+                hp.TakeDamage(DamageAmount, Knockback, transform.position);
+            }
+        }
     }
 }

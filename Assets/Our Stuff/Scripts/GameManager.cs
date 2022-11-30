@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Layer Masks")]
     public LayerMask PlayersCanJumpOn;
+    public LayerMask PlayersCanAttack;
     public LayerMask EnemiesCanSee;
     public LayerMask EnemiesCanAttack;
 

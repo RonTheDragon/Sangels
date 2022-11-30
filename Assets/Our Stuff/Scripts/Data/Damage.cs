@@ -2,17 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Damage
+public abstract class Damage : MonoBehaviour 
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] protected float DamageAmount;
+    [SerializeField] protected float Knockback;
+    [HideInInspector] public LayerMask Attackable;
 }
