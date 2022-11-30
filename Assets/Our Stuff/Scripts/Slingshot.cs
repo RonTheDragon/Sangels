@@ -18,7 +18,11 @@ public class Slingshot : MonoBehaviour
     [Header("Aiming")]
     [SerializeField] float AimingFOV =40;
     [SerializeField] float NotAimingFOV=70;
-    [SerializeField] float FovChangingSpeed = 60;
+    [ReadOnly][SerializeField] float FovChangingSpeed;
+    [SerializeField] float XScreenNotAiming=0.2f;
+    [SerializeField] float XScreenAiming=0.1f;
+    [ReadOnly][SerializeField] float XChangingSpeed;
+    [SerializeField] float AimingSpeed;
     [ReadOnly][SerializeField] float CurrentFOV;
     [ReadOnly]public bool isAiming;
 
@@ -45,6 +49,7 @@ public class Slingshot : MonoBehaviour
         OnStopHoldShoot += OnStoppedShooting;
         cinemachine.m_Lens.FieldOfView = NotAimingFOV;
         SwitchAmmo();
+        CalculateSpeed();
     }
 
     // Update is called once per frame
@@ -53,6 +58,19 @@ public class Slingshot : MonoBehaviour
         Shoot();
         Aim();
         AmmoSwitching();
+    }
+
+    
+    void FieldOdViewChanger(float fov,bool IsAdding) 
+    {
+        if(IsAdding)
+            for (int i = 0; i <=2; i++)
+                cinemachine.GetRig(i).GetCinemachineComponent<CinemachineComposer>().m_ScreenX +=fov;
+        else 
+            for (int i = 0; i <= 2; i++)
+                cinemachine.GetRig(i).GetCinemachineComponent<CinemachineComposer>().m_ScreenX = fov;
+
+            
     }
 
     void Shoot()
@@ -90,6 +108,16 @@ public class Slingshot : MonoBehaviour
         }
         _shootLastFrame = _shoot;
     }
+
+    [ContextMenu("Caclculate Speed")]
+    void CalculateSpeed() 
+    {
+        FovChangingSpeed = (NotAimingFOV - AimingFOV) * AimingSpeed;
+        XChangingSpeed = (XScreenNotAiming - XScreenAiming)*AimingSpeed;
+    }
+        
+
+
     void Aim()
     {
         if (_shoot)
@@ -103,8 +131,11 @@ public class Slingshot : MonoBehaviour
             if (CurrentFOV > AimingFOV)
             {
                 cinemachine.m_Lens.FieldOfView -= FovChangingSpeed * Time.deltaTime;
+                FieldOdViewChanger(-XChangingSpeed * Time.deltaTime,true);
             }
-            else { cinemachine.m_Lens.FieldOfView = AimingFOV; }
+            else { cinemachine.m_Lens.FieldOfView = AimingFOV;
+                FieldOdViewChanger(XScreenAiming,false);
+            }
 
         }
         else
@@ -112,8 +143,11 @@ public class Slingshot : MonoBehaviour
             if (CurrentFOV < NotAimingFOV)
             {
                 cinemachine.m_Lens.FieldOfView += FovChangingSpeed * Time.deltaTime;
+                FieldOdViewChanger(XChangingSpeed*Time.deltaTime,true);
             }
-            else { cinemachine.m_Lens.FieldOfView = NotAimingFOV; }
+            else { cinemachine.m_Lens.FieldOfView = NotAimingFOV;
+                FieldOdViewChanger(XScreenNotAiming,false);
+            }
         }
     }
 

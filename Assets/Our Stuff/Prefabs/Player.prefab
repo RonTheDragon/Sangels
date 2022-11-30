@@ -201,7 +201,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 675878382494442799}
-  m_LocalRotation: {x: 0.1572045, y: 0.1894433, z: -0.030742412, w: 0.9687378}
+  m_LocalRotation: {x: 0.1590235, y: 0.118515015, z: -0.019232342, w: 0.97994685}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -310,7 +310,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2624663510233719387}
-  m_LocalRotation: {x: 0.13955766, y: 0.18997118, z: -0.027291458, w: 0.971437}
+  m_LocalRotation: {x: 0.14117244, y: 0.11884522, z: -0.017073425, w: 0.98267734}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -642,7 +642,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5037850191694427988}
-  m_LocalRotation: {x: 0.121911384, y: 0.19043502, z: -0.023840608, w: 0.97380894}
+  m_LocalRotation: {x: 0.12332201, y: 0.1191354, z: -0.014914595, w: 0.98507667}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -961,7 +961,11 @@ MonoBehaviour:
   cinemachine: {fileID: 6598293734634356843}
   AimingFOV: 30
   NotAimingFOV: 40
-  FovChangingSpeed: 60
+  FovChangingSpeed: 0
+  XScreenNotAiming: 0.2
+  XScreenAiming: 0.1
+  XChangingSpeed: 0
+  AimingSpeed: 5
   CurrentFOV: 0
   isAiming: 0
   CurrentAmmo: 
@@ -1200,7 +1204,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598293734886125694}
-  m_LocalRotation: {x: 0.13955767, y: 0.18997121, z: -0.027291466, w: 0.971437}
+  m_LocalRotation: {x: 0.14117245, y: 0.11884523, z: -0.01707343, w: 0.98267734}
   m_LocalPosition: {x: 0, y: 2, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
