@@ -18,7 +18,12 @@ public class AiHealth : Health
 
     public override void TakeDamage(float damage, float knockback, Vector3 pushFrom)
     {
-        throw new System.NotImplementedException();
+        CurrentHealth -= damage;
+        if (CurrentHealth <= 0)
+        {
+            CurrentHealth = 0;
+            Dead();
+        }
     }
     public override void TakeFire()
     {
@@ -28,7 +33,7 @@ public class AiHealth : Health
     {
         throw new NotImplementedException();
     }
-    
+     
 
 
 
