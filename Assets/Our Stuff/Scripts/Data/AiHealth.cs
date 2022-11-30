@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class AiHealth
 {
-    // Start is called before the first frame update
-    void Start()
+    void Dead() 
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    
+    
     }
 }
