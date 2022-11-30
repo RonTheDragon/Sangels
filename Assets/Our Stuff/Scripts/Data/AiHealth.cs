@@ -9,7 +9,7 @@ public class AiHealth : Health
 
     public void Dead() 
     {
-        if (CurrentHealth < 0) 
+        if (CurrentHealth <= 0) 
         {
             gameObject.SetActive(false);
         }
