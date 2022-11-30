@@ -8,7 +8,6 @@ public class MeleeDamage : Damage
     public float GetDamageCD;
 
 
-    // Start is called before the first frame update
     void Start()
     {
         foreach (TriggerRegistration meleeTrigger in _meleeTriggers)
