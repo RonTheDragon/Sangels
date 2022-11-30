@@ -43,6 +43,8 @@ public class Slingshot : MonoBehaviour
     Projectile fruit;
     event EventHandler OnStopHoldShoot;
 
+    GameManager GM => GameManager.instance;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -90,6 +92,8 @@ public class Slingshot : MonoBehaviour
             fruit.SpawnOnSlingShot(ProjectileSpawnLocation);
             CurrentCharge = StartCharge;
             _charging = true;
+            Damage d = fruit.GetComponent<Damage>();
+            d.Attackable = GM.PlayersCanAttack;
         }
         if (_charging)
         {

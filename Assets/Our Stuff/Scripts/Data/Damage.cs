@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Damage : MonoBehaviour 
 {
-    [SerializeField] float DamageAmount;
-    [SerializeField] float Knockback;
+    [SerializeField] protected float DamageAmount;
+    [SerializeField] protected float Knockback;
     [HideInInspector] public LayerMask Attackable;
 }

@@ -23,7 +23,7 @@ public class ProjectileDamage : Damage
             Health hp = collision.gameObject.GetComponent<Health>();
             if (hp!=null)
             {
-                
+                hp.TakeDamage(DamageAmount, Knockback, transform.position);
             }
         }
     }
