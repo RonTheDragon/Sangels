@@ -6,8 +6,8 @@ public abstract class Health : MonoBehaviour
 {
     //data
     public float MaxHealth;
-    [ReadOnly][SerializeField] float CurrentHealth;
-    private bool _isDead;
+    [ReadOnly][SerializeField] protected float CurrentHealth;
+    protected bool _isDead;
 
 
     private void Start()
