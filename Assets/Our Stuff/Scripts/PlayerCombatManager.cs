@@ -41,22 +41,25 @@ public class PlayerCombatManager : AttackManager
     int _currentAmmo;
     bool _charging, _shoot, _shootLastFrame,_switchUp,_switchDown,_melee;
     Projectile fruit;
-    delegate void EmptyEvent();
-    EmptyEvent OnStopHoldShoot;
-    EmptyEvent Loop;
+    Action OnStopHoldShoot;
+    Action Loop;
 
     GameManager GM => GameManager.instance;
     MeleeDamage md => GetComponent<MeleeDamage>();
     Animator anim => GetComponent<Animator>();
 
+
+    private void Awake()
+    {     
+        md.Attackable = GM.PlayersCanAttack;
+    }
     // Start is called before the first frame update
     void Start()
     {
-        OnStopHoldShoot += OnStoppedShooting;
         cinemachine.m_Lens.FieldOfView = NotAimingFOV;
         SwitchAmmo();
         CalculateSpeed();
-
+        OnStopHoldShoot += OnStoppedShooting;
         Loop += Shoot;
         Loop += Aim;
         Loop += AmmoSwitching;

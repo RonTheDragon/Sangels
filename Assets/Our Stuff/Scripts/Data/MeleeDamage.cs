@@ -9,7 +9,6 @@ public class MeleeDamage : Damage
 
     void Start()
     {
-        Attackable = GameManager.instance.PlayersCanAttack;
         foreach (TriggerRegistration meleeTrigger in _meleeTriggers)
         {
             meleeTrigger.Attackable = Attackable;
