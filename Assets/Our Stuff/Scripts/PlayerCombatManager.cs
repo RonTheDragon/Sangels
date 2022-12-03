@@ -42,8 +42,8 @@ public class PlayerCombatManager : AttackManager
     bool _charging, _shoot, _shootLastFrame,_switchUp,_switchDown,_melee;
     Projectile fruit;
     delegate void EmptyEvent();
-    event EmptyEvent OnStopHoldShoot;
-    event EmptyEvent Loop;
+    EmptyEvent OnStopHoldShoot;
+    EmptyEvent Loop;
 
     GameManager GM => GameManager.instance;
     MeleeDamage md => GetComponent<MeleeDamage>();
