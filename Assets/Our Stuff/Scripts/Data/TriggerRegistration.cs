@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class TriggerRegistration : MonoBehaviour
 {
-    List<RegisteredDamaged> _registeredDamagedList;
-    public LayerMask Attackable;
+    List<RegisteredDamaged> _registeredDamagedList = new List<RegisteredDamaged>();
+    [HideInInspector]public LayerMask Attackable;
     [SerializeField] MeleeDamage _meleeDamage;
+
+    private void Awake()
+    {
+        _meleeDamage.addTrigger(this);
+    }
     private void Update()
     {
         TimeManager();
@@ -39,13 +44,16 @@ public class TriggerRegistration : MonoBehaviour
 
     void TimeManager() 
     {
-        List<RegisteredDamaged> registeredDamagedList = new List<RegisteredDamaged>(_registeredDamagedList);
-        foreach (RegisteredDamaged registeredDamaged in registeredDamagedList)
+        if (_registeredDamagedList.Count > 0)
         {
-            if (registeredDamaged.TimeLeft >= 0)
-                registeredDamaged.TimeLeft -= Time.deltaTime;
-            else
-                _registeredDamagedList.Remove(registeredDamaged);
+            List<RegisteredDamaged> registeredDamagedList = new List<RegisteredDamaged>(_registeredDamagedList);
+            foreach (RegisteredDamaged registeredDamaged in registeredDamagedList)
+            {
+                if (registeredDamaged.TimeLeft >= 0)
+                    registeredDamaged.TimeLeft -= Time.deltaTime;
+                else
+                    _registeredDamagedList.Remove(registeredDamaged);
+            }
         }
     }
 

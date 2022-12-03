@@ -48,6 +48,15 @@ namespace UnityEngine.InputSystem
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Melee"",
+                    ""type"": ""Button"",
+                    ""id"": ""e7e75087-0a2a-466b-880e-984da378f409"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Shoot"",
                     ""type"": ""Button"",
                     ""id"": ""6c2ab1b8-8984-453a-af3d-a3c78ae1679a"",
@@ -383,6 +392,28 @@ namespace UnityEngine.InputSystem
                     ""action"": ""Scroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""00cde8e6-5581-46fc-ab3d-0df44f5e3984"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Melee"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""892c1096-6d3d-4490-953e-0555de48605f"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Melee"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -970,6 +1001,7 @@ namespace UnityEngine.InputSystem
             m_Sangel = asset.FindActionMap("Sangel", throwIfNotFound: true);
             m_Sangel_Move = m_Sangel.FindAction("Move", throwIfNotFound: true);
             m_Sangel_Look = m_Sangel.FindAction("Look", throwIfNotFound: true);
+            m_Sangel_Melee = m_Sangel.FindAction("Melee", throwIfNotFound: true);
             m_Sangel_Shoot = m_Sangel.FindAction("Shoot", throwIfNotFound: true);
             m_Sangel_Jump = m_Sangel.FindAction("Jump", throwIfNotFound: true);
             m_Sangel_Scroll = m_Sangel.FindAction("Scroll", throwIfNotFound: true);
@@ -1046,6 +1078,7 @@ namespace UnityEngine.InputSystem
         private ISangelActions m_SangelActionsCallbackInterface;
         private readonly InputAction m_Sangel_Move;
         private readonly InputAction m_Sangel_Look;
+        private readonly InputAction m_Sangel_Melee;
         private readonly InputAction m_Sangel_Shoot;
         private readonly InputAction m_Sangel_Jump;
         private readonly InputAction m_Sangel_Scroll;
@@ -1055,6 +1088,7 @@ namespace UnityEngine.InputSystem
             public SangelActions(@PlayerInputManager wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Sangel_Move;
             public InputAction @Look => m_Wrapper.m_Sangel_Look;
+            public InputAction @Melee => m_Wrapper.m_Sangel_Melee;
             public InputAction @Shoot => m_Wrapper.m_Sangel_Shoot;
             public InputAction @Jump => m_Wrapper.m_Sangel_Jump;
             public InputAction @Scroll => m_Wrapper.m_Sangel_Scroll;
@@ -1073,6 +1107,9 @@ namespace UnityEngine.InputSystem
                     @Look.started -= m_Wrapper.m_SangelActionsCallbackInterface.OnLook;
                     @Look.performed -= m_Wrapper.m_SangelActionsCallbackInterface.OnLook;
                     @Look.canceled -= m_Wrapper.m_SangelActionsCallbackInterface.OnLook;
+                    @Melee.started -= m_Wrapper.m_SangelActionsCallbackInterface.OnMelee;
+                    @Melee.performed -= m_Wrapper.m_SangelActionsCallbackInterface.OnMelee;
+                    @Melee.canceled -= m_Wrapper.m_SangelActionsCallbackInterface.OnMelee;
                     @Shoot.started -= m_Wrapper.m_SangelActionsCallbackInterface.OnShoot;
                     @Shoot.performed -= m_Wrapper.m_SangelActionsCallbackInterface.OnShoot;
                     @Shoot.canceled -= m_Wrapper.m_SangelActionsCallbackInterface.OnShoot;
@@ -1092,6 +1129,9 @@ namespace UnityEngine.InputSystem
                     @Look.started += instance.OnLook;
                     @Look.performed += instance.OnLook;
                     @Look.canceled += instance.OnLook;
+                    @Melee.started += instance.OnMelee;
+                    @Melee.performed += instance.OnMelee;
+                    @Melee.canceled += instance.OnMelee;
                     @Shoot.started += instance.OnShoot;
                     @Shoot.performed += instance.OnShoot;
                     @Shoot.canceled += instance.OnShoot;
@@ -1259,6 +1299,7 @@ namespace UnityEngine.InputSystem
         {
             void OnMove(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
+            void OnMelee(InputAction.CallbackContext context);
             void OnShoot(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
             void OnScroll(InputAction.CallbackContext context);

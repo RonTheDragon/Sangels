@@ -4,30 +4,17 @@ using UnityEngine;
 
 public class MeleeDamage : Damage
 {
-    [ReadOnly][SerializeField]List<TriggerRegistration> _meleeTriggers;
+    List<TriggerRegistration> _meleeTriggers = new List<TriggerRegistration>();
     public float GetDamageCD;
-    
-    Animator anim => GetComponent<Animator>();
 
     void Start()
     {
+        Attackable = GameManager.instance.PlayersCanAttack;
         foreach (TriggerRegistration meleeTrigger in _meleeTriggers)
         {
             meleeTrigger.Attackable = Attackable;
         }
     }
-
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0)) 
-        {
-            anim.SetTrigger("PunchCombo");
-
-        }
-    }
-
-
-
 
     public RegisteredDamaged SubmitToRegisteredObjects(Health mom) 
     {
@@ -35,6 +22,10 @@ public class MeleeDamage : Damage
         return new RegisteredDamaged(GetDamageCD, mom.gameObject);
     }
 
+    public void addTrigger(TriggerRegistration tr)
+    {
+        _meleeTriggers.Add(tr);
+    }
 
 
 }

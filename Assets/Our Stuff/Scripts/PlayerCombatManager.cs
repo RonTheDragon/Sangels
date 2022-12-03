@@ -39,11 +39,15 @@ public class PlayerCombatManager : AttackManager
     //Private 
     float _cd, _scroll;
     int _currentAmmo;
-    bool _charging, _shoot, _shootLastFrame,_switchUp,_switchDown;
+    bool _charging, _shoot, _shootLastFrame,_switchUp,_switchDown,_melee;
     Projectile fruit;
-    event EventHandler OnStopHoldShoot;
+    delegate void EmptyEvent();
+    event EmptyEvent OnStopHoldShoot;
+    event EmptyEvent Loop;
 
     GameManager GM => GameManager.instance;
+    MeleeDamage md => GetComponent<MeleeDamage>();
+    Animator anim => GetComponent<Animator>();
 
     // Start is called before the first frame update
     void Start()
@@ -52,14 +56,17 @@ public class PlayerCombatManager : AttackManager
         cinemachine.m_Lens.FieldOfView = NotAimingFOV;
         SwitchAmmo();
         CalculateSpeed();
+
+        Loop += Shoot;
+        Loop += Aim;
+        Loop += AmmoSwitching;
+        Loop += Melee;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Shoot();
-        Aim();
-        AmmoSwitching();
+        Loop?.Invoke();
     }
 
     
@@ -108,7 +115,7 @@ public class PlayerCombatManager : AttackManager
         
         if(_shootLastFrame && !_shoot)
         {
-            OnStopHoldShoot?.Invoke(this, EventArgs.Empty);
+            OnStopHoldShoot?.Invoke();
         }
         _shootLastFrame = _shoot;
     }
@@ -155,7 +162,15 @@ public class PlayerCombatManager : AttackManager
         }
     }
 
-    void OnStoppedShooting(object sender,EventArgs eventArgs)
+    void Melee()
+    {
+        if (_melee)
+        {
+            anim.SetTrigger("PunchCombo");
+        }
+    }
+
+    void OnStoppedShooting()
     {
         isAiming = false;
         if (fruit)
@@ -212,6 +227,11 @@ public class PlayerCombatManager : AttackManager
     public void OnShoot(InputAction.CallbackContext context)
     {
        _shoot= context.action.triggered;
+    }
+
+    public void OnMelee(InputAction.CallbackContext context)
+    {
+        _melee = context.action.triggered;
     }
 
     public void OnScroll(InputAction.CallbackContext context)
