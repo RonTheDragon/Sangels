@@ -1,18 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerAbilitySwitch : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [Header("daniel is god")]
+    [Tooltip("dont forget to wipe your ass after poop")]
+    [SerializeField] PlayerCombatManager _playerCombatManager;
+
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    void SwitchFruit() 
     {
-        
+        //if()
+    
+    
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+
+
+
 }

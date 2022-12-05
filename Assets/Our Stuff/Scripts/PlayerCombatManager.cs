@@ -27,8 +27,8 @@ public class PlayerCombatManager : AttackManager
     [ReadOnly]public bool isAiming;
 
     [Header("Ammo Switching")]
-    [ReadOnly][SerializeField] string CurrentAmmo;
-    [SerializeField] List<string> AmmoTypes;
+    [ReadOnly] public FruitData CurrentAmmo;
+    [SerializeField] List<FruitData> AmmoTypes;
 
     [Header("Charge")]
     [SerializeField] float MaxCharge = 2000;
@@ -66,6 +66,9 @@ public class PlayerCombatManager : AttackManager
         Loop += Melee;
     }
 
+
+
+
     // Update is called once per frame
     void Update()
     {
@@ -96,9 +99,9 @@ public class PlayerCombatManager : AttackManager
         {
             ProjectileSpawnLocation.LookAt(cam.position+cam.forward*200);
         }
-        if (_shoot && _cd <= 0 && !fruit && !string.IsNullOrEmpty(CurrentAmmo))
+        if (_shoot && _cd <= 0 && !fruit && CurrentAmmo!=null)
         {
-            fruit = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo, ProjectileSpawnLocation.position, ProjectileSpawnLocation.rotation).GetComponent<Projectile>();
+            fruit = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo.fruit.ToString(), ProjectileSpawnLocation.position, ProjectileSpawnLocation.rotation).GetComponent<Projectile>();
             fruit.SpawnOnSlingShot(ProjectileSpawnLocation);
             CurrentCharge = StartCharge;
             _charging = true;
@@ -222,7 +225,7 @@ public class PlayerCombatManager : AttackManager
         }
         else
         {
-            CurrentAmmo = string.Empty;
+            CurrentAmmo = null;
         }
     }
 
