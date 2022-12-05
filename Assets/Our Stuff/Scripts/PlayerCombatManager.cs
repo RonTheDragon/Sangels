@@ -99,7 +99,7 @@ public class PlayerCombatManager : AttackManager
         {
             ProjectileSpawnLocation.LookAt(cam.position+cam.forward*200);
         }
-        if (_shoot && _cd <= 0 && !fruit && CurrentAmmo!=null)
+        if (_shoot && _cd <= 0 && !fruit && !string.IsNullOrEmpty(CurrentAmmo.fruit.ToString()))
         {
             fruit = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo.fruit.ToString(), ProjectileSpawnLocation.position, ProjectileSpawnLocation.rotation).GetComponent<Projectile>();
             fruit.SpawnOnSlingShot(ProjectileSpawnLocation);
