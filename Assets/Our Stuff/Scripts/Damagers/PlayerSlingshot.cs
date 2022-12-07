@@ -139,7 +139,7 @@ public class PlayerSlingshot : Damage
         }
         else
         {
-            TPM.LookAt(transform.position + transform.forward + transform.up*0.5f);
+            TPM.LookAtReset();
 
             LR.enabled = false;
             if (CurrentFOV > 0)

@@ -11,7 +11,7 @@ public class PlayerHealth : Health
     public override void TakeDamage(float damage, float knockback, Vector3 pushFrom)
     {
         CurrentHealth-=damage;
-        playerController.AddForce(pushFrom, knockback);
+        playerController.AddForce(-pushFrom, knockback);
             death();
         Debug.Log($"player took {damage} damage");
     }
