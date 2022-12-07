@@ -35,19 +35,22 @@ public class AIController : Controllers
     LayerMask _attackable;
 
     // Refrences
+    Rigidbody RB => GetComponent<Rigidbody>();  
     GameManager GM => GameManager.instance;
     Vector3 spawnPoint=> transform.position;
     NavMeshAgent agent => GetComponent<NavMeshAgent>();
 
 
-    private void Start()
+    new void Start()
     {
+        base.Start();
         _canSee = GM.EnemiesCanSee;
         _attackable = GM.EnemiesCanAttack;
     }
 
-    void Update()
+    new void Update()
     {
+        base.Update();
         AIbrain();
     }
 
@@ -212,7 +215,14 @@ public class AIController : Controllers
         Debug.DrawRay(transform.position, transform.rotation * LeftEye * _scanRadius, Color.green);
     }
 
-
+    protected override void applyingForce()
+    {
+        if (_forceStrength > 0)
+        {
+            RB.AddForce(_forceDirection.normalized * _forceStrength * Time.deltaTime);
+            _forceStrength -= _forceStrength * 2 * Time.deltaTime; 
+        }
+    }
 
 }
 

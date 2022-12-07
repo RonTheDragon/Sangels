@@ -26,8 +26,8 @@ public class PlayerSlingshot : Damage
     [ReadOnly]public bool isAiming;
 
     [Header("Ammo Switching")]
-    [ReadOnly][SerializeField] string CurrentAmmo;
-    [SerializeField] List<string> AmmoTypes;
+    [ReadOnly][SerializeField] FruitData CurrentAmmo;
+    [SerializeField] List<FruitData> AmmoTypes;
 
     [Header("Charge")]
     [SerializeField] float MaxCharge = 2000;
@@ -83,15 +83,19 @@ public class PlayerSlingshot : Damage
         RaycastHit hit;
         if (Physics.Raycast(cam.position,cam.forward,out hit,Mathf.Infinity))
         {
-            ProjectileSpawnLocation.LookAt(hit.point);
+            if (hit.distance < 5) { ProjectileSpawnLocation.LookAt(cam.position + cam.forward * 20); }
+            else
+            {
+                ProjectileSpawnLocation.LookAt(hit.point);
+            }
         }
         else
         {
             ProjectileSpawnLocation.LookAt(cam.position+cam.forward*200);
         }
-        if (playerAttackManager._shoot && _cd <= 0 && !fruit && !string.IsNullOrEmpty(CurrentAmmo))
+        if (playerAttackManager._shoot && _cd <= 0 && !fruit && !string.IsNullOrEmpty(CurrentAmmo.fruit.ToString()))
         {
-            fruit = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo, ProjectileSpawnLocation.position, ProjectileSpawnLocation.rotation).GetComponent<Projectile>();
+            fruit = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo.fruit.ToString(), ProjectileSpawnLocation.position, ProjectileSpawnLocation.rotation).GetComponent<Projectile>();
             fruit.SpawnOnSlingShot(ProjectileSpawnLocation);
             CurrentCharge = StartCharge;
             _charging = true;
@@ -207,7 +211,7 @@ public class PlayerSlingshot : Damage
         }
         else
         {
-            CurrentAmmo = string.Empty;
+            CurrentAmmo = null;
         }
     }
 

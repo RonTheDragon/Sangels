@@ -90,8 +90,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34bfef89d2531b1499238c02512d852e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageAmount: 50
-  Knockback: 126
+  DamageAmount: 1
+  Knockback: 15
   Attackable:
     serializedVersion: 2
     m_Bits: 0

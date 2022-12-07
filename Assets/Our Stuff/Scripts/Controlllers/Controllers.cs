@@ -5,7 +5,6 @@ using UnityEngine;
 
 abstract public class Controllers : MonoBehaviour
 {
-    protected CharacterController CC => GetComponent<CharacterController>();
     protected Vector3 _forceDirection;
     protected float _forceStrength;
     protected Action Loop;
@@ -26,12 +25,6 @@ abstract public class Controllers : MonoBehaviour
     }
 
     /// <summary> Makes the added force move the player Overtime. </summary>
-    protected void applyingForce()
-    {
-        if (_forceStrength > 0)
-        {
-            CC.Move(_forceDirection.normalized * _forceStrength * Time.deltaTime);
-            _forceStrength -= _forceStrength * 2 * Time.deltaTime;
-        }
-    }
+    protected abstract void applyingForce();
+
 }

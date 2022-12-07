@@ -53,6 +53,7 @@ public class ThirdPersonMovement : Controllers
     // Invisible //
 
     // Auto Referencing
+    CharacterController CC => GetComponent<CharacterController>();
     PlayerSlingshot SlingShot  => transform.GetChild(0).GetComponent<PlayerSlingshot>();
     Camera _cam => cam.GetComponent<Camera>();
     InputHandler _inputHandler => cfl.GetComponent<InputHandler>();
@@ -201,6 +202,15 @@ public class ThirdPersonMovement : Controllers
         {
             GM.PlayerLeft(PlayerNumber); // Tell The Game Manager we Removed a Player
             Destroy(gameObject); // Remove The Player
+        }
+    }
+
+    protected override void applyingForce()
+    {
+        if (_forceStrength > 0)
+        {
+            CC.Move(_forceDirection.normalized * _forceStrength * Time.deltaTime);
+            _forceStrength -= _forceStrength * 2 * Time.deltaTime;
         }
     }
 

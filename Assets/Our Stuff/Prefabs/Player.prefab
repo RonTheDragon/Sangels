@@ -329,7 +329,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 675878382494442799}
-  m_LocalRotation: {x: 0.094630435, y: 0.18325011, z: -0.017724948, w: 0.9783406}
+  m_LocalRotation: {x: 0.094630435, y: 0.18325013, z: -0.017724952, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -880,11 +880,11 @@ MonoBehaviour:
   AimingSpeed: 5
   CurrentFOV: 0
   isAiming: 0
-  CurrentAmmo: 
+  CurrentAmmo: {fileID: 0}
   AmmoTypes:
-  - Luber
-  - Albert
-  - Fepler
+  - {fileID: 11400000, guid: ee4f5e133df96d0469aefe61d9509b77, type: 2}
+  - {fileID: 11400000, guid: c52bd40215458b34dbd5f1f605129405, type: 2}
+  - {fileID: 11400000, guid: 27c7bfcb798d38441902a2f7a687f0f8, type: 2}
   MaxCharge: 2000
   StartCharge: 100
   ChargingSpeed: 1900
@@ -902,7 +902,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DamageAmount: 10
-  Knockback: 3276
+  Knockback: 15
   Attackable:
     serializedVersion: 2
     m_Bits: 0
@@ -1221,7 +1221,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2624663510233719387}
-  m_LocalRotation: {x: 0.094630435, y: 0.18325011, z: -0.017724948, w: 0.9783406}
+  m_LocalRotation: {x: 0.094630435, y: 0.18325013, z: -0.017724952, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -2226,7 +2226,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5037850191694427988}
-  m_LocalRotation: {x: 0.094630435, y: 0.18325014, z: -0.017724952, w: 0.9783406}
+  m_LocalRotation: {x: 0.09463043, y: 0.18325011, z: -0.01772495, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -2994,7 +2994,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598293734886125694}
-  m_LocalRotation: {x: 0.094630435, y: 0.18325011, z: -0.017724948, w: 0.9783406}
+  m_LocalRotation: {x: 0.094630435, y: 0.18325013, z: -0.017724952, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 2, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
