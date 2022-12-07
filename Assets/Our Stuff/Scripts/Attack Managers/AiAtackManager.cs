@@ -7,7 +7,7 @@ public class AiAtackManager : AttackManager
 {
 
     [ReadOnly] public Transform Target;
-
+    [SerializeField] SOMeleeAttack SOMeleeAttack;
 
     public void AttackTarget()
     {
@@ -17,7 +17,8 @@ public class AiAtackManager : AttackManager
     }
     void OverrideToAttack()
     {
-
+        if (SOMeleeAttack.MinDist < Vector3.Distance(transform.position, Target.position) && Vector3.Distance(transform.position, Target.position) < SOMeleeAttack.MaxDist)
+            anim.SetTrigger(SOMeleeAttack.AnimationName);
     }
 }
 

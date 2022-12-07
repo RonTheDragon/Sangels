@@ -870,3 +870,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   Target: {fileID: 0}
+  SOMeleeAttack: {fileID: 11400000, guid: 281ba3b4511db33428b37e5206b5b593, type: 2}

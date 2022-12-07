@@ -71,7 +71,7 @@ public class AIController : Controllers
         if (CurrentAlert > AttackAlert && Target != null)
         {
             FollowTarget();
-          //  aiAtackManager.AttackTarget();
+            aiAtackManager.AttackTarget();
         }
         else
         {
