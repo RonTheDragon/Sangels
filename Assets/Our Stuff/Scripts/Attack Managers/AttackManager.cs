@@ -10,6 +10,7 @@ public abstract class AttackManager : MonoBehaviour
     [HideInInspector]
     public Action Loop;
     public Animator anim => GetComponent<Animator>();
+    protected GameManager GM => GameManager.instance;
 
     [HideInInspector] public LayerMask Attackable;
 

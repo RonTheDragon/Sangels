@@ -28,6 +28,7 @@ public class AIController : Controllers
     [SerializeField] float AttackAlert = 0.5f;
     [SerializeField] float MaxAlert = 3;
 
+
     // Invisible
 
     //Layer Masks
@@ -60,10 +61,12 @@ public class AIController : Controllers
 
         if (Target != null)
         {
+            LookAt(Target.position);
             AlertSystem();
         }
         else
         {
+            LookAtReset();
             DetectionRay();
             ScanCooldown();
         }

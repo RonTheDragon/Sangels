@@ -20,6 +20,7 @@ public class AiHealth : Health
     {
         CurrentHealth -= damage;
         aiController.AddForce(pushFrom, knockback);
+        Debug.Log($"Enemy took {damage} damage");
         Dead();
     }
     public override void TakeFire()

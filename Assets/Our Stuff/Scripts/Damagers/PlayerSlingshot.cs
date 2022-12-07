@@ -45,7 +45,7 @@ public class PlayerSlingshot : Damage
 
     LayerMask LineTrajectoryMask => GM.TrajectoryHits;
 
-    //MeleeDamage md => GetComponent<MeleeDamage>();
+    ThirdPersonMovement TPM => GetComponentInParent<ThirdPersonMovement>();
     LineRenderer LR => cinemachine.GetComponent<LineRenderer>();
 
     PlayerAttackManager playerAttackManager => (PlayerAttackManager)attackManager;
@@ -122,6 +122,8 @@ public class PlayerSlingshot : Damage
         CurrentFOV = offset.m_Offset.z;
         if (isAiming)
         {
+            TPM.LookAt(cam.position + cam.forward * 20);
+
             if (CurrentCharge > StartCharge) 
             DrawProjection();
             if (CurrentFOV < AimingFOV)
@@ -137,6 +139,8 @@ public class PlayerSlingshot : Damage
         }
         else
         {
+            TPM.LookAt(transform.position + transform.forward + transform.up*0.5f);
+
             LR.enabled = false;
             if (CurrentFOV > 0)
             {

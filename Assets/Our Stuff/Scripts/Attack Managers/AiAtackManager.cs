@@ -9,11 +9,15 @@ public class AiAtackManager : AttackManager
     [ReadOnly] public Transform Target;
     [SerializeField] SOMeleeAttack SOMeleeAttack;
 
+
+    void Awake()
+    {
+        Attackable = GM.EnemiesCanAttack;
+    }
+
     public void AttackTarget()
     {
         OverrideToAttack();
-
-
     }
     void OverrideToAttack()
     {

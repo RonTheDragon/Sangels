@@ -15,8 +15,6 @@ public class PlayerAttackManager : AttackManager
     [HideInInspector]
     public float _scroll;
 
-    GameManager GM = GameManager.instance;
-
     private void Awake()
     {
         Attackable = GM.PlayersCanAttack;      

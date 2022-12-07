@@ -5,6 +5,9 @@ using UnityEngine;
 
 abstract public class Controllers : MonoBehaviour
 {
+    [Header("Animation Rigging")]
+    [SerializeField] Transform LookingAt;
+
     protected Vector3 _forceDirection;
     protected float _forceStrength;
     protected Action Loop;
@@ -27,4 +30,13 @@ abstract public class Controllers : MonoBehaviour
     /// <summary> Makes the added force move the player Overtime. </summary>
     protected abstract void applyingForce();
 
+    public void LookAt(Vector3 pos)
+    {
+        LookingAt.transform.position = pos;
+    }
+
+    public void LookAtReset()
+    {
+        LookingAt.transform.position = transform.position + transform.forward;
+    }
 }
