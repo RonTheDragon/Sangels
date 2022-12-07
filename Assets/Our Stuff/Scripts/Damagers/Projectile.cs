@@ -19,7 +19,7 @@ public class Projectile : MonoBehaviour
         RB.useGravity = true;
         c.enabled = true;
         transform.parent = ObjectPooler.Instance.transform;
-        RB.AddForce(transform.forward * Force * ForceMultiplier);
+        RB.AddForce(transform.forward * Force * ForceMultiplier,ForceMode.Impulse);
         RB.AddTorque(new Vector3(1, 1, 1) * Force);
     }
 

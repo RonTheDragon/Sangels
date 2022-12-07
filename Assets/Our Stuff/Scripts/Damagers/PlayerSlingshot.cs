@@ -15,18 +15,15 @@ public class PlayerSlingshot : Damage
 
 
     [Header("Aiming")]
-    [SerializeField] float AimingFOV =40;
-    [SerializeField] float NotAimingFOV=70;
-    [ReadOnly][SerializeField] float FovChangingSpeed;
-    [SerializeField] float XScreenNotAiming=0.2f;
-    [SerializeField] float XScreenAiming=0.1f;
-    [ReadOnly][SerializeField] float XChangingSpeed;
     [SerializeField] float AimingSpeed;
     [ReadOnly][SerializeField] float CurrentFOV;
+    [SerializeField] float AimingFOV = 1;
     [ReadOnly]public bool isAiming;
+    [SerializeField][Range(10, 100)] int _linePoints = 25;
+    [SerializeField][Range(0.01f, 0.25f)] float _timeBetweenPoints = 0.01f;
 
     [Header("Ammo Switching")]
-    [ReadOnly][SerializeField] FruitData CurrentAmmo;
+    [ReadOnly][SerializeField] FruitData CurrentAmmo;   
     [SerializeField] List<FruitData> AmmoTypes;
 
     [Header("Charge")]
@@ -43,10 +40,14 @@ public class PlayerSlingshot : Damage
     Transform cam;
     CinemachineFreeLook cinemachine;
     Projectile fruit;
+    float _fruitMass;
     Action OnStopHoldShoot;
+
     //MeleeDamage md => GetComponent<MeleeDamage>();
+    LineRenderer LR => cinemachine.GetComponent<LineRenderer>();
 
     PlayerAttackManager playerAttackManager => (PlayerAttackManager)attackManager;
+    CinemachineCameraOffset offset => cinemachine.GetComponent<CinemachineCameraOffset>();
 
     // Start is called before the first frame update
     void Start()
@@ -55,10 +56,8 @@ public class PlayerSlingshot : Damage
         cinemachine = playerAttackManager.Cinemachine;
 
         Attackable = attackManager.Attackable;
-        cinemachine.m_Lens.FieldOfView = NotAimingFOV;
 
         SwitchAmmo();
-        CalculateAimSpeed();
 
         OnStopHoldShoot += OnStoppedShooting;
         playerAttackManager.Loop += Shoot;
@@ -66,17 +65,6 @@ public class PlayerSlingshot : Damage
         playerAttackManager.Loop += AmmoSwitching;
     }
     
-    void FieldOdViewChanger(float fov,bool IsAdding) 
-    {
-        if(IsAdding)
-            for (int i = 0; i <=2; i++)
-                cinemachine.GetRig(i).GetCinemachineComponent<CinemachineComposer>().m_ScreenX +=fov;
-        else 
-            for (int i = 0; i <= 2; i++)
-                cinemachine.GetRig(i).GetCinemachineComponent<CinemachineComposer>().m_ScreenX = fov;
-
-            
-    }
 
     void Shoot()
     {
@@ -100,6 +88,7 @@ public class PlayerSlingshot : Damage
             CurrentCharge = StartCharge;
             _charging = true;
             Damage d = fruit.GetComponent<Damage>();
+            _fruitMass = fruit.GetComponent<Rigidbody>().mass;
             d.Attackable = Attackable;
         }
         if (_charging)
@@ -119,13 +108,6 @@ public class PlayerSlingshot : Damage
         }
         _shootLastFrame = playerAttackManager._shoot;
     }
-
-    [ContextMenu("Caclculate Speed")]
-    void CalculateAimSpeed() 
-    {
-        FovChangingSpeed = (NotAimingFOV - AimingFOV) * AimingSpeed;
-        XChangingSpeed = (XScreenNotAiming - XScreenAiming)*AimingSpeed;
-    }
         
 
 
@@ -136,29 +118,51 @@ public class PlayerSlingshot : Damage
             isAiming = true;
         }
 
-        CurrentFOV = cinemachine.m_Lens.FieldOfView;
+        CurrentFOV = offset.m_Offset.z;
         if (isAiming)
         {
-            if (CurrentFOV > AimingFOV)
+            if (CurrentCharge > StartCharge) 
+            DrawProjection();
+            if (CurrentFOV < AimingFOV)
             {
-                cinemachine.m_Lens.FieldOfView -= FovChangingSpeed * Time.deltaTime;
-                FieldOdViewChanger(-XChangingSpeed * Time.deltaTime,true);
+                CurrentFOV += AimingSpeed * Time.deltaTime;
+                offset.m_Offset.Set(0, 0, CurrentFOV);
             }
-            else { cinemachine.m_Lens.FieldOfView = AimingFOV;
-                FieldOdViewChanger(XScreenAiming,false);
+            else {
+                CurrentFOV = AimingFOV;
+                offset.m_Offset.Set(0, 0, CurrentFOV);
             }
-
+            
         }
         else
         {
-            if (CurrentFOV < NotAimingFOV)
+            LR.enabled = false;
+            if (CurrentFOV > 0)
             {
-                cinemachine.m_Lens.FieldOfView += FovChangingSpeed * Time.deltaTime;
-                FieldOdViewChanger(XChangingSpeed*Time.deltaTime,true);
+                CurrentFOV -= AimingSpeed * Time.deltaTime;
+                offset.m_Offset.Set(0, 0, CurrentFOV);
             }
-            else { cinemachine.m_Lens.FieldOfView = NotAimingFOV;
-                FieldOdViewChanger(XScreenNotAiming,false);
+            else {
+                CurrentFOV = 0;
+                offset.m_Offset.Set(0, 0, CurrentFOV);
             }
+        }
+    }
+
+    void DrawProjection()
+    {
+        LR.enabled = true;
+        LR.positionCount = Mathf.CeilToInt(_linePoints / _timeBetweenPoints) + 1;
+        Vector3 startPosition = ProjectileSpawnLocation.position;
+        Vector3 startVelocity = CurrentCharge * ProjectileSpawnLocation.forward / _fruitMass;
+        int i = 0;
+        LR.SetPosition(i, startPosition);
+        for (float time = 0; time < _linePoints; time+=_timeBetweenPoints)
+        {
+            i++;
+            Vector3 point = startPosition + time * startVelocity;
+            point.y = startPosition.y + startVelocity.y * time + (Physics.gravity.y / 2f * time * time);
+            LR.SetPosition(i, point);
         }
     }
 
