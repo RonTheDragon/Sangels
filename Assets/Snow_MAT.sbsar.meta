@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 65cb0b25396a9544398b205d19cd9109
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: dda12f74ff9116a42b23482252b2c482, type: 3}
+  _instancesCopy:
+  - {fileID: 11400000, guid: d51c2b9fcee3a754c93c7b9df870f2e0, type: 2}
+  _fileAsset: {instanceID: 0}
+  _assetPath: Assets/Snow_MAT.sbsar
