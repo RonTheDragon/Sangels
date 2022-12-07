@@ -7,17 +7,7 @@ public class ProjectileDamage : Damage
     [Tooltip("x = Min Speed, slower wont cause damage\ny = Max Speed, On This Speed The Fruit Causes his full damage")]
     [SerializeField] Vector2 DamageBySpeed;
     Rigidbody rb => GetComponent<Rigidbody>();
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnCollisionEnter(Collision collision)
     {
