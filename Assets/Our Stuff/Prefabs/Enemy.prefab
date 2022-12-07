@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4696598385839619957}
   - component: {fileID: 6394502825093494616}
   - component: {fileID: 6631142739324611383}
-  - component: {fileID: -3484608646599911047}
   - component: {fileID: 3057686447678858891}
   - component: {fileID: 1226752432137737106}
   m_Layer: 10
@@ -98,24 +97,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealth: 100
   CurrentHealth: 0
---- !u!114 &-3484608646599911047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6943562051778835617}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcb99f77f9504aa48ad71698642d009d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DamageAmount: 0
-  Knockback: 0
-  Attackable:
-    serializedVersion: 2
-    m_Bits: 0
-  GetDamageCD: 0
 --- !u!54 &3057686447678858891
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -853,7 +834,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &6253076987735496050
+--- !u!114 &7970296522034772338
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -871,3 +852,21 @@ MonoBehaviour:
     m_Bits: 0
   Target: {fileID: 0}
   SOMeleeAttack: {fileID: 11400000, guid: 281ba3b4511db33428b37e5206b5b593, type: 2}
+--- !u!114 &5988209662970127671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3273202489402000497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb99f77f9504aa48ad71698642d009d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamageAmount: 10
+  Knockback: 15
+  Attackable:
+    serializedVersion: 2
+    m_Bits: 0
+  GetDamageCD: 0.2
