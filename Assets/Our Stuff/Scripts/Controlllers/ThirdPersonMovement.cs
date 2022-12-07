@@ -8,7 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ThirdPersonMovement : MonoBehaviour
+public class ThirdPersonMovement : Controllers
 {
     // Visible //
 
@@ -53,8 +53,7 @@ public class ThirdPersonMovement : MonoBehaviour
     // Invisible //
 
     // Auto Referencing
-    CharacterController CC => GetComponent<CharacterController>();
-    PlayerCombatManager SlingShot  => transform.GetChild(0).GetComponent<PlayerCombatManager>();
+    PlayerSlingshot SlingShot  => transform.GetChild(0).GetComponent<PlayerSlingshot>();
     Camera _cam => cam.GetComponent<Camera>();
     InputHandler _inputHandler => cfl.GetComponent<InputHandler>();
     PlayerInput _playerInput => GetComponent<PlayerInput>();
@@ -64,8 +63,6 @@ public class ThirdPersonMovement : MonoBehaviour
     Vector2 _movement;
     bool _jumped;
     float _gravityPull;
-    Vector3 _forceDirection;
-    float   _forceStrength;
     float f;
     LayerMask Jumpable;
 
@@ -75,8 +72,16 @@ public class ThirdPersonMovement : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
+        base.Start();
+
+        Loop+= groundCheck;
+        Loop+= gravitation;
+        Loop+= jumping;
+        Loop += movement;
+        Loop += slide;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible   = false;
         Jumpable = GM.PlayersCanJumpOn;
@@ -84,14 +89,9 @@ public class ThirdPersonMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    new void Update()
     {
-        groundCheck();
-        gravitation();
-        jumping();
-        movement();
-        applyingForce();
-        slide();
+        base.Update();
     }
 
     /// <summary> Allows the player to walk. </summary>
@@ -169,24 +169,6 @@ public class ThirdPersonMovement : MonoBehaviour
             slid.z += ((1f - hitNormal.y) * hitNormal.z * SlideSpeed);
 
             CC.Move(slid*Time.deltaTime);
-        }
-    }
-
-
-    /// <summary> Adding custom force to the character controller </summary>
-    public void AddForce(Vector3 dir, float force)
-    {
-        _forceDirection = dir;
-        _forceStrength  = force;
-    }
-
-    /// <summary> Makes the added force move the player Overtime. </summary>
-    private void applyingForce()
-    {
-        if (_forceStrength > 0)
-        {
-            CC.Move(_forceDirection.normalized * _forceStrength * Time.deltaTime);
-            _forceStrength -= _forceStrength * 2 * Time.deltaTime;
         }
     }
 

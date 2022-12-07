@@ -9,6 +9,9 @@ public class MeleeDamage : Damage
 
     void Start()
     {
+        Attackable = attackManager.Attackable;
+        attackManager.Loop += Melee;
+
         foreach (TriggerRegistration meleeTrigger in _meleeTriggers)
         {
             meleeTrigger.Attackable = Attackable;
@@ -24,6 +27,14 @@ public class MeleeDamage : Damage
     public void addTrigger(TriggerRegistration tr)
     {
         _meleeTriggers.Add(tr);
+    }
+
+    void Melee()
+    {
+        if (attackManager._melee)
+        {
+            attackManager.anim.SetTrigger("PunchCombo");
+        }
     }
 
 

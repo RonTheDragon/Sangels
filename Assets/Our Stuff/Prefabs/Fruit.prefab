@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DamageAmount: 50
-  Knockback: 0
+  Knockback: 126
   Attackable:
     serializedVersion: 2
     m_Bits: 0

@@ -6,14 +6,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
-public class PlayerCombatManager : AttackManager
+public class PlayerSlingshot : Damage
 {
     //Serializefield 
     [Tooltip("shooting cooldown")]
     [SerializeField] float CoolDown = 0.5f;
     [SerializeField] Transform ProjectileSpawnLocation;
-    [SerializeField] Transform cam;
-    [SerializeField] CinemachineFreeLook cinemachine;
+
 
     [Header("Aiming")]
     [SerializeField] float AimingFOV =40;
@@ -37,41 +36,35 @@ public class PlayerCombatManager : AttackManager
     [ReadOnly][SerializeField] float CurrentCharge;
 
     //Private 
-    float _cd, _scroll;
+    float _cd;
     int _currentAmmo;
-    bool _charging, _shoot, _shootLastFrame,_switchUp,_switchDown,_melee;
+    bool _charging, _shootLastFrame,_switchUp,_switchDown;
+
+    Transform cam;
+    CinemachineFreeLook cinemachine;
     Projectile fruit;
     Action OnStopHoldShoot;
-    Action Loop;
+    //MeleeDamage md => GetComponent<MeleeDamage>();
 
-    GameManager GM => GameManager.instance;
-    MeleeDamage md => GetComponent<MeleeDamage>();
-    Animator anim => GetComponent<Animator>();
+    PlayerAttackManager playerAttackManager => (PlayerAttackManager)attackManager;
 
-
-    private void Awake()
-    {     
-        md.Attackable = GM.PlayersCanAttack;
-    }
     // Start is called before the first frame update
     void Start()
     {
+        cam = playerAttackManager.Cam.transform;
+        cinemachine = playerAttackManager.Cinemachine;
+
+        Attackable = attackManager.Attackable;
         cinemachine.m_Lens.FieldOfView = NotAimingFOV;
+
         SwitchAmmo();
-        CalculateSpeed();
+        CalculateAimSpeed();
+
         OnStopHoldShoot += OnStoppedShooting;
-        Loop += Shoot;
-        Loop += Aim;
-        Loop += AmmoSwitching;
-        Loop += Melee;
+        playerAttackManager.Loop += Shoot;
+        playerAttackManager.Loop += Aim;
+        playerAttackManager.Loop += AmmoSwitching;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Loop?.Invoke();
-    }
-
     
     void FieldOdViewChanger(float fov,bool IsAdding) 
     {
@@ -96,14 +89,14 @@ public class PlayerCombatManager : AttackManager
         {
             ProjectileSpawnLocation.LookAt(cam.position+cam.forward*200);
         }
-        if (_shoot && _cd <= 0 && !fruit && !string.IsNullOrEmpty(CurrentAmmo))
+        if (playerAttackManager._shoot && _cd <= 0 && !fruit && !string.IsNullOrEmpty(CurrentAmmo))
         {
             fruit = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo, ProjectileSpawnLocation.position, ProjectileSpawnLocation.rotation).GetComponent<Projectile>();
             fruit.SpawnOnSlingShot(ProjectileSpawnLocation);
             CurrentCharge = StartCharge;
             _charging = true;
             Damage d = fruit.GetComponent<Damage>();
-            d.Attackable = GM.PlayersCanAttack;
+            d.Attackable = Attackable;
         }
         if (_charging)
         {
@@ -116,15 +109,15 @@ public class PlayerCombatManager : AttackManager
             _cd -= Time.deltaTime;
         }
         
-        if(_shootLastFrame && !_shoot)
+        if(_shootLastFrame && !playerAttackManager._shoot)
         {
             OnStopHoldShoot?.Invoke();
         }
-        _shootLastFrame = _shoot;
+        _shootLastFrame = playerAttackManager._shoot;
     }
 
     [ContextMenu("Caclculate Speed")]
-    void CalculateSpeed() 
+    void CalculateAimSpeed() 
     {
         FovChangingSpeed = (NotAimingFOV - AimingFOV) * AimingSpeed;
         XChangingSpeed = (XScreenNotAiming - XScreenAiming)*AimingSpeed;
@@ -134,7 +127,7 @@ public class PlayerCombatManager : AttackManager
 
     void Aim()
     {
-        if (_shoot)
+        if (playerAttackManager._shoot)
         {
             isAiming = true;
         }
@@ -165,14 +158,6 @@ public class PlayerCombatManager : AttackManager
         }
     }
 
-    void Melee()
-    {
-        if (_melee)
-        {
-            anim.SetTrigger("PunchCombo");
-        }
-    }
-
     void OnStoppedShooting()
     {
         isAiming = false;
@@ -190,7 +175,7 @@ public class PlayerCombatManager : AttackManager
     {
         if (AmmoTypes.Count > 1)
         {
-            if (_scroll > 0)
+            if (playerAttackManager._scroll > 0)
             {
                 _currentAmmo++;
                 if (_currentAmmo > AmmoTypes.Count-1)
@@ -199,7 +184,7 @@ public class PlayerCombatManager : AttackManager
                 }
                     SwitchAmmo();
             }
-            else if (_scroll < 0)
+            else if (playerAttackManager._scroll < 0)
             {
                 _currentAmmo--;
                 if (_currentAmmo < 0)
@@ -216,7 +201,7 @@ public class PlayerCombatManager : AttackManager
         if (AmmoTypes.Count > 0)
         {
             CurrentAmmo = AmmoTypes[_currentAmmo];
-            _scroll = 0;
+            playerAttackManager._scroll = 0;
 
             //Debug.Log(CurrentAmmo);
         }
@@ -224,23 +209,6 @@ public class PlayerCombatManager : AttackManager
         {
             CurrentAmmo = string.Empty;
         }
-    }
-
-    //Inputs
-    public void OnShoot(InputAction.CallbackContext context)
-    {
-       _shoot= context.action.triggered;
-    }
-
-    public void OnMelee(InputAction.CallbackContext context)
-    {
-        _melee = context.action.triggered;
-    }
-
-    public void OnScroll(InputAction.CallbackContext context)
-    {
-        _scroll = context.action.ReadValue<float>();
-       // Debug.Log(_scroll);
     }
 
 }

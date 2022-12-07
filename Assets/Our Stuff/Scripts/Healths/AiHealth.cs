@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class AiHealth : Health
 {
-
+    AIController aiController => GetComponent<AIController>();
     public void Dead() 
     {
         if (CurrentHealth <= 0) 
@@ -19,6 +19,7 @@ public class AiHealth : Health
     public override void TakeDamage(float damage, float knockback, Vector3 pushFrom)
     {
         CurrentHealth -= damage;
+        aiController.AddForce(pushFrom, knockback);
         if (CurrentHealth <= 0)
         {
             CurrentHealth = 0;

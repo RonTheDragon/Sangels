@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
 
-public class AIController : MonoBehaviour
+public class AIController : Controllers
 {
     // Visible
 
