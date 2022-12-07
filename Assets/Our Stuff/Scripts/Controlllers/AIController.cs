@@ -35,9 +35,10 @@ public class AIController : Controllers
     LayerMask _attackable;
 
     // Refrences
-    Rigidbody RB => GetComponent<Rigidbody>();  
+    Rigidbody RB => GetComponent<Rigidbody>();
     GameManager GM => GameManager.instance;
-    Vector3 spawnPoint=> transform.position;
+    AiAtackManager aiAtackManager => GetComponentInChildren<AiAtackManager>();
+    Vector3 spawnPoint => transform.position;
     NavMeshAgent agent => GetComponent<NavMeshAgent>();
 
 
@@ -56,7 +57,7 @@ public class AIController : Controllers
 
     void AIbrain()
     {
-  
+
         if (Target != null)
         {
             AlertSystem();
@@ -67,16 +68,18 @@ public class AIController : Controllers
             ScanCooldown();
         }
 
-        if (CurrentAlert > AttackAlert && Target != null) 
-        {           
+        if (CurrentAlert > AttackAlert && Target != null)
+        {
             FollowTarget();
+          //  aiAtackManager.AttackTarget();
         }
         else
         {
             RoamCooldown();
         }
-        
+
     }
+
 
     void RoamCooldown()
     {
@@ -156,6 +159,7 @@ public class AIController : Controllers
                 if (hit.collider == c)
                 {
                     Target = c.transform;
+                    aiAtackManager.Target = Target;
                     CurrentAlert = 0;
                     return;
                 }
