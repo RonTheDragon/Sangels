@@ -43,6 +43,8 @@ public class PlayerSlingshot : Damage
     float _fruitMass;
     Action OnStopHoldShoot;
 
+    LayerMask LineTrajectoryMask => GM.TrajectoryHits;
+
     //MeleeDamage md => GetComponent<MeleeDamage>();
     LineRenderer LR => cinemachine.GetComponent<LineRenderer>();
 
@@ -108,8 +110,7 @@ public class PlayerSlingshot : Damage
         }
         _shootLastFrame = playerAttackManager._shoot;
     }
-        
-
+  
 
     void Aim()
     {
@@ -157,12 +158,21 @@ public class PlayerSlingshot : Damage
         Vector3 startVelocity = CurrentCharge * ProjectileSpawnLocation.forward / _fruitMass;
         int i = 0;
         LR.SetPosition(i, startPosition);
-        for (float time = 0; time < _linePoints; time+=_timeBetweenPoints)
+        for (float time = 0; time < _linePoints; time += _timeBetweenPoints)
         {
             i++;
             Vector3 point = startPosition + time * startVelocity;
             point.y = startPosition.y + startVelocity.y * time + (Physics.gravity.y / 2f * time * time);
             LR.SetPosition(i, point);
+
+            Vector3 lastPosition = LR.GetPosition(i - 1);
+            if (Physics.Raycast(lastPosition, (point - lastPosition).normalized,
+                out RaycastHit hit, (point - lastPosition).magnitude, LineTrajectoryMask))
+            {
+                LR.SetPosition(i, hit.point);
+                LR.positionCount = i + 1;
+                return;
+            }
         }
     }
 
