@@ -43,8 +43,8 @@ Material:
     - _NodeScale: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Wave_confines: 0.34
-    - _wave_Speed: 0.2
+    - _Wave_confines: 1
+    - _wave_Speed: 0.5
     m_Colors:
     - _BaseColor: {r: 0.11442127, g: 0, b: 0.32075468, a: 0}
     - _Bubble_Color: {r: 0.03724579, g: 0, b: 0.7169812, a: 0}
