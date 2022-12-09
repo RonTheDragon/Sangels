@@ -9,8 +9,8 @@ public class MeleeDamage : Damage
 
     void Start()
     {
+        attackManager.Damagers.Add(this);
         Attackable = attackManager.Attackable;
-        attackManager.Loop += Melee;
 
         foreach (TriggerRegistration meleeTrigger in _meleeTriggers)
         {
@@ -20,7 +20,7 @@ public class MeleeDamage : Damage
 
     public RegisteredDamaged SubmitToRegisteredObjects(Health mom) 
     {
-        mom.TakeDamage(DamageAmount, Knockback, transform.position);
+        mom.TakeDamage(DamageAmount, Knockback, transform.position, Stagger);
         return new RegisteredDamaged(GetDamageCD, mom.gameObject);
     }
 
@@ -29,13 +29,7 @@ public class MeleeDamage : Damage
         _meleeTriggers.Add(tr);
     }
 
-    void Melee()
-    {
-        if (attackManager._melee)
-        {
-            attackManager.anim.SetTrigger("PunchCombo");
-        }
-    }
+
 
 
 }

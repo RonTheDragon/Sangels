@@ -7,21 +7,16 @@ using UnityEngine;
 public class AiHealth : Health
 {
     AIController aiController => GetComponent<AIController>();
-    public void Dead() 
-    {
-        if (CurrentHealth <= 0) 
-        {
-            gameObject.SetActive(false);
-        }
-    }
 
-
-    public override void TakeDamage(float damage, float knockback, Vector3 pushFrom)
+    public override void TakeDamage(float damage, float knockback, Vector3 pushFrom, Vector2 Stagger, GameObject Attacker = null)
     {
+        if (_isDead) return;
         CurrentHealth -= damage;
         aiController.AddForce(pushFrom, knockback);
-        Debug.Log($"Enemy took {damage} damage");
-        Dead();
+        string AttackerName = Attacker != null ? Attacker.name : "No One";
+        Debug.Log($"player took {damage} damage from {AttackerName}");
+
+        Die();
     }
     public override void TakeFire()
     {
@@ -31,7 +26,14 @@ public class AiHealth : Health
     {
         throw new NotImplementedException();
     }
-     
+
+    public override void Die()
+    {
+        if (CurrentHealth > 0) return;
+        CurrentHealth = 0;
+        gameObject.SetActive(false);
+        _isDead = true;
+    }
 
 
 

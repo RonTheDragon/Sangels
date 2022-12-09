@@ -872,7 +872,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1630696168870754553}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: fe847dedeb758f145a5f663929011ff7, type: 3}
   m_Controller: {fileID: 9100000, guid: 8f56de3760a715149a876e25769833c8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -899,6 +899,8 @@ MonoBehaviour:
   Attackable:
     serializedVersion: 2
     m_Bits: 0
+  Damagers: []
+  SOMeleeAttack: {fileID: 11400000, guid: 281ba3b4511db33428b37e5206b5b593, type: 2}
   Cam: {fileID: 6598293734886125688}
   Cinemachine: {fileID: 6598293734634356843}
   _shoot: 0
@@ -917,6 +919,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DamageAmount: 0
   Knockback: 0
+  Stagger: {x: 0, y: 0}
   Attackable:
     serializedVersion: 2
     m_Bits: 0
@@ -951,6 +954,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DamageAmount: 10
   Knockback: 1000
+  Stagger: {x: 0, y: 0}
   Attackable:
     serializedVersion: 2
     m_Bits: 0
@@ -2890,11 +2894,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd18614647982840be39dc5f2faf721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Speed: 10
+  NormalSpeed: 10
+  RegularAnimationSpeed: 10
   LookingAt: {fileID: 1255327316623622101}
   rig: {fileID: 4301040936930035258}
   _lookingSpeed: 10
   PlayerNumber: 0
-  _speed: 10
   _jump: 15
   _gravity: 20
   slopeLimit: 45
@@ -3368,15 +3374,6 @@ LineRenderer:
     widthCurve:
       serializedVersion: 2
       m_Curve:
-      - serializedVersion: 3
-        time: 0.0001885104
-        value: 0
-        inSlope: 0.47029203
-        outSlope: 0.47029203
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.0002798629
         value: 0.19909376

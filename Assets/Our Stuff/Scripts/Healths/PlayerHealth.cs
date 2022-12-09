@@ -8,12 +8,16 @@ public class PlayerHealth : Health
 {
 
     ThirdPersonMovement playerController => GetComponent<ThirdPersonMovement>();
-    public override void TakeDamage(float damage, float knockback, Vector3 pushFrom)
+    public override void TakeDamage(float damage, float knockback, Vector3 pushFrom, Vector2 Stagger, GameObject Attacker = null)
     {
-        CurrentHealth-=damage;
+        if (_isDead) return;
+
+        CurrentHealth -=damage;
         playerController.AddForce(-pushFrom, knockback);
-            death();
-        Debug.Log($"player took {damage} damage");
+
+        string AttackerName = Attacker != null ? Attacker.name : "No One";
+        
+        Debug.Log($"player took {damage} damage from {AttackerName}");
     }
     public override void TakeFire()
     {
@@ -24,14 +28,13 @@ public class PlayerHealth : Health
         throw new NotImplementedException();
     }
 
-    void death() 
+    public override void Die()
     {
-        // gameObject.SetActive(false);
-        if (CurrentHealth <= 0)
-        {
-            CurrentHealth = 0;
-        }
+        if (CurrentHealth > 0) return;
+        CurrentHealth = 0;
+        //gameObject.SetActive(false);
         Debug.Log("you fucking loser");
+        _isDead = true;
         
     }
 

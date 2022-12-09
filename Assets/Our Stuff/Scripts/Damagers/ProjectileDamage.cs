@@ -21,7 +21,7 @@ public class ProjectileDamage : Damage
                 if (speed > DamageBySpeed.y) speed= DamageBySpeed.y; 
                 float SpeedMutiply = speed /DamageBySpeed.y;
 
-                hp.TakeDamage(DamageAmount * SpeedMutiply, Knockback * SpeedMutiply, transform.position);
+                hp.TakeDamage(DamageAmount * SpeedMutiply, Knockback * SpeedMutiply, transform.position, Stagger*SpeedMutiply);
                 Debug.Log(DamageAmount * SpeedMutiply);
             }
         }

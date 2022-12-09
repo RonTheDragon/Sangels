@@ -12,6 +12,36 @@ public abstract class AttackManager : MonoBehaviour
     public Animator anim => GetComponent<Animator>();
     protected GameManager GM => GameManager.instance;
 
+    protected float UsingAttackTimeLeft;
+
     [HideInInspector] public LayerMask Attackable;
 
+    [HideInInspector] public List<Damage> Damagers = new List<Damage>();
+
+    [SerializeField] protected SOMeleeAttack SOMeleeAttack;
+
+    public void Update()
+    {
+        if (UsingAttackTimeLeft > 0)
+        {
+            UsingAttackTimeLeft -=Time.deltaTime;
+        }
+        else if (UsingAttackTimeLeft < 0) 
+        {
+            UsingAttackTimeLeft = 0f;
+            AttackEnded();
+            
+        }
+    }
+    protected void OverrideToAttack()
+    {
+        foreach (Damage d in Damagers)
+        {
+            d.DamageAmount = SOMeleeAttack.DamageAmount;
+            d.Knockback = SOMeleeAttack.Knockback;
+            d.Stagger = SOMeleeAttack.Stagger;
+        }
+
+    }
+    protected abstract void AttackEnded();
 }

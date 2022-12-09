@@ -4,8 +4,9 @@ using UnityEngine;
 
 public abstract class Damage : MonoBehaviour 
 {
-    [SerializeField] protected float DamageAmount;
-    [SerializeField] protected float Knockback;
+    public float DamageAmount;
+    public float Knockback;
+    public Vector2 Stagger;
     [HideInInspector] public LayerMask Attackable;
     protected GameManager GM => GameManager.instance;
     protected AttackManager attackManager => GetComponent<AttackManager>();

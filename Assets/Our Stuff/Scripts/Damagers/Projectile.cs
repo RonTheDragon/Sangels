@@ -14,6 +14,7 @@ public class Projectile : MonoBehaviour
 
     public void LaunchProjectile(float Force)
     {
+        transform.position += transform.forward * 0.1f;
         RB.velocity = Vector3.zero;
         SlingshotSit = null;
         RB.useGravity = true;
@@ -26,6 +27,7 @@ public class Projectile : MonoBehaviour
     public void SpawnOnSlingShot(Transform position)
     {
         SlingshotSit = position;
+        transform.position -= transform.forward * 0.1f;
         RB.useGravity = false;
         RB.velocity = Vector3.zero;
         RB.angularVelocity = Vector3.zero;

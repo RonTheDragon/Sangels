@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
@@ -48,6 +49,8 @@ public class AIController : Controllers
         base.Start();
         _canSee = GM.EnemiesCanSee;
         _attackable = GM.EnemiesCanAttack;
+
+        anim.SetBool("Walking", true);
     }
 
     new void Update()
@@ -83,6 +86,16 @@ public class AIController : Controllers
 
     }
 
+    public override void ChangeSpeed(float speed = -1)
+    {
+        if (speed != -1)
+        {
+            Speed = speed;
+        }
+        agent.speed = Speed;
+        anim.SetFloat("Speed", Speed / RegularAnimationSpeed);
+
+    }
 
     void RoamCooldown()
     {
@@ -226,7 +239,7 @@ public class AIController : Controllers
     {
         if (_forceStrength > 0)
         {
-            RB.AddForce(_forceDirection.normalized * _forceStrength * Time.deltaTime);
+            RB.AddForce(_forceDirection.normalized * _forceStrength * Time.deltaTime*100);
             _forceStrength -= _forceStrength * 2 * Time.deltaTime; 
         }
     }

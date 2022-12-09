@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 
 public class PlayerAttackManager : AttackManager
 {
@@ -15,14 +16,19 @@ public class PlayerAttackManager : AttackManager
     [HideInInspector]
     public float _scroll;
 
+    ThirdPersonMovement TPM => GetComponentInParent<ThirdPersonMovement>();
+
     private void Awake()
     {
-        Attackable = GM.PlayersCanAttack;      
+        Attackable = GM.PlayersCanAttack;
+        TPM.SetAnimator(anim);
+        Loop += Melee;
     }
 
     // Update is called once per frame
-    void Update()
+    new void Update()
     {
+        base.Update();
         Loop?.Invoke();
     }
 
@@ -44,4 +50,18 @@ public class PlayerAttackManager : AttackManager
         _scroll = context.action.ReadValue<float>();
     }
 
+    protected override void AttackEnded()
+    {
+        TPM.ChangeSpeed(TPM.NormalSpeed);
+    }
+
+    void Melee()
+    {
+        if (_melee && UsingAttackTimeLeft==0)
+        {
+            anim.SetTrigger(SOMeleeAttack.AnimationName);
+            TPM.ChangeSpeed(SOMeleeAttack.speedWhileUsing);
+            UsingAttackTimeLeft = SOMeleeAttack.UsingTime;
+        }
+    }
 }

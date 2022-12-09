@@ -14,10 +14,6 @@ public class ThirdPersonMovement : Controllers
 
     [ReadOnly][SerializeField] int PlayerNumber;
 
-    [Header("Walking")]
-    [Tooltip("The movement speed of the player")]
-    [SerializeField] float _speed = 10;
-
     [Header("Jumping")]
     [Tooltip("The Height of the jumps")]
     [SerializeField] float _jump = 20;
@@ -101,19 +97,23 @@ public class ThirdPersonMovement : Controllers
         Vector2 Movement = _movement.normalized; //Get input from player for movem
 
         float targetAngle = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y; //get where player is looking
-        float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, !SlingShot.isAiming? targetAngle : cam.eulerAngles.y, ref f, 0.1f); //Smoothing
+        float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, !SlingShot.isAiming ? targetAngle : cam.eulerAngles.y, ref f, 0.1f); //Smoothing
         //Debug.Log($"targetAngle: {targetAngle}, Angle: {Angle}");
         if (SlingShot.isAiming)
             transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
-        
+
 
 
         if (Movement.magnitude > 0.1f)
         {
-            if(!SlingShot.isAiming)
+            anim.SetBool("Walking", true);
+            if (!SlingShot.isAiming)
                 transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
             Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
-            CC.Move(MoveDir * _speed * Time.deltaTime);
+            CC.Move(MoveDir * Speed * Time.deltaTime);
+        }
+        else { 
+        anim.SetBool("Walking", false);
         }
     }
 
@@ -229,6 +229,15 @@ public class ThirdPersonMovement : Controllers
     {
         // Draw a Box in the Editor to show whether we are touching the ground, Blue is Touching, Red is Not Touching.
         Gizmos.color = isGrounded ? Color.blue : Color.red; Gizmos.DrawCube(_boxPosition, _boxSize * 2);
+    }
+
+    public override void ChangeSpeed(float speed = -1)
+    {
+        if (speed != -1)
+        {
+            Speed = speed;
+        }
+        anim.SetFloat("Speed", Speed / RegularAnimationSpeed);
     }
 }
 

@@ -6,6 +6,12 @@ using UnityEngine.Animations.Rigging;
 
 abstract public class Controllers : MonoBehaviour
 {
+    [Header("Walking")]
+    [Tooltip("The movement speed")]
+    [ReadOnly] public float Speed = 10;
+    public float NormalSpeed = 10;
+    public float RegularAnimationSpeed = 10;
+
     [Header("Animation Rigging")]
 
     [SerializeField] Transform LookingAt;
@@ -15,6 +21,8 @@ abstract public class Controllers : MonoBehaviour
     protected Vector3 _forceDirection;
     protected float _forceStrength;
     protected Action Loop;
+
+    protected Animator anim;
 
     float _targetWeight;
 
@@ -53,4 +61,12 @@ abstract public class Controllers : MonoBehaviour
     {
         rig.weight = Mathf.Lerp(rig.weight, _targetWeight, _lookingSpeed * Time.deltaTime);
     }
+
+    public void SetAnimator(Animator anim)
+    {
+        this.anim = anim;
+    }
+
+    public abstract void ChangeSpeed(float speed = -1);
+  
 }
