@@ -14,8 +14,8 @@ public class AiHealth : Health
         CurrentHealth -= damage;
         aiController.AddForce(pushFrom, knockback);
         string AttackerName = Attacker != null ? Attacker.name : "No One";
-        Debug.Log($"{gameObject.name} took {damage} damage from {AttackerName}");
-
+        Debug.Log($"{gameObject.name} took {damage} damage and {knockback} Knockback from {AttackerName}");
+        aiController.Hurt(damage/ MaxHurtAnimationDamage,Attacker);
         Die();
     }
     public override void TakeFire()

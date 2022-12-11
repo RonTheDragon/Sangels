@@ -90,7 +90,8 @@ public class PlayerSlingshot : Damage
             fruit.SpawnOnSlingShot(ProjectileSpawnLocation);
             CurrentCharge = StartCharge;
             _charging = true;
-            Damage d = fruit.GetComponent<Damage>();
+            ProjectileDamage d = fruit.GetComponent<ProjectileDamage>();
+            d.Shooter = transform.parent.gameObject;
             _fruitMass = fruit.GetComponent<Rigidbody>().mass;
             d.Attackable = Attackable;
         }

@@ -69,5 +69,10 @@ abstract public class Controllers : MonoBehaviour
     }
 
     public abstract void ChangeSpeed(float speed = -1);
-  
+
+
+    public virtual void Hurt(float Pain, GameObject Attacker = null)
+    {
+        anim.SetTrigger("Hurt"); anim.SetFloat("Pain",Pain);
+    }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.AI;
@@ -19,6 +20,7 @@ public class AIController : Controllers
     [Header("Scanning")]
     [SerializeField] float _scanRadius;
     [SerializeField] float _angleOfVision = 90;
+    [SerializeField] float _sensingRadius = 3;
     [SerializeField] float ScanFrequent = 1;
     [ReadOnly][SerializeField] float _scanCD;
     [ReadOnly][SerializeField] Transform Target;
@@ -39,9 +41,7 @@ public class AIController : Controllers
     float _gravityPull;
 
     // Refrences
-
-    CharacterController CC => GetComponent<CharacterController>();
-    //Rigidbody RB => GetComponent<Rigidbody>();
+    Rigidbody RB => GetComponent<Rigidbody>();
     GameManager GM => GameManager.instance;
     AiAtackManager aiAtackManager => GetComponentInChildren<AiAtackManager>();
     Vector3 spawnPoint => transform.position;
@@ -159,7 +159,8 @@ public class AIController : Controllers
         int colliderCount = colliders.Count;
         for (int i = 0; i < colliderCount; i++)
         {
-            if (!CheckIfInFront(colliders[i].transform.position)) // if not in front of player
+            if (!CheckIfInFront(colliders[i].transform.position)// if not in front of player
+                && Vector3.Distance(transform.position, colliders[i].transform.position)> _sensingRadius) 
             {
                 colliders.Remove(colliders[i]);
                 colliderCount--;
@@ -178,8 +179,7 @@ public class AIController : Controllers
             {
                 if (hit.collider == c)
                 {
-                    Target = c.transform;
-                    aiAtackManager.Target = Target;
+                    SetTarget(c.transform);
                     CurrentAlert = 0;
                     return;
                 }
@@ -242,36 +242,39 @@ public class AIController : Controllers
 
     protected override void applyingForce()
     {
-        if (_forceStrength > 0)
-        {
-            if (agent.isActiveAndEnabled) { agent.enabled = false; }
-            CC.Move(_forceDirection.normalized * _forceStrength * Time.deltaTime);
-            _forceStrength -= 0.02f + _forceStrength * 2 * Time.deltaTime;
-        }
-        else if( !agent.isActiveAndEnabled && CC.velocity.magnitude<1) { agent.enabled = true; }
         /*
         if (_forceStrength > 0)
         {
-            if (RB.isKinematic) { RB.isKinematic = false; agent.enabled = false; }
-            RB.velocity = _forceDirection.normalized * _forceStrength * Time.deltaTime * 4;
+            if (RB.isKinematic) { RB.isKinematic = false; }
+            RB.velocity = _forceDirection.normalized * _forceStrength * Time.deltaTime * 100;
             RB.velocity = new Vector3(RB.velocity.x, -1, RB.velocity.z);
             _forceStrength -= 0.02f + _forceStrength * 2 * Time.deltaTime;
         }
-        else if (!RB.isKinematic && RB.velocity.magnitude < 1) { RB.isKinematic = true; agent.enabled = true; }
+        else if (!RB.isKinematic) { RB.isKinematic = true; }
         */
+        if (_forceStrength > 0)
+        {
+           
+            //RB.MovePosition(_forceDirection.normalized * _forceStrength * Time.deltaTime);
+            transform.Translate(-_forceDirection.normalized * _forceStrength * Time.deltaTime);
+            _forceStrength -= 0.02f + _forceStrength * 2 * Time.deltaTime;
+        }
     }
 
-    private void gravitation()
+    public override void Hurt(float Pain, GameObject Attacker = null)
     {
-        if (CC.isGrounded)
+        base.Hurt(Pain, Attacker);
+        if (Target == null && Attacker != null)
         {
-            _gravityPull = .1f;
+            SetTarget(Attacker.transform);
+            CurrentAlert = MaxAlert;
         }
-        else if (_gravityPull < 1)
-        {
-            _gravityPull += .2f * Time.deltaTime;
-        }
-        CC.Move(Vector3.down * _gravity * _gravityPull * Time.deltaTime);
+    }
+
+    void SetTarget(Transform target)
+    {
+        Target = target;
+        aiAtackManager.Target = target;
     }
 }
 

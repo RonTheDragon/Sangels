@@ -9,6 +9,8 @@ public abstract class Health : MonoBehaviour
     public float MaxHealth;
     [ReadOnly][SerializeField] protected float CurrentHealth;
 
+    [Tooltip("The closer the damage amount to this number, the more painful the hurt animation looks")]
+    [SerializeField] protected float MaxHurtAnimationDamage = 15;
     protected bool _isDead;
 
 

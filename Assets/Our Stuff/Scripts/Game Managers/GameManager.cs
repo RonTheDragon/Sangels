@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public bool LeaveOnDisconnect;
 
     [Header("Layer Masks")]
-    public LayerMask PlayersCanJumpOn;
+    public LayerMask CanJumpOn;
     public LayerMask PlayersCanAttack;
     public LayerMask EnemiesCanSee;
     public LayerMask EnemiesCanAttack;

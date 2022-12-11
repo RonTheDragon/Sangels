@@ -81,7 +81,7 @@ public class ThirdPersonMovement : Controllers
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible   = false;
-        Jumpable = GM.PlayersCanJumpOn;
+        Jumpable = GM.CanJumpOn;
         setUpPlayer();
     }
 

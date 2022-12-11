@@ -16,8 +16,8 @@ public class PlayerHealth : Health
         playerController.AddForce(-pushFrom, knockback);
 
         string AttackerName = Attacker != null ? Attacker.name : "No One";
-        
-        Debug.Log($"{gameObject.name} took {damage} damage from {AttackerName}");
+        playerController.Hurt(damage / MaxHurtAnimationDamage);
+        Debug.Log($"{gameObject.name} took {damage} damage and {knockback} Knockback from {AttackerName}");
     }
     public override void TakeFire()
     {
