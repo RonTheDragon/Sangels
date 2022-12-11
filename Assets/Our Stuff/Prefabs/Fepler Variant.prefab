@@ -69,6 +69,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
       propertyPath: DamageAmount
       value: 50
       objectReference: {fileID: 0}
@@ -130,6 +134,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4839533831422456348, guid: db40b787fba5ab745be673b539756769, type: 3}
+    - {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: db40b787fba5ab745be673b539756769, type: 3}
 --- !u!4 &2459767945911732577 stripped
 Transform:
@@ -155,3 +160,25 @@ CapsuleCollider:
   m_Height: 0.4
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6997740138804516301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3818098567790889554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a8dd01adc733564a9780788b68ccf59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamageAmount: 50
+  Knockback: 15
+  Stagger: {x: 0, y: 10}
+  Attackable:
+    serializedVersion: 2
+    m_Bits: 0
+  Shooter: {fileID: 0}
+  DamageBySpeed: {x: 0, y: 0}
+  Explosion: FireExplosion
+  Radius: 10

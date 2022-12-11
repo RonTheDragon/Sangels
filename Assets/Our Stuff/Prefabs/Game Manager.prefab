@@ -338,6 +338,11 @@ MonoBehaviour:
     - tag: Fepler
       prefab: {fileID: 3818098567790889554, guid: ae1430203fa0d9142a1d046bbb3e1f44, type: 3}
       size: 20
+  - tag: Explosions
+    pools:
+    - tag: FireExplosion
+      prefab: {fileID: 8739778599369815285, guid: d549b24668474ad46b51de8b5ec2ecfc, type: 3}
+      size: 20
 --- !u!1 &7100667302818920659
 GameObject:
   m_ObjectHideFlags: 0
