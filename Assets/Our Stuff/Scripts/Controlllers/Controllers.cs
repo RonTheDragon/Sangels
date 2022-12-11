@@ -24,7 +24,7 @@ abstract public class Controllers : MonoBehaviour
 
     public Action OnStagger;
 
-    protected Animator anim;
+    protected Animator anim => transform.GetChild(0).GetComponent<Animator>();
 
     float _targetWeight;
 
@@ -62,11 +62,6 @@ abstract public class Controllers : MonoBehaviour
     void MoveLookOverTime()
     {
         rig.weight = Mathf.Lerp(rig.weight, _targetWeight, _lookingSpeed * Time.deltaTime);
-    }
-
-    public void SetAnimator(Animator anim)
-    {
-        this.anim = anim;
     }
 
     public abstract void ChangeSpeed(float speed = -1);

@@ -9,9 +9,12 @@ public class MeleeDamage : Damage
 
     void Start()
     {
-        attackManager.Damagers.Add(this);
-        Attackable = attackManager.Attackable;
-
+        StartCoroutine("WaitOneFrame");
+    }
+    IEnumerator WaitOneFrame()
+    {
+        yield return null;
+        attackManager.JoinAttackerManager(this);
         foreach (TriggerRegistration meleeTrigger in _meleeTriggers)
         {
             meleeTrigger.Attackable = Attackable;

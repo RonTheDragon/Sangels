@@ -24,10 +24,9 @@ public class PlayerAttackManager : AttackManager
     public Action Shoot;
     public Action OnStopHoldShoot;
 
-    private void Awake()
+    private void Start()
     {
         Attackable = GM.PlayersCanAttack;
-        TPM.SetAnimator(anim);
         Loop += Melee;
         Loop += Shooting;
         TPM.OnStagger += Staggered;

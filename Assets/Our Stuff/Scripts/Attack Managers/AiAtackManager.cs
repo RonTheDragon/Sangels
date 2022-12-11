@@ -10,12 +10,10 @@ public class AiAtackManager : AttackManager
 
     AIController aiController => GetComponentInParent<AIController>();
 
-
-    void Awake()
+    private void Start()
     {
         aiController.OnStagger += Staggered;
         Attackable = GM.EnemiesCanAttack;
-        aiController.SetAnimator(anim);
     }
 
     public void AttackTarget()

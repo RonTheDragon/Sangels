@@ -50,7 +50,7 @@ public class PlayerSlingshot : Damage
     // Start is called before the first frame update
     void Start()
     {
-        attackManager.Damagers.Add(this);
+        attackManager.JoinAttackerManager(this);
         cam = playerAttackManager.Cam.transform;
         cinemachine = playerAttackManager.Cinemachine;
 
