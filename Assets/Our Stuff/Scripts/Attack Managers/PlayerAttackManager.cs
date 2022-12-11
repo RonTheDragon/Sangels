@@ -16,13 +16,20 @@ public class PlayerAttackManager : AttackManager
     [HideInInspector]
     public float _scroll;
 
+    bool _shootLastFrame;
+    bool _holdingFire;
+
     ThirdPersonMovement TPM => GetComponentInParent<ThirdPersonMovement>();
+
+    public Action Shoot;
+    public Action OnStopHoldShoot;
 
     private void Awake()
     {
         Attackable = GM.PlayersCanAttack;
         TPM.SetAnimator(anim);
         Loop += Melee;
+        Loop += Shooting;
     }
 
     // Update is called once per frame
@@ -64,5 +71,31 @@ public class PlayerAttackManager : AttackManager
             TPM.ChangeSpeed(SOMeleeAttack.speedWhileUsing);
             UsingAttackTimeLeft = SOMeleeAttack.UsingTime;
         }
+    }
+
+    void Shooting()
+    {
+        if (_shoot && UsingAttackTimeLeft == 0)
+        {
+            OverrideToAttack();
+            anim.SetTrigger("ChargeSlingshot");
+            TPM.ChangeSpeed(TPM.NormalSpeed/2);
+            Shoot.Invoke();
+            _holdingFire = true;
+        }
+
+        if (_holdingFire)
+        {
+            UsingAttackTimeLeft = 1;
+
+            if (_shootLastFrame && !_shoot)
+            {
+                anim.SetTrigger("ShootSlingshot");
+                OnStopHoldShoot?.Invoke();
+                UsingAttackTimeLeft = 0.2f;
+                _holdingFire = false;
+            }
+        }
+        _shootLastFrame = _shoot;
     }
 }

@@ -9,8 +9,6 @@ using UnityEngine.Rendering;
 public class PlayerSlingshot : Damage
 {
     //Serializefield 
-    [Tooltip("shooting cooldown")]
-    [SerializeField] float CoolDown = 0.5f;
     [SerializeField] Transform ProjectileSpawnLocation;
 
 
@@ -33,15 +31,13 @@ public class PlayerSlingshot : Damage
     [ReadOnly][SerializeField] float CurrentCharge;
 
     //Private 
-    float _cd;
     int _currentAmmo;
-    bool _charging, _shootLastFrame,_switchUp,_switchDown;
+    bool _charging;
 
     Transform cam;
     CinemachineFreeLook cinemachine;
     Projectile fruit;
     float _fruitMass;
-    Action OnStopHoldShoot;
 
     LayerMask LineTrajectoryMask => GM.TrajectoryHits;
 
@@ -62,10 +58,12 @@ public class PlayerSlingshot : Damage
 
         SwitchAmmo();
 
-        OnStopHoldShoot += OnStoppedShooting;
         playerAttackManager.Loop += Shoot;
         playerAttackManager.Loop += Aim;
         playerAttackManager.Loop += AmmoSwitching;
+
+        playerAttackManager.Shoot += OnStartShooting;
+        playerAttackManager.OnStopHoldShoot += OnStoppedShooting;
     }
     
 
@@ -84,43 +82,19 @@ public class PlayerSlingshot : Damage
         {
             ProjectileSpawnLocation.LookAt(cam.position+cam.forward*200);
         }
-        if (playerAttackManager._shoot && _cd <= 0 && !fruit && !string.IsNullOrEmpty(CurrentAmmo.fruit.ToString()))
-        {
-            fruit = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo.fruit.ToString(), ProjectileSpawnLocation.position, ProjectileSpawnLocation.rotation).GetComponent<Projectile>();
-            fruit.SpawnOnSlingShot(ProjectileSpawnLocation);
-            CurrentCharge = StartCharge;
-            _charging = true;
-            ProjectileDamage d = fruit.GetComponent<ProjectileDamage>();
-            d.Shooter = transform.parent.gameObject;
-            _fruitMass = fruit.GetComponent<Rigidbody>().mass;
-            d.Attackable = Attackable;
-        }
+        
         if (_charging)
         {
             CurrentCharge += ChargingSpeed * Time.deltaTime;
             if (CurrentCharge > MaxCharge) CurrentCharge = MaxCharge;
         }
-       
-        if (_cd > 0)
-        {
-            _cd -= Time.deltaTime;
-        }
-        
-        if(_shootLastFrame && !playerAttackManager._shoot)
-        {
-            OnStopHoldShoot?.Invoke();
-        }
-        _shootLastFrame = playerAttackManager._shoot;
+
+
     }
   
 
     void Aim()
     {
-        if (playerAttackManager._shoot)
-        {
-            isAiming = true;
-        }
-
         CurrentFOV = offset.m_Offset.z;
         if (isAiming)
         {
@@ -182,6 +156,22 @@ public class PlayerSlingshot : Damage
         }
     }
 
+    public void OnStartShooting()
+    {
+        isAiming = true;
+        if (!fruit && !string.IsNullOrEmpty(CurrentAmmo.fruit.ToString()))
+        {
+            fruit = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo.fruit.ToString(), ProjectileSpawnLocation.position, ProjectileSpawnLocation.rotation).GetComponent<Projectile>();
+            fruit.SpawnOnSlingShot(ProjectileSpawnLocation);
+            CurrentCharge = StartCharge;
+            _charging = true;
+            ProjectileDamage d = fruit.GetComponent<ProjectileDamage>();
+            d.Shooter = transform.parent.gameObject;
+            _fruitMass = fruit.GetComponent<Rigidbody>().mass;
+            d.Attackable = Attackable;
+        }
+    }
+
     void OnStoppedShooting()
     {
         isAiming = false;
@@ -190,7 +180,6 @@ public class PlayerSlingshot : Damage
             fruit.LaunchProjectile(CurrentCharge);
             CurrentCharge = 0;
             _charging = false;
-            _cd = CoolDown;
             fruit = null;
         }
     }

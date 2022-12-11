@@ -19,7 +19,7 @@ public class AiAtackManager : AttackManager
 
     public void AttackTarget()
     {
-        if (Target == null) return;
+        if (Target == null || UsingAttackTimeLeft>0) return;
         OverrideToAttack();
         if (SOMeleeAttack.MinDist < Vector3.Distance(transform.position, Target.position) && Vector3.Distance(transform.position, Target.position) < SOMeleeAttack.MaxDist)
         {
