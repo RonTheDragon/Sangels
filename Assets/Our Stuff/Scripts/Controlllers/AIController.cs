@@ -31,14 +31,12 @@ public class AIController : Controllers
     [SerializeField] float AttackAlert = 0.5f;
     [SerializeField] float MaxAlert = 3;
 
-    [SerializeField] float _gravity = 10;
     // Invisible
 
     //Layer Masks
     LayerMask _canSee;
     LayerMask _attackable;
 
-    float _gravityPull;
 
     // Refrences
     Rigidbody RB => GetComponent<Rigidbody>();
@@ -242,20 +240,8 @@ public class AIController : Controllers
 
     protected override void applyingForce()
     {
-        /*
         if (_forceStrength > 0)
         {
-            if (RB.isKinematic) { RB.isKinematic = false; }
-            RB.velocity = _forceDirection.normalized * _forceStrength * Time.deltaTime * 100;
-            RB.velocity = new Vector3(RB.velocity.x, -1, RB.velocity.z);
-            _forceStrength -= 0.02f + _forceStrength * 2 * Time.deltaTime;
-        }
-        else if (!RB.isKinematic) { RB.isKinematic = true; }
-        */
-        if (_forceStrength > 0)
-        {
-           
-            //RB.MovePosition(_forceDirection.normalized * _forceStrength * Time.deltaTime);
             transform.Translate(-_forceDirection.normalized * _forceStrength * Time.deltaTime);
             _forceStrength -= 0.02f + _forceStrength * 2 * Time.deltaTime;
         }
