@@ -22,6 +22,8 @@ abstract public class Controllers : MonoBehaviour
     protected float _forceStrength;
     protected Action Loop;
 
+    public Action OnStagger;
+
     protected Animator anim;
 
     float _targetWeight;
@@ -70,8 +72,15 @@ abstract public class Controllers : MonoBehaviour
     public abstract void ChangeSpeed(float speed = -1);
 
 
-    public virtual void Hurt(float Pain, GameObject Attacker = null)
+    public virtual void Hurt(float Pain, GameObject Attacker = null, bool Staggered = false)
     {
-        anim.SetTrigger("Hurt"); anim.SetFloat("Pain",Pain);
+        if (Staggered && Speed!=0) 
+        {
+            anim.SetTrigger("Stagger"); OnStagger?.Invoke();
+        }
+        else
+        {
+            anim.SetTrigger("Hurt"); anim.SetFloat("Pain", Pain);
+        }
     }
 }

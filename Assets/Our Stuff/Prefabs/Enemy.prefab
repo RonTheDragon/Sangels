@@ -1046,6 +1046,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _melee: 0
+  StaggeredTime: 2
   Attackable:
     serializedVersion: 2
     m_Bits: 0
@@ -2571,6 +2572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealth: 100
   CurrentHealth: 0
+  StaggerResistance: 5
   MaxHurtAnimationDamage: 15
 --- !u!136 &5711285248897493981
 CapsuleCollider:

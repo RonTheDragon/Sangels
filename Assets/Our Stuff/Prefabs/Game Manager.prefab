@@ -56,7 +56,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   LeaveOnDisconnect: 0
-  PlayersCanJumpOn:
+  CanJumpOn:
     serializedVersion: 2
     m_Bits: 1
   PlayersCanAttack:
@@ -68,6 +68,9 @@ MonoBehaviour:
   EnemiesCanAttack:
     serializedVersion: 2
     m_Bits: 8
+  TrajectoryHits:
+    serializedVersion: 2
+    m_Bits: 0
   PlayerMasks:
   - serializedVersion: 2
     m_Bits: 1151

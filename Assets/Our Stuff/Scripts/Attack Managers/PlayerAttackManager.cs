@@ -30,6 +30,7 @@ public class PlayerAttackManager : AttackManager
         TPM.SetAnimator(anim);
         Loop += Melee;
         Loop += Shooting;
+        TPM.OnStagger += Staggered;
     }
 
     // Update is called once per frame
@@ -97,5 +98,13 @@ public class PlayerAttackManager : AttackManager
             }
         }
         _shootLastFrame = _shoot;
+    }
+
+    protected override void Staggered()
+    {
+        base.Staggered();
+        OnStopHoldShoot?.Invoke();
+        _holdingFire = false;
+        TPM.ChangeSpeed(0);
     }
 }

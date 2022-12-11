@@ -1984,10 +1984,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Manager
       objectReference: {fileID: 0}
-    - target: {fileID: 285133754880836022, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
-      propertyPath: CanJumpOn.m_Bits
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 285133754880836023, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
       propertyPath: m_RootOrder
       value: 0

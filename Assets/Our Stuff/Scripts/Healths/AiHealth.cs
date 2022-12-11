@@ -12,10 +12,12 @@ public class AiHealth : Health
     {
         if (_isDead) return;
         CurrentHealth -= damage;
+        bool Staggered = IsStaggered(Stagger);
+        if (!Staggered) knockback *= 0.1f;
         aiController.AddForce(pushFrom, knockback);
         string AttackerName = Attacker != null ? Attacker.name : "No One";
         Debug.Log($"{gameObject.name} took {damage} damage and {knockback} Knockback from {AttackerName}");
-        aiController.Hurt(damage/ MaxHurtAnimationDamage,Attacker);
+        aiController.Hurt(damage/ MaxHurtAnimationDamage,Attacker, Staggered);
         Die();
     }
     public override void TakeFire()

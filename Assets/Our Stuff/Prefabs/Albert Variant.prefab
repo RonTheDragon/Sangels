@@ -9,7 +9,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
       propertyPath: Knockback
-      value: 50
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
+      propertyPath: Stagger.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
+      propertyPath: DamageAmount
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
+      propertyPath: DamageBySpeed.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
+      propertyPath: DamageBySpeed.y
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2441146663687166969, guid: db40b787fba5ab745be673b539756769, type: 3}
       propertyPath: m_Mass

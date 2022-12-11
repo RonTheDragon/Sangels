@@ -9,6 +9,8 @@ public abstract class Health : MonoBehaviour
     public float MaxHealth;
     [ReadOnly][SerializeField] protected float CurrentHealth;
 
+    [SerializeField] protected float StaggerResistance;
+
     [Tooltip("The closer the damage amount to this number, the more painful the hurt animation looks")]
     [SerializeField] protected float MaxHurtAnimationDamage = 15;
     protected bool _isDead;
@@ -26,5 +28,11 @@ public abstract class Health : MonoBehaviour
     public abstract void TakeStun();
 
     public abstract void Die();
+
+    protected bool IsStaggered(Vector2 stagger)
+    {
+        if (StaggerResistance >= Random.Range(stagger.x, stagger.y)) return false;
+        return true;
+    }
 
 }

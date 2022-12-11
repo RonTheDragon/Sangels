@@ -13,10 +13,12 @@ public class PlayerHealth : Health
         if (_isDead) return;
 
         CurrentHealth -=damage;
+        bool Staggered = IsStaggered(Stagger);
+        if (!Staggered) knockback *= 0.1f;
         playerController.AddForce(-pushFrom, knockback);
 
         string AttackerName = Attacker != null ? Attacker.name : "No One";
-        playerController.Hurt(damage / MaxHurtAnimationDamage);
+        playerController.Hurt(damage / MaxHurtAnimationDamage,Attacker, Staggered);
         Debug.Log($"{gameObject.name} took {damage} damage and {knockback} Knockback from {AttackerName}");
     }
     public override void TakeFire()

@@ -7,6 +7,9 @@ public abstract class AttackManager : MonoBehaviour
 {
     [HideInInspector]
     public bool _melee;
+
+    [SerializeField] protected float StaggeredTime = 2;
+
     [HideInInspector]
     public Action Loop;
     public Animator anim => GetComponent<Animator>();
@@ -19,6 +22,7 @@ public abstract class AttackManager : MonoBehaviour
     [HideInInspector] public List<Damage> Damagers = new List<Damage>();
 
     [SerializeField] protected SOMeleeAttack SOMeleeAttack;
+
 
     public void Update()
     {
@@ -44,4 +48,9 @@ public abstract class AttackManager : MonoBehaviour
 
     }
     protected abstract void AttackEnded();
+
+    protected virtual void Staggered()
+    {
+        UsingAttackTimeLeft = StaggeredTime;
+    }
 }

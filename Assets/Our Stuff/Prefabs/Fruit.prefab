@@ -92,9 +92,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DamageAmount: 1
   Knockback: 15
+  Stagger: {x: 0, y: 8}
   Attackable:
     serializedVersion: 2
     m_Bits: 0
+  Shooter: {fileID: 0}
   DamageBySpeed: {x: 1, y: 10}
 --- !u!1 &8097269631521255925
 GameObject:

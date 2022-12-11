@@ -13,6 +13,7 @@ public class AiAtackManager : AttackManager
 
     void Awake()
     {
+        aiController.OnStagger += Staggered;
         Attackable = GM.EnemiesCanAttack;
         aiController.SetAnimator(anim);
     }
@@ -33,6 +34,12 @@ public class AiAtackManager : AttackManager
     protected override void AttackEnded()
     {
         aiController.ChangeSpeed(aiController.NormalSpeed);
+    }
+
+    protected override void Staggered()
+    {
+        base.Staggered();
+        aiController.ChangeSpeed(0);
     }
 }
 

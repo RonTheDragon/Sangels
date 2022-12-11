@@ -107,7 +107,7 @@ public class ThirdPersonMovement : Controllers
         if (Movement.magnitude > 0.1f)
         {
             anim.SetBool("Walking", true);
-            if (!SlingShot.isAiming)
+            if (!SlingShot.isAiming && Speed!=0)
                 transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
             Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
             CC.Move(MoveDir * Speed * Time.deltaTime);

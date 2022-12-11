@@ -173,6 +173,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
+      propertyPath: Knockback
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
+      propertyPath: Stagger.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
+      propertyPath: DamageAmount
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4839533831422456348, guid: db40b787fba5ab745be673b539756769, type: 3}
       propertyPath: m_Material
       value: 
