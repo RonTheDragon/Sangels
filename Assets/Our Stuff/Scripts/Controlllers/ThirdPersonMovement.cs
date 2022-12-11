@@ -210,7 +210,7 @@ public class ThirdPersonMovement : Controllers
         if (_forceStrength > 0)
         {
             CC.Move(_forceDirection.normalized * _forceStrength * Time.deltaTime);
-            _forceStrength -= _forceStrength * 2 * Time.deltaTime;
+            _forceStrength -= 0.02f + _forceStrength * 2 * Time.deltaTime;
         }
     }
 

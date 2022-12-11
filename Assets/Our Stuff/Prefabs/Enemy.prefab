@@ -1028,6 +1028,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DamageAmount: 10
   Knockback: 10
+  Stagger: {x: 0, y: 0}
   Attackable:
     serializedVersion: 2
     m_Bits: 0
@@ -1048,8 +1049,9 @@ MonoBehaviour:
   Attackable:
     serializedVersion: 2
     m_Bits: 0
-  Target: {fileID: 0}
+  Damagers: []
   SOMeleeAttack: {fileID: 11400000, guid: 281ba3b4511db33428b37e5206b5b593, type: 2}
+  Target: {fileID: 0}
 --- !u!114 &8717874134807624218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2476,8 +2478,7 @@ GameObject:
   - component: {fileID: 4696598385839619957}
   - component: {fileID: 6394502825093494616}
   - component: {fileID: 6631142739324611383}
-  - component: {fileID: 3057686447678858891}
-  - component: {fileID: 1226752432137737106}
+  - component: {fileID: 3731554632173205349}
   m_Layer: 10
   m_Name: Enemy
   m_TagString: Player
@@ -2513,6 +2514,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081d0d2c117fa7246a98565b2c170366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Speed: 10
+  NormalSpeed: 10
+  RegularAnimationSpeed: 10
   LookingAt: {fileID: 3019735477120511849}
   rig: {fileID: 4643502931346221247}
   _lookingSpeed: 10
@@ -2528,6 +2532,7 @@ MonoBehaviour:
   CurrentAlert: 0
   AttackAlert: 0.5
   MaxAlert: 3
+  _gravity: 10
 --- !u!195 &6394502825093494616
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2537,12 +2542,12 @@ NavMeshAgent:
   m_GameObject: {fileID: 6943562051778835617}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 4
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 1
+  m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -2564,24 +2569,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealth: 100
   CurrentHealth: 0
---- !u!54 &3057686447678858891
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6943562051778835617}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 1
---- !u!136 &1226752432137737106
-CapsuleCollider:
+--- !u!143 &3731554632173205349
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2590,9 +2579,13 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1
-  m_Height: 2.5
-  m_Direction: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 20
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7093885754723947624
 GameObject:

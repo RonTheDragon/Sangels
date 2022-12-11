@@ -38,6 +38,7 @@ abstract public class Controllers : MonoBehaviour
 
     public void AddForce(Vector3 dir, float force)
     {
+        Debug.Log(force);
         _forceDirection = dir;
         _forceStrength = force;
     }

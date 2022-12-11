@@ -20,7 +20,7 @@ public class MeleeDamage : Damage
 
     public RegisteredDamaged SubmitToRegisteredObjects(Health mom) 
     {
-        mom.TakeDamage(DamageAmount, Knockback, transform.position, Stagger);
+        mom.TakeDamage(DamageAmount, Knockback, transform.position, Stagger,transform.parent.gameObject);
         return new RegisteredDamaged(GetDamageCD, mom.gameObject);
     }
 

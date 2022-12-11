@@ -29,15 +29,19 @@ public class AIController : Controllers
     [SerializeField] float AttackAlert = 0.5f;
     [SerializeField] float MaxAlert = 3;
 
-
+    [SerializeField] float _gravity = 10;
     // Invisible
 
     //Layer Masks
     LayerMask _canSee;
     LayerMask _attackable;
 
+    float _gravityPull;
+
     // Refrences
-    Rigidbody RB => GetComponent<Rigidbody>();
+
+    CharacterController CC => GetComponent<CharacterController>();
+    //Rigidbody RB => GetComponent<Rigidbody>();
     GameManager GM => GameManager.instance;
     AiAtackManager aiAtackManager => GetComponentInChildren<AiAtackManager>();
     Vector3 spawnPoint => transform.position;
@@ -136,13 +140,13 @@ public class AIController : Controllers
             {
                 walkTo.x = Random.Range(-10, 10);
                 walkTo.z = Random.Range(-10, 10);
-                if (_patrolRange > Vector3.Distance(spawnPoint, transform.position + walkTo))//in range
+                if (_patrolRange > Vector3.Distance(spawnPoint, transform.position + walkTo) && agent.isActiveAndEnabled)//in range
                 {
                     agent.SetDestination(transform.position + walkTo);
                 }
             }
         }
-        else
+        else if (agent.isActiveAndEnabled)
             agent.SetDestination(spawnPoint);
     }
 
@@ -186,6 +190,7 @@ public class AIController : Controllers
 
     void FollowTarget()
     {
+        if (agent.isActiveAndEnabled)
         agent.SetDestination(Target.position);
     }
 
@@ -239,11 +244,35 @@ public class AIController : Controllers
     {
         if (_forceStrength > 0)
         {
-            RB.AddForce(_forceDirection.normalized * _forceStrength * Time.deltaTime*100);
-            _forceStrength -= _forceStrength * 2 * Time.deltaTime; 
+            if (agent.isActiveAndEnabled) { agent.enabled = false; }
+            CC.Move(_forceDirection.normalized * _forceStrength * Time.deltaTime);
+            _forceStrength -= 0.02f + _forceStrength * 2 * Time.deltaTime;
         }
+        else if( !agent.isActiveAndEnabled && CC.velocity.magnitude<1) { agent.enabled = true; }
+        /*
+        if (_forceStrength > 0)
+        {
+            if (RB.isKinematic) { RB.isKinematic = false; agent.enabled = false; }
+            RB.velocity = _forceDirection.normalized * _forceStrength * Time.deltaTime * 4;
+            RB.velocity = new Vector3(RB.velocity.x, -1, RB.velocity.z);
+            _forceStrength -= 0.02f + _forceStrength * 2 * Time.deltaTime;
+        }
+        else if (!RB.isKinematic && RB.velocity.magnitude < 1) { RB.isKinematic = true; agent.enabled = true; }
+        */
     }
 
+    private void gravitation()
+    {
+        if (CC.isGrounded)
+        {
+            _gravityPull = .1f;
+        }
+        else if (_gravityPull < 1)
+        {
+            _gravityPull += .2f * Time.deltaTime;
+        }
+        CC.Move(Vector3.down * _gravity * _gravityPull * Time.deltaTime);
+    }
 }
 
 

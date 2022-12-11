@@ -17,7 +17,7 @@ public class PlayerHealth : Health
 
         string AttackerName = Attacker != null ? Attacker.name : "No One";
         
-        Debug.Log($"player took {damage} damage from {AttackerName}");
+        Debug.Log($"{gameObject.name} took {damage} damage from {AttackerName}");
     }
     public override void TakeFire()
     {

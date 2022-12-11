@@ -8,6 +8,12 @@ public class ProjectileDamage : Damage
     [SerializeField] Vector2 DamageBySpeed;
     Rigidbody rb => GetComponent<Rigidbody>();
 
+    
+
+    private void Update()
+    {
+        
+    }
 
     private void OnCollisionEnter(Collision collision)
     {

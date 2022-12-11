@@ -59,6 +59,7 @@ public class PlayerAttackManager : AttackManager
     {
         if (_melee && UsingAttackTimeLeft==0)
         {
+            OverrideToAttack();
             anim.SetTrigger(SOMeleeAttack.AnimationName);
             TPM.ChangeSpeed(SOMeleeAttack.speedWhileUsing);
             UsingAttackTimeLeft = SOMeleeAttack.UsingTime;

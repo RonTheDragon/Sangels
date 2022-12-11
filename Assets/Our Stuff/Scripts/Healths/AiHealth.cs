@@ -14,7 +14,7 @@ public class AiHealth : Health
         CurrentHealth -= damage;
         aiController.AddForce(pushFrom, knockback);
         string AttackerName = Attacker != null ? Attacker.name : "No One";
-        Debug.Log($"player took {damage} damage from {AttackerName}");
+        Debug.Log($"{gameObject.name} took {damage} damage from {AttackerName}");
 
         Die();
     }
