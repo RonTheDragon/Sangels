@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class AiAtackManager : AttackManager
+public class AiCombatManager : CombatManager
 {
 
     [ReadOnly] public Transform Target;

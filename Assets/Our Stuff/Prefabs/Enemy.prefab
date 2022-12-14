@@ -998,7 +998,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3273202489402000497
 GameObject:
@@ -1011,9 +1011,9 @@ GameObject:
   - component: {fileID: 2749184784667991755}
   - component: {fileID: 3001166706486236759}
   - component: {fileID: 5988209662970127671}
-  - component: {fileID: 7970296522034772338}
   - component: {fileID: 8717874134807624218}
   - component: {fileID: 1824992441830995798}
+  - component: {fileID: 7469322513267880347}
   m_Layer: 10
   m_Name: man_free
   m_TagString: Untagged
@@ -1078,26 +1078,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   GetDamageCD: 0.2
---- !u!114 &7970296522034772338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3273202489402000497}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b25097a6f5b1fd64295d4014e08fdd38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _melee: 0
-  StaggeredTime: 2
-  Attackable:
-    serializedVersion: 2
-    m_Bits: 0
-  Damagers: []
-  SOMeleeAttack: {fileID: 11400000, guid: 281ba3b4511db33428b37e5206b5b593, type: 2}
-  Target: {fileID: 0}
 --- !u!114 &8717874134807624218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1192,6 +1172,26 @@ MonoBehaviour:
   - {fileID: 5166391579129702171}
   - {fileID: 3754359063206356755}
   - {fileID: 1210360669583962011}
+--- !u!114 &7469322513267880347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3273202489402000497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb6a33f83c1c0a43be759e6d8e577ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _melee: 0
+  StaggeredTime: 2
+  Attackable:
+    serializedVersion: 2
+    m_Bits: 0
+  Damagers: []
+  SOMeleeAttack: {fileID: 11400000, guid: 281ba3b4511db33428b37e5206b5b593, type: 2}
+  Target: {fileID: 0}
 --- !u!1 &3362123073361471274
 GameObject:
   m_ObjectHideFlags: 0

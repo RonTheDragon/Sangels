@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
 
-public class PlayerAttackManager : AttackManager
+public class PlayerCombatManager : CombatManager
 {
     public Camera Cam;
     public CinemachineFreeLook Cinemachine;

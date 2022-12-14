@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using static UnityEditor.PlayerSettings;
 
-public class PlayerSlingshot : Damage
+public class PlayerSlingshot : Combat
 {
     //Serializefield 
     [SerializeField] Transform ProjectileSpawnLocation;
@@ -53,7 +53,7 @@ public class PlayerSlingshot : Damage
     ThirdPersonMovement TPM => GetComponentInParent<ThirdPersonMovement>();
     LineRenderer LR => cinemachine.GetComponent<LineRenderer>();
 
-    PlayerAttackManager playerAttackManager => (PlayerAttackManager)attackManager;
+    PlayerCombatManager playerAttackManager => (PlayerCombatManager)attackManager;
     CinemachineCameraOffset offset => cinemachine.GetComponent<CinemachineCameraOffset>();
 
     [SerializeField] CinemachineFreeLook cfl;

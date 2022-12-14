@@ -41,7 +41,7 @@ public class AIController : Controllers
     // Refrences
     Rigidbody RB => GetComponent<Rigidbody>();
     GameManager GM => GameManager.instance;
-    AiAtackManager aiAtackManager => GetComponentInChildren<AiAtackManager>();
+    AiCombatManager aiAtackManager => GetComponentInChildren<AiCombatManager>();
     Vector3 spawnPoint => transform.position;
     NavMeshAgent agent => GetComponent<NavMeshAgent>();
 

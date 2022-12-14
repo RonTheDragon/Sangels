@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeDamage : Damage
+public class MeleeDamage : Combat
 {
     List<TriggerRegistration> _meleeTriggers = new List<TriggerRegistration>();
     public float GetDamageCD;

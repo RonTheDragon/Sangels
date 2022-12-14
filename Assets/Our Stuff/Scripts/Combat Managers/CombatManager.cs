@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AttackManager : MonoBehaviour
+public abstract class CombatManager : MonoBehaviour
 {
     [HideInInspector]
     public bool _melee;
@@ -19,7 +19,7 @@ public abstract class AttackManager : MonoBehaviour
 
     [HideInInspector] public LayerMask Attackable;
 
-    [HideInInspector] public List<Damage> Damagers = new List<Damage>();
+    [HideInInspector] public List<Combat> Damagers = new List<Combat>();
 
     [SerializeField] protected SOMeleeAttack SOMeleeAttack;
 
@@ -39,7 +39,7 @@ public abstract class AttackManager : MonoBehaviour
     }
     protected void OverrideToAttack()
     {
-        foreach (Damage d in Damagers)
+        foreach (Combat d in Damagers)
         {
             d.DamageAmount = SOMeleeAttack.DamageAmount;
             d.Knockback = SOMeleeAttack.Knockback;
@@ -54,7 +54,7 @@ public abstract class AttackManager : MonoBehaviour
         UsingAttackTimeLeft = StaggeredTime;
     }
 
-    public void JoinAttackerManager(Damage d)
+    public void JoinAttackerManager(Combat d)
     {
         Damagers.Add(d);
         d.Attackable = Attackable;
