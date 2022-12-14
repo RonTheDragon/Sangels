@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Explosion : ProjectileDamage
+public class Explosion : ExplosiveProjectile
 {
     [SerializeField] List<ParticleSystem> ExplosionParticles;
-    public float Radius;
 
     public void Explode()
     {

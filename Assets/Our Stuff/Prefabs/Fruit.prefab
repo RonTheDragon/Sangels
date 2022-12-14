@@ -87,12 +87,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6673690505569125820}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34bfef89d2531b1499238c02512d852e, type: 3}
+  m_Script: {fileID: 11500000, guid: 732c4b035fa4ae846bb17876e3e8acfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageAmount: 1
-  Knockback: 15
-  Stagger: {x: 0, y: 8}
+  DamageAmount: 10
+  Knockback: 5
+  Stagger: {x: 5, y: 10}
   Attackable:
     serializedVersion: 2
     m_Bits: 0

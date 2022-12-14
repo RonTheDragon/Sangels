@@ -5,7 +5,7 @@ using UnityEngine;
 public class ExplosiveProjectile : ProjectileDamage
 {
     [SerializeField] string Explosion;
-    [SerializeField] float Radius = 10;
+    [SerializeField] protected float Radius = 10;
 
     private void OnCollisionEnter(Collision collision)
     {
