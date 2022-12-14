@@ -236,17 +236,17 @@ public class PlayerSlingshot : Damage
         float targetAngleX = Mathf.Atan2(Vector3.Distance(CamInYZeroX, ColliderInYZeroX), cam.position.y - hit.collider.transform.position.y) * Mathf.Rad2Deg-90;
         
         float deltaAngleCamAndTriggerY= GM.AngleDifference(targetAngleY, -cam.eulerAngles.y);
-        float deltaAngleCamAndTriggerX = (cam.rotation.x-targetAngleX);
+        float deltaAngleCamAndTriggerX = -GM.AngleDifference(targetAngleX, -cam.eulerAngles.x);
         //float degree=0;
-        
-        //Vector2 hitPoint = new Vector2(hit.point.x, hit.point.y);
-      //  if (0<(360 - cam.localEulerAngles.x) && (360 - cam.localEulerAngles.x) < 180)
-      //      degree = -(360 - cam.localEulerAngles.x);
-      //  else
-      //      degree =  cam.localEulerAngles.x;
-        Debug.Log($"{targetAngleX}  ");
 
-        return new Vector2(0, 0);
+        //Vector2 hitPoint = new Vector2(hit.point.x, hit.point.y);
+        //  if (0<(360 - cam.localEulerAngles.x) && (360 - cam.localEulerAngles.x) < 180)
+        //      degree = -(360 - cam.localEulerAngles.x);
+        //  else
+        //      degree =  cam.localEulerAngles.x;
+        //Debug.Log($"{targetAngleX}  ");
+
+        return new Vector2(deltaAngleCamAndTriggerY*0.1f, deltaAngleCamAndTriggerX * 0.1f);
     }
 
     void AmmoSwitching()

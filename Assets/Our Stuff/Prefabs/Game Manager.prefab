@@ -71,6 +71,12 @@ MonoBehaviour:
   TrajectoryHits:
     serializedVersion: 2
     m_Bits: 0
+  Everything:
+    serializedVersion: 2
+    m_Bits: 2147483647
+  Nothing:
+    serializedVersion: 2
+    m_Bits: 0
   PlayerMasks:
   - serializedVersion: 2
     m_Bits: 1151
