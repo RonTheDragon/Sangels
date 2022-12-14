@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerSlingshot : Damage
 {
@@ -30,6 +31,14 @@ public class PlayerSlingshot : Damage
     [SerializeField] float ChargingSpeed = 1900;
     [ReadOnly][SerializeField] float CurrentCharge;
 
+    [Header("AimAssist")]
+    [ReadOnly][SerializeField] Transform TargetAim;
+    float _aimAssistRange;
+    [SerializeField] LayerMask AimTriggerLM;
+    [SerializeField] float _aimAssistDir;
+    [SerializeField] float _aimAssistSpeed;
+    [ReadOnly] [SerializeField] float _AimAssitTimeLcokOn;//timer
+
     //Private 
     int _currentAmmo;
     bool _charging;
@@ -47,6 +56,10 @@ public class PlayerSlingshot : Damage
     PlayerAttackManager playerAttackManager => (PlayerAttackManager)attackManager;
     CinemachineCameraOffset offset => cinemachine.GetComponent<CinemachineCameraOffset>();
 
+    [SerializeField] CinemachineFreeLook cfl;
+    InputHandler _inputHandler => cfl.GetComponent<InputHandler>();
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,7 +74,6 @@ public class PlayerSlingshot : Damage
         playerAttackManager.Loop += Shoot;
         playerAttackManager.Loop += Aim;
         playerAttackManager.Loop += AmmoSwitching;
-
         playerAttackManager.Shoot += OnStartShooting;
         playerAttackManager.OnStopHoldShoot += OnStoppedShooting;
     }
@@ -70,7 +82,7 @@ public class PlayerSlingshot : Damage
     void Shoot()
     {
         RaycastHit hit;
-        if (Physics.Raycast(cam.position,cam.forward,out hit,Mathf.Infinity))
+        if (Physics.Raycast(cam.position,cam.forward,out hit,Mathf.Infinity,GM.Everything,QueryTriggerInteraction.Ignore))
         {
             if (hit.distance < 5) { ProjectileSpawnLocation.LookAt(cam.position + cam.forward * 20); }
             else
@@ -99,6 +111,7 @@ public class PlayerSlingshot : Damage
         if (isAiming)
         {
             TPM.LookAt(cam.position + cam.forward * 20);
+            AimAssist();
 
             if (CurrentCharge > StartCharge) 
             DrawProjection();
@@ -111,7 +124,6 @@ public class PlayerSlingshot : Damage
                 CurrentFOV = AimingFOV;
                 offset.m_Offset.Set(0, 0, CurrentFOV);
             }
-            
         }
         else
         {
@@ -175,6 +187,7 @@ public class PlayerSlingshot : Damage
     void OnStoppedShooting()
     {
         isAiming = false;
+        _inputHandler.IsAimAssist = false;
         if (fruit)
         {
             fruit.LaunchProjectile(CurrentCharge);
@@ -182,6 +195,58 @@ public class PlayerSlingshot : Damage
             _charging = false;
             fruit = null;
         }
+    }
+
+
+    void AimAssist() 
+    {
+        if (CheckIfNeedsAimAssist())
+        {
+            Vector2 aimAssistOffset = AimAssistLock();
+            _inputHandler.AimAssistOffset = aimAssistOffset;
+            _inputHandler.IsAimAssist = true;
+        }
+        else
+            _inputHandler.IsAimAssist = false;
+    }
+
+    bool CheckIfNeedsAimAssist()
+    {
+        RaycastHit hit;
+        Debug.DrawRay(cam.position, cam.forward * _aimAssistDir, Color.black);
+        if (Physics.Raycast(cam.position, cam.forward * _aimAssistDir, out hit,  _aimAssistDir, 1 << AimTriggerLM))
+        {
+          //  Debug.Log("Raycast has hit");
+            return true;
+        }
+        return false;
+    }
+    Vector2 AimAssistLock() 
+    {
+        RaycastHit hit;
+        if (!Physics.Raycast(cam.position, cam.forward, out hit, _aimAssistDir, AimTriggerLM,QueryTriggerInteraction.Collide))
+        return Vector2.zero;
+        //if (AimTriggerLM != (AimTriggerLM | (1 << hit.transform.gameObject.layer))) return Vector2.zero;
+        Debug.Log("Raycast has hit");
+        Vector3 CamInYZeroX= cam.position;
+        CamInYZeroX = new Vector3(CamInYZeroX.x, 0, CamInYZeroX.z);
+        Vector3 ColliderInYZeroX = new Vector3(hit.collider.transform.position.x,0, hit.collider.transform.position.z);
+        float y= cam.rotation.y;
+        float targetAngleY = Mathf.Atan2(cam.position.z - hit.collider.transform.position.z, cam.position.x - hit.collider.transform.position.x) * Mathf.Rad2Deg + 90;
+        float targetAngleX = Mathf.Atan2(Vector3.Distance(CamInYZeroX, ColliderInYZeroX), cam.position.y - hit.collider.transform.position.y) * Mathf.Rad2Deg-90;
+        
+        float deltaAngleCamAndTriggerY= GM.AngleDifference(targetAngleY, -cam.eulerAngles.y);
+        float deltaAngleCamAndTriggerX = (cam.rotation.x-targetAngleX);
+        //float degree=0;
+        
+        //Vector2 hitPoint = new Vector2(hit.point.x, hit.point.y);
+      //  if (0<(360 - cam.localEulerAngles.x) && (360 - cam.localEulerAngles.x) < 180)
+      //      degree = -(360 - cam.localEulerAngles.x);
+      //  else
+      //      degree =  cam.localEulerAngles.x;
+        Debug.Log($"{targetAngleX}  ");
+
+        return new Vector2(0, 0);
     }
 
     void AmmoSwitching()
@@ -209,6 +274,9 @@ public class PlayerSlingshot : Damage
         }
     }
 
+    
+
+
     void SwitchAmmo()
     {
         if (AmmoTypes.Count > 0)
@@ -223,5 +291,8 @@ public class PlayerSlingshot : Damage
             CurrentAmmo = null;
         }
     }
+
+
+
 
 }

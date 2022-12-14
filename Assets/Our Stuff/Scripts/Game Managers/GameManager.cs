@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     public LayerMask EnemiesCanSee;
     public LayerMask EnemiesCanAttack;
     public LayerMask TrajectoryHits;
+    public LayerMask Everything;
+    public LayerMask Nothing;
 
     [Header("Camera Layers For Each Player")]
     [Tooltip("These LayerMasks are needed for local Co-op so Cinemachine can work properly\n\n Just Make Sure Each Layer Mask cant see other numbered player but itself")]
