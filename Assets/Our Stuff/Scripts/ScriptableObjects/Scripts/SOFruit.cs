@@ -8,7 +8,7 @@ using UnityEngine;
 
 [SerializeField]
 [CreateAssetMenu(fileName = "New Fruit", menuName = "Fruit Data", order = 51)]
-public class FruitData : ScriptableObject
+public class SOFruit : ScriptableObject
 {
     public Sprite Fruits;
 

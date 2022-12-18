@@ -1,5 +1,5 @@
 {
-    "name": "Player Input Manager",
+    "name": "Sangel Input Manager",
     "maps": [
         {
             "name": "Sangel",
@@ -27,6 +27,15 @@
                     "name": "Melee",
                     "type": "Button",
                     "id": "e7e75087-0a2a-466b-880e-984da378f409",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Eat",
+                    "type": "Button",
+                    "id": "05980253-00f1-4e5d-900b-417b0b98bb21",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -388,6 +397,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Melee",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ea276514-6d0e-4cee-b767-a576f5fc60de",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Eat",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a5b84f45-45e1-4571-9f83-050ce0280dbf",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Eat",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

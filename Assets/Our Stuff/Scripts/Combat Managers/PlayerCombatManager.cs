@@ -18,17 +18,20 @@ public class PlayerCombatManager : CombatManager
 
     bool _shootLastFrame;
     bool _holdingFire;
+    bool _eat;
 
     ThirdPersonMovement TPM => GetComponentInParent<ThirdPersonMovement>();
 
     public Action Shoot;
     public Action OnStopHoldShoot;
+    public Action Eat;
 
     private void Start()
     {
         Attackable = GM.PlayersCanAttack;
         Loop += Melee;
         Loop += Shooting;
+        Loop += Eating;
         TPM.OnStagger += Staggered;
     }
 
@@ -52,6 +55,11 @@ public class PlayerCombatManager : CombatManager
         _melee = context.action.triggered;
     }
 
+    public void OnEat(InputAction.CallbackContext context)
+    {
+        _eat = context.action.triggered;
+    }
+
     public void OnScroll(InputAction.CallbackContext context)
     {
         _scroll = context.action.ReadValue<float>();
@@ -73,6 +81,17 @@ public class PlayerCombatManager : CombatManager
         }
     }
 
+    void Eating()
+    {
+        if (_eat && UsingAttackTimeLeft == 0)
+        {
+            OverrideToAttack();
+            Eat?.Invoke();
+            TPM.ChangeSpeed(SOMeleeAttack.speedWhileUsing);
+            UsingAttackTimeLeft = 0.5f;
+        }
+    }
+
     void Shooting()
     {
         if (_shoot && UsingAttackTimeLeft == 0)
@@ -80,7 +99,7 @@ public class PlayerCombatManager : CombatManager
             OverrideToAttack();
             anim.SetTrigger("ChargeSlingshot");
             TPM.ChangeSpeed(TPM.NormalSpeed/2);
-            Shoot.Invoke();
+            Shoot?.Invoke();
             _holdingFire = true;
         }
 

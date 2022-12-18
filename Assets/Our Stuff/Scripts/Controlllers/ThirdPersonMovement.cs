@@ -46,6 +46,9 @@ public class ThirdPersonMovement : Controllers
     [Tooltip("Place The Player's Cinemachine Here")]
     [SerializeField] CinemachineFreeLook cfl;
 
+    [HideInInspector] public float FruitSpeedEffect=1;
+    [HideInInspector] public float FruitJumpEffect=1;
+
     // Invisible //
 
     // Auto Referencing
@@ -122,7 +125,7 @@ public class ThirdPersonMovement : Controllers
     {
         if (_jumped && isGrounded && !isSliding)
         {
-            AddForce(Vector3.up, _jump);
+            AddForce(Vector3.up, _jump * FruitJumpEffect );
         }
     }
 
@@ -233,9 +236,10 @@ public class ThirdPersonMovement : Controllers
 
     public override void ChangeSpeed(float speed = -1)
     {
+
         if (speed != -1)
         {
-            Speed = speed;
+            Speed = speed * FruitSpeedEffect;
         }
         anim.SetFloat("Speed", Speed / RegularAnimationSpeed);
     }

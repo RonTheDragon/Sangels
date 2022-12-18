@@ -21,10 +21,6 @@ public class PlayerSlingshot : Combat
     [SerializeField][Range(10, 100)] int _linePoints = 25;
     [SerializeField][Range(0.01f, 0.25f)] float _timeBetweenPoints = 0.01f;
 
-    [Header("Ammo Switching")]
-    [ReadOnly][SerializeField] FruitData CurrentAmmo;   
-    [SerializeField] List<FruitData> AmmoTypes;
-
     [Header("Charge")]
     [SerializeField] float MaxCharge = 2000;
     [SerializeField] float StartCharge = 100;
@@ -40,7 +36,6 @@ public class PlayerSlingshot : Combat
     [ReadOnly] [SerializeField] float _AimAssitTimeLcokOn;//timer
 
     //Private 
-    int _currentAmmo;
     bool _charging;
 
     Transform cam;
@@ -53,6 +48,7 @@ public class PlayerSlingshot : Combat
     ThirdPersonMovement TPM => GetComponentInParent<ThirdPersonMovement>();
     LineRenderer LR => cinemachine.GetComponent<LineRenderer>();
 
+    PlayerAmmoSwitch ammoSwitch => GetComponent<PlayerAmmoSwitch>();
     PlayerCombatManager playerAttackManager => (PlayerCombatManager)attackManager;
     CinemachineCameraOffset offset => cinemachine.GetComponent<CinemachineCameraOffset>();
 
@@ -67,13 +63,8 @@ public class PlayerSlingshot : Combat
         cam = playerAttackManager.Cam.transform;
         cinemachine = playerAttackManager.Cinemachine;
 
-        Attackable = attackManager.Attackable;
-
-        SwitchAmmo();
-
         playerAttackManager.Loop += Shoot;
         playerAttackManager.Loop += Aim;
-        playerAttackManager.Loop += AmmoSwitching;
         playerAttackManager.Shoot += OnStartShooting;
         playerAttackManager.OnStopHoldShoot += OnStoppedShooting;
     }
@@ -171,9 +162,9 @@ public class PlayerSlingshot : Combat
     public void OnStartShooting()
     {
         isAiming = true;
-        if (!fruit && !string.IsNullOrEmpty(CurrentAmmo.fruit.ToString()))
+        if (!fruit && !string.IsNullOrEmpty(ammoSwitch.CurrentAmmo.fruit.ToString()))
         {
-            fruit = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo.fruit.ToString(), ProjectileSpawnLocation.position, ProjectileSpawnLocation.rotation).GetComponent<Projectile>();
+            fruit = ObjectPooler.Instance.SpawnFromPool(ammoSwitch.CurrentAmmo.fruit.ToString(), ProjectileSpawnLocation.position, ProjectileSpawnLocation.rotation).GetComponent<Projectile>();
             fruit.SpawnOnSlingShot(ProjectileSpawnLocation);
             CurrentCharge = StartCharge;
             _charging = true;
@@ -249,48 +240,7 @@ public class PlayerSlingshot : Combat
         return new Vector2(deltaAngleCamAndTriggerY*0.1f, deltaAngleCamAndTriggerX * 0.1f);
     }
 
-    void AmmoSwitching()
-    {
-        if (AmmoTypes.Count > 1)
-        {
-            if (playerAttackManager._scroll > 0)
-            {
-                _currentAmmo++;
-                if (_currentAmmo > AmmoTypes.Count-1)
-                {
-                    _currentAmmo = 0;
-                }
-                    SwitchAmmo();
-            }
-            else if (playerAttackManager._scroll < 0)
-            {
-                _currentAmmo--;
-                if (_currentAmmo < 0)
-                {
-                    _currentAmmo = AmmoTypes.Count-1;
-                }
-                    SwitchAmmo();
-            }
-        }
-    }
-
-    
-
-
-    void SwitchAmmo()
-    {
-        if (AmmoTypes.Count > 0)
-        {
-            CurrentAmmo = AmmoTypes[_currentAmmo];
-            playerAttackManager._scroll = 0;
-
-            //Debug.Log(CurrentAmmo);
-        }
-        else
-        {
-            CurrentAmmo = null;
-        }
-    }
+   
 
 
 
