@@ -98,11 +98,14 @@ public class PlayerEatFruits : Combat
     {
         EffectMovement.FruitSpeedEffect = 1;
         EffectMovement.FruitJumpEffect = 1;
+        EffectHealth.FruitFireEffect = 0;
     }
 
     void DigestingFepler()
     {
-
+        float FireEffect = 0;
+        FireEffect += GutCurrert / GutMaxCapacity * 50;
+        EffectHealth.FruitFireEffect = FireEffect;
     }
 
     void DigestingAlbert()

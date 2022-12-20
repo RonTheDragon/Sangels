@@ -6,6 +6,7 @@ using UnityEngine.InputSystem.XR;
 
 public class PlayerHealth : Health
 {
+    [HideInInspector] public float FruitFireEffect = 0;
 
     ThirdPersonMovement playerController => GetComponent<ThirdPersonMovement>();
     public override void TakeDamage(float damage, float knockback, Vector3 pushFrom, Vector2 Stagger, GameObject Attacker = null)
@@ -21,10 +22,16 @@ public class PlayerHealth : Health
         playerController.Hurt(damage / MaxHurtAnimationDamage,Attacker, Staggered);
         Debug.Log($"{gameObject.name} took {damage} damage and {knockback} Knockback from {AttackerName}");
     }
-    public override void TakeFire()
+
+    new void Update()
     {
-        throw new NotImplementedException();
+        base.Update();
+        if (FruitFireEffect != _fireMin)
+        {
+            _fireMin = FruitFireEffect;
+        }
     }
+
     public override void TakeStun()
     {
         throw new NotImplementedException();

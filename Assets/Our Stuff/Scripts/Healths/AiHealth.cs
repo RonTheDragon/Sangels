@@ -20,10 +20,6 @@ public class AiHealth : Health
         aiController.Hurt(damage/ MaxHurtAnimationDamage,Attacker, Staggered);
         Die();
     }
-    public override void TakeFire()
-    {
-        throw new NotImplementedException();
-    }
     public override void TakeStun()
     {
         throw new NotImplementedException();

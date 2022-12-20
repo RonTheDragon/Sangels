@@ -25,6 +25,7 @@ public class Explosion : ExplosiveProjectile
                     float dist = Vector3.Distance(transform.position, pos);
                     float DistanceMultipler = (-dist / Radius) + 1;
                     hp.TakeDamage(DamageAmount * DistanceMultipler, Knockback * DistanceMultipler, transform.position, Stagger * DistanceMultipler, Shooter);
+                    if (Fire > 0) hp.TakeFire(Fire * DistanceMultipler);
                 }
             }
 

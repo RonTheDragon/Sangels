@@ -175,10 +175,10 @@ MonoBehaviour:
   DamageAmount: 50
   Knockback: 15
   Stagger: {x: 0, y: 10}
+  Fire: 100
   Attackable:
     serializedVersion: 2
     m_Bits: 0
   Shooter: {fileID: 0}
-  DamageBySpeed: {x: 0, y: 0}
   Explosion: FireExplosion
   Radius: 10
