@@ -17,6 +17,7 @@ public class ExplosiveProjectile : ProjectileDamage
             explosion.Stagger=Stagger;
             explosion.Radius=Radius;
             explosion.Shooter=Shooter;
+            explosion.Fire = Fire;
             explosion.Attackable=Attackable; 
             explosion.Explode();
             gameObject.SetActive(false);

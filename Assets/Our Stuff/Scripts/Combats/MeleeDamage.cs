@@ -24,6 +24,7 @@ public class MeleeDamage : Combat
     public RegisteredDamaged SubmitToRegisteredObjects(Health mom) 
     {
         mom.TakeDamage(DamageAmount, Knockback, transform.position, Stagger,transform.parent.gameObject);
+        if(Fire>0)mom.TakeFire(Fire);
         return new RegisteredDamaged(GetDamageCD, mom.gameObject);
     }
 

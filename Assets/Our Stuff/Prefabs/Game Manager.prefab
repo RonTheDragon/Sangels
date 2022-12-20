@@ -70,7 +70,7 @@ MonoBehaviour:
     m_Bits: 8
   TrajectoryHits:
     serializedVersion: 2
-    m_Bits: 4087
+    m_Bits: 2039
   Everything:
     serializedVersion: 2
     m_Bits: 2147483647
