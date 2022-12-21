@@ -21,10 +21,8 @@ public class BouncingProjectile : ImpactProjectile
         if (Attackable == (Attackable | (1 << collision.gameObject.layer)))
             AlreadyHit.Add(collision.gameObject);
 
-        if (BouncingCounter < _maxBouncing )//do the staff with the layers
+        if (BouncingCounter < _maxBouncing && rb.velocity.magnitude > _minimumVel)//do the staff with the layers
         {
-            if (rb.velocity.magnitude > _minimumVel)
-            {
                 Transform Target = FindBounceTarget();
                 if (Target != null && AlreadyHit.FirstOrDefault(c => c.transform == Target) == null)
                 {
@@ -32,7 +30,6 @@ public class BouncingProjectile : ImpactProjectile
                     fruit.LaunchProjectile(rb.velocity.magnitude * _bouncePower);
                     BouncingCounter++;
                 }
-            }
         }  
 
         Debug.Log("has bounced");
