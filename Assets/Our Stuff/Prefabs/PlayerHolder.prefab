@@ -1044,7 +1044,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127943017131814319}
-  m_LocalRotation: {x: 0.09531109, y: 0.14057553, z: -0.013597228, w: 0.98537785}
+  m_LocalRotation: {x: 0.0953111, y: 0.14057553, z: -0.013597227, w: 0.98537785}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -3084,7 +3084,7 @@ MonoBehaviour:
   StaggerResistance: 5
   MaxHurtAnimationDamage: 15
   _fireCurrently: 0
-  _fireDamage: 1
+  _fireDamage: 10
   _fireExtinguishing: 25
   FireParticle: {fileID: 3511390563526793401}
   HealthBar: {fileID: 1827830444938278312}
@@ -3766,7 +3766,7 @@ MonoBehaviour:
   m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 1
+  m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &6605656676919671203

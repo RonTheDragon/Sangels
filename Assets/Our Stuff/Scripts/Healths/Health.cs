@@ -18,7 +18,7 @@ public abstract class Health : MonoBehaviour
     protected bool _isDead;
 
     [Header("Fire")]
-    [SerializeField] protected float _fireCurrently;
+    [ReadOnly][SerializeField] protected float _fireCurrently;
     protected float _fireMin = 0;
     protected float _fireMax =100;
     [SerializeField] protected float _fireDamage = 10;
@@ -91,7 +91,7 @@ public abstract class Health : MonoBehaviour
             // Lerp between green and yellow at 50% health
             Color color1 = Color.Lerp(Color.green, Color.yellow, (1 - healthPercent) * 2f);
             // Lerp between yellow and red at 25% health
-            Color color2 = Color.Lerp(Color.yellow, Color.red, (1 - healthPercent) * 4f);
+            Color color2 = Color.Lerp(Color.yellow, Color.red, (0.5f - healthPercent) * 2f );
             // Use the appropriate color based on the current health
             HealthBar.color = (healthPercent > 0.5f) ? color1 : color2;
             HealthBar.fillAmount = CurrentHealth / MaxHealth;

@@ -118,7 +118,7 @@ public class PlayerEatFruits : Combat
     void DigestingLuber()
     {
         float JumpEffect = 1;
-        JumpEffect += (GutCurrert / GutMaxCapacity)*2;
+        JumpEffect += (GutCurrert / GutMaxCapacity)*0.5f;
         EffectMovement.FruitJumpEffect = JumpEffect;
     }
 }

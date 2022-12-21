@@ -2622,7 +2622,7 @@ MonoBehaviour:
   StaggerResistance: 5
   MaxHurtAnimationDamage: 15
   _fireCurrently: 0
-  _fireDamage: 1
+  _fireDamage: 10
   _fireExtinguishing: 25
   FireParticle: {fileID: 9037062429920742491}
   HealthBar: {fileID: 0}
