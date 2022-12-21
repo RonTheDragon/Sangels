@@ -277,6 +277,6 @@ MonoBehaviour:
   DamageBySpeed: {x: 1, y: 10}
   _maxBouncing: 20
   BouncingCounter: 0
-  _maxBouncingDistance: 10
-  _bouncePower: 20
+  _maxBouncingDistance: 30
+  _bouncePower: 40
   AlreadyHit: []

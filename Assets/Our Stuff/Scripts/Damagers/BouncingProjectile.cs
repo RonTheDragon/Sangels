@@ -7,7 +7,7 @@ public class BouncingProjectile : ImpactProjectile
 {
     Projectile fruit => GetComponent<Projectile>();
     [SerializeField] int _maxBouncing;
-    public int BouncingCounter;//set to zero on lunch
+    [ReadOnly]public int BouncingCounter;//set to zero on lunch
     [SerializeField] float _maxBouncingDistance;
     [SerializeField] float _bouncePower;
     [ReadOnly] public List<GameObject> AlreadyHit;
