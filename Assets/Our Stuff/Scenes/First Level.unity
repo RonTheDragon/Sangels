@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 285133754880836022, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
+      propertyPath: ProjectileBounceCanSee.m_Bits
+      value: 2047
+      objectReference: {fileID: 0}
     - target: {fileID: 285133754880836023, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -177,6 +181,22 @@ PrefabInstance:
     - target: {fileID: 285133754880836023, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495403628025949547, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495403628025949547, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454961298430194485, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
+      propertyPath: Groups.Array.data[0].pools.Array.data[0].size
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932513104966428826, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 72.73
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}

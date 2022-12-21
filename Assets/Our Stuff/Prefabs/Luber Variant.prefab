@@ -278,5 +278,6 @@ MonoBehaviour:
   _maxBouncing: 20
   BouncingCounter: 0
   _maxBouncingDistance: 30
-  _bouncePower: 40
+  _bouncePower: 1
   AlreadyHit: []
+  _minimumVel: 1

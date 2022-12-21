@@ -62,7 +62,6 @@ public class PlayerSlingshot : Combat
         attackManager.JoinAttackerManager(this);
         cam = playerAttackManager.Cam.transform;
         cinemachine = playerAttackManager.Cinemachine;
-
         playerAttackManager.Loop += Shoot;
         playerAttackManager.Loop += Aim;
         playerAttackManager.Shoot += OnStartShooting;

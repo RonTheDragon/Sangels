@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class BouncingProjectile : ImpactProjectile
 {
-    Projectile fruit => GetComponent<Projectile>();
+    Projectile fruit => GetComponent<Projectile>();    
     [SerializeField] int _maxBouncing;
     [ReadOnly]public int BouncingCounter;//set to zero on lunch
     [SerializeField] float _maxBouncingDistance;
     [SerializeField] float _bouncePower;
     [ReadOnly] public List<GameObject> AlreadyHit;
+    [SerializeField] float _minimumVel=1;
     LayerMask BouncingFruitLayer => GameManager.instance.ProjectileBounceCanSee;
 
 
@@ -20,18 +21,20 @@ public class BouncingProjectile : ImpactProjectile
         if (Attackable == (Attackable | (1 << collision.gameObject.layer)))
             AlreadyHit.Add(collision.gameObject);
 
-        if (BouncingCounter < _maxBouncing)//do the staff with the layers
+        if (BouncingCounter < _maxBouncing )//do the staff with the layers
         {
-            Transform Target = FindBounceTarget();
-            if (Target != null && AlreadyHit.FirstOrDefault(c => c.transform == Target) == null)
+            if (rb.velocity.magnitude > _minimumVel)
             {
-                Debug.Log("Hited: " + AlreadyHit.FirstOrDefault(c => c.transform == Target));
-                fruit.transform.LookAt(Target);
-                fruit.LaunchProjectile(_bouncePower);
-                BouncingCounter++;
+                Transform Target = FindBounceTarget();
+                if (Target != null && AlreadyHit.FirstOrDefault(c => c.transform == Target) == null)
+                {
+                    fruit.transform.LookAt(Target);
+                    fruit.LaunchProjectile(rb.velocity.magnitude * _bouncePower);
+                    BouncingCounter++;
+                }
             }
-            
-        }
+        }  
+
         Debug.Log("has bounced");
     }
 
@@ -39,20 +42,24 @@ public class BouncingProjectile : ImpactProjectile
 
     Transform FindBounceTarget() 
     {
-        Collider[] Colliders = Physics.OverlapSphere(transform.position, _maxBouncingDistance, Attackable);
+        Collider[] Colliders = Physics.OverlapSphere(transform.position, GetMaxBouncingDistance(), Attackable);
         Collider target = null;
-        float minDistance= _maxBouncingDistance;
+        float minDistance= GetMaxBouncingDistance();
         float tmpDistance;
         foreach (Collider collider in Colliders) 
         {
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, collider.transform.position - transform.position, out hit, _maxBouncingDistance, BouncingFruitLayer)) 
+            if (Physics.Raycast(transform.position, collider.transform.position - transform.position, out hit, GetMaxBouncingDistance(), BouncingFruitLayer)) 
             {
-                tmpDistance = Vector3.Distance(transform.position, collider.transform.position);
-                if (tmpDistance < minDistance)
-                { 
-                    minDistance = tmpDistance;
-                    target=collider;
+                if (hit.collider == collider)
+                {
+
+                    tmpDistance = Vector3.Distance(transform.position, collider.transform.position);
+                    if (tmpDistance < minDistance)
+                    {
+                        minDistance = tmpDistance;
+                        target = collider;
+                    }
                 }
             }
         }
@@ -61,6 +68,12 @@ public class BouncingProjectile : ImpactProjectile
         else
             return target.transform;
     }
+
+    float GetMaxBouncingDistance() 
+    {
+        return rb.velocity.magnitude* _maxBouncingDistance;
+    }
+
 
 
 
