@@ -181,6 +181,7 @@ public class PlayerSlingshot : Combat
         _inputHandler.IsAimAssist = false;
         if (fruit)
         {
+            Physics.IgnoreCollision(fruit.GetComponent<Collider>(), GetComponentInParent<Collider>());
             fruit.LaunchProjectile(CurrentCharge);
             CurrentCharge = 0;
             _charging = false;

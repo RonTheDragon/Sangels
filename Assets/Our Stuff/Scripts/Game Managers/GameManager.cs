@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
     /// <summary> Players Call this Function When they join to update the Game Manager </summary>
     public int AddPlayer(GameObject Player)
     {
-        CharacterController CC = Player.GetComponent<CharacterController>();
+        CharacterController CC = Player.GetComponentInChildren<CharacterController>();
         CC.enabled = false;
         if (0 == CountPlayers())
         { 

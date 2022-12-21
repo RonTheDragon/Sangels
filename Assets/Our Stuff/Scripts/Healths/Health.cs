@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing.Printing;
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UI;
 public abstract class Health : MonoBehaviour
 {
     //data
@@ -23,14 +25,22 @@ public abstract class Health : MonoBehaviour
     [SerializeField] protected float _fireExtinguishing = 25;
     [SerializeField] protected ParticleSystem FireParticle;
 
+    [SerializeField] Image HealthBar;
+
+    float _peviousCurrentHealth;
+
+    Action Loop;
+
     private void Start()
     {
         CurrentHealth = MaxHealth;
+        Loop += OnFire;
+        Loop += UpdateHealthBar;
     }
 
     protected void Update()
     {
-        OnFire();
+        Loop?.Invoke();
     }
 
     public abstract void TakeDamage(float damage, float knockback, Vector3 pushFrom, Vector2 Stagger,GameObject Attacker = null);
@@ -46,7 +56,7 @@ public abstract class Health : MonoBehaviour
 
     protected bool IsStaggered(Vector2 stagger)
     {
-        if (StaggerResistance >= Random.Range(stagger.x, stagger.y)) return false;
+        if (StaggerResistance >= UnityEngine.Random.Range(stagger.x, stagger.y)) return false;
         return true;
     }
 
@@ -61,7 +71,8 @@ public abstract class Health : MonoBehaviour
             var e = FireParticle.emission;
             e.rateOverTimeMultiplier = _fireCurrently/10;
 
-            CurrentHealth -= _fireCurrently/ _fireMax * _fireDamage;
+            CurrentHealth -= _fireCurrently/ _fireMax * (_fireDamage/100);
+            Die();
 
             if (_fireCurrently > _fireMax) _fireCurrently = _fireMax;
         }
@@ -69,5 +80,22 @@ public abstract class Health : MonoBehaviour
         {
             FireParticle.Stop();
         }
+    }
+
+    void UpdateHealthBar()
+    {
+        if (HealthBar != null && _peviousCurrentHealth != CurrentHealth)
+        {
+            float healthPercent = CurrentHealth / MaxHealth;
+
+            // Lerp between green and yellow at 50% health
+            Color color1 = Color.Lerp(Color.green, Color.yellow, (1 - healthPercent) * 2f);
+            // Lerp between yellow and red at 25% health
+            Color color2 = Color.Lerp(Color.yellow, Color.red, (1 - healthPercent) * 4f);
+            // Use the appropriate color based on the current health
+            HealthBar.color = (healthPercent > 0.5f) ? color1 : color2;
+            HealthBar.fillAmount = CurrentHealth / MaxHealth;
+        }
+        _peviousCurrentHealth = CurrentHealth;
     }
 }

@@ -1847,6 +1847,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 285133754880836020, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
+      propertyPath: m_PlayerPrefab
+      value: 
+      objectReference: {fileID: 2824460176613394036, guid: 5ee4c339f569f11458f913f0d8e19313, type: 3}
     - target: {fileID: 285133754880836021, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
       propertyPath: m_Name
       value: Game Manager
@@ -1906,6 +1910,10 @@ PrefabInstance:
     - target: {fileID: 2525839416962163670, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
       propertyPath: m_LocalPosition.z
       value: 45.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7989134047071037248, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8932513104966428826, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
       propertyPath: m_LocalPosition.y
