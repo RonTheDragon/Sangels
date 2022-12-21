@@ -33,6 +33,14 @@ public class Projectile : MonoBehaviour
         RB.angularVelocity = Vector3.zero;
         c.enabled = false;
         transform.parent = SlingshotSit;
+        BouncingProjectile bouncingProjectile = GetComponent<BouncingProjectile>();
+        if (bouncingProjectile != null)
+        {
+            bouncingProjectile.BouncingCounter = 0;
+            bouncingProjectile.AlreadyHit.Clear();
+        }
+
+
     }
 
   

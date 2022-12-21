@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2441146663687166969}
   - component: {fileID: 9063077903814894499}
   - component: {fileID: -6163528034033057052}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Fruit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,6 +93,7 @@ MonoBehaviour:
   DamageAmount: 10
   Knockback: 5
   Stagger: {x: 5, y: 10}
+  Fire: 0
   Attackable:
     serializedVersion: 2
     m_Bits: 0
@@ -109,7 +110,7 @@ GameObject:
   - component: {fileID: 7837446568293206817}
   - component: {fileID: 1428501130707971043}
   - component: {fileID: 8376666565684435449}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PlaceHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

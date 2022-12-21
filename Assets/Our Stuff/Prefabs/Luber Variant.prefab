@@ -241,10 +241,42 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 124a2ef6a82417b458752c6fe843a11e, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: db40b787fba5ab745be673b539756769, type: 3}
 --- !u!4 &7298168459314767839 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5351388680599946895, guid: db40b787fba5ab745be673b539756769, type: 3}
   m_PrefabInstance: {fileID: 3390012245317411152}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8328853403786945772 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6673690505569125820, guid: db40b787fba5ab745be673b539756769, type: 3}
+  m_PrefabInstance: {fileID: 3390012245317411152}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8085970229922663902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8328853403786945772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a288fb53d851f4549826da6a1c9cd9ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamageAmount: 10
+  Knockback: 30
+  Stagger: {x: 5, y: 20}
+  Fire: 0
+  Attackable:
+    serializedVersion: 2
+    m_Bits: 0
+  Shooter: {fileID: 0}
+  DamageBySpeed: {x: 1, y: 10}
+  _maxBouncing: 20
+  BouncingCounter: 0
+  _maxBouncingDistance: 10
+  _bouncePower: 20
+  AlreadyHit: []

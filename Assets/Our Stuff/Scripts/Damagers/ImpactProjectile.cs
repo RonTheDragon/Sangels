@@ -6,7 +6,7 @@ public class ImpactProjectile : ProjectileDamage
 {
     [Tooltip("x = Min Speed, slower wont cause damage\ny = Max Speed, On This Speed The Fruit Causes his full damage")]
     [SerializeField] Vector2 DamageBySpeed;
-    Rigidbody rb => GetComponent<Rigidbody>();
+    protected Rigidbody rb => GetComponent<Rigidbody>();
 
     
 
@@ -15,7 +15,7 @@ public class ImpactProjectile : ProjectileDamage
         
     }
 
-    private void OnCollisionEnter(Collision collision)
+    protected virtual void OnCollisionEnter(Collision collision)
     {
         float speed = rb.velocity.magnitude;
 
