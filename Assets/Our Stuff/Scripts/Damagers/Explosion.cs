@@ -5,6 +5,7 @@ using UnityEngine;
 public class Explosion : ExplosiveProjectile
 {
     [SerializeField] List<ParticleSystem> ExplosionParticles;
+    [SerializeField] float _timeTillTurnOff;
 
     public void Explode()
     {
@@ -30,6 +31,5 @@ public class Explosion : ExplosiveProjectile
             }
 
         }
-        
     }
 }

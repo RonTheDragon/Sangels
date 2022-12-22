@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 public class Projectile : MonoBehaviour
 {
     [Tooltip("Multiply The Speed")]
-    [SerializeField] protected float ForceMultiplier = 1;
+    public float ForceMultiplier = 1;
     protected Rigidbody RB => GetComponent<Rigidbody>();
     protected Collider c => GetComponent<Collider>();
 

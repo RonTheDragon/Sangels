@@ -15,7 +15,7 @@ public class PlayerHealth : Health
 
         CurrentHealth -=damage;
         bool Staggered = IsStaggered(Stagger);
-        if (!Staggered) knockback *= 0.1f;
+        if (!Staggered) knockback *= 0.4f;
         playerController.AddForce(-pushFrom, knockback);
 
         string AttackerName = Attacker != null ? Attacker.name : "No One";

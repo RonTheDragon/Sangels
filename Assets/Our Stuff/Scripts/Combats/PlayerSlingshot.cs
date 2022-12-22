@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
-using static UnityEditor.PlayerSettings;
 
 public class PlayerSlingshot : Combat
 {
@@ -137,7 +136,7 @@ public class PlayerSlingshot : Combat
         LR.enabled = true;
         LR.positionCount = Mathf.CeilToInt(_linePoints / _timeBetweenPoints) + 1;
         Vector3 startPosition = ProjectileSpawnLocation.position;
-        Vector3 startVelocity = CurrentCharge * ProjectileSpawnLocation.forward / _fruitMass;
+        Vector3 startVelocity = (CurrentCharge*fruit.ForceMultiplier) * ProjectileSpawnLocation.forward / _fruitMass;
         int i = 0;
         LR.SetPosition(i, startPosition);
         for (float time = 0; time < _linePoints; time += _timeBetweenPoints)
@@ -218,7 +217,7 @@ public class PlayerSlingshot : Combat
         if (!Physics.Raycast(cam.position, cam.forward, out hit, _aimAssistDir, AimTriggerLM,QueryTriggerInteraction.Collide))
         return Vector2.zero;
         //if (AimTriggerLM != (AimTriggerLM | (1 << hit.transform.gameObject.layer))) return Vector2.zero;
-        Debug.Log("Raycast has hit");
+        //Debug.Log("Raycast has hit");
         Vector3 CamInYZeroX= cam.position;
         CamInYZeroX = new Vector3(CamInYZeroX.x, 0, CamInYZeroX.z);
         Vector3 ColliderInYZeroX = new Vector3(hit.collider.transform.position.x,0, hit.collider.transform.position.z);

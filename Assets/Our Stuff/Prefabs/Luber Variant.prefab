@@ -267,7 +267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DamageAmount: 10
-  Knockback: 30
+  Knockback: 10
   Stagger: {x: 5, y: 20}
   Fire: 0
   Attackable:
@@ -277,7 +277,7 @@ MonoBehaviour:
   DamageBySpeed: {x: 1, y: 10}
   _maxBouncing: 20
   BouncingCounter: 0
-  _maxBouncingDistance: 30
+  _maxBouncingDistance: 50
   _bouncePower: 1
   AlreadyHit: []
   _minimumVel: 1

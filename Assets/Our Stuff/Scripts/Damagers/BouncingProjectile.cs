@@ -32,7 +32,7 @@ public class BouncingProjectile : ImpactProjectile
                 }
         }  
 
-        Debug.Log("has bounced");
+       // Debug.Log("has bounced");
     }
 
 

@@ -147,20 +147,17 @@ public class ThirdPersonMovement : Controllers
     private void groundCheck()
     {
         isGrounded = Physics.CheckBox(_boxPosition, _boxSize, quaternion.identity, Jumpable);
-        if (isGrounded)
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(_boxPosition + Vector3.up * .5f, Vector3.down, out hit, 1, Jumpable))
-            {
-                hitNormal = hit.normal;
-                //Debug.Log(hit.transform.name);
-            }
-        }
-        else
-        {
-            hitNormal = hitNormal * .99f;
-        }
+        
         isSliding = (!(Vector3.Angle(Vector3.up, hitNormal) <= slopeLimit));
+        hitNormal = hitNormal * .99f;
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (Jumpable == (Jumpable | (1 << hit.gameObject.layer)) && hit.point.y<transform.position.y)
+        {
+            hitNormal = hit.normal;
+        }
     }
 
     /// <summary> Making the player to slide on steep slopes. </summary>

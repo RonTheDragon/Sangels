@@ -9,6 +9,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
       propertyPath: Knockback
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
+      propertyPath: Stagger.x
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
@@ -17,7 +21,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
       propertyPath: DamageAmount
-      value: 20
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
       propertyPath: DamageBySpeed.x
@@ -25,11 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
       propertyPath: DamageBySpeed.y
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2441146663687166969, guid: db40b787fba5ab745be673b539756769, type: 3}
       propertyPath: m_Mass
-      value: 3
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 4839533831422456348, guid: db40b787fba5ab745be673b539756769, type: 3}
       propertyPath: m_Radius
@@ -38,7 +42,7 @@ PrefabInstance:
     - target: {fileID: 4839533831422456348, guid: db40b787fba5ab745be673b539756769, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 13400000, guid: 7baf3bf1b9fcaf74aa76f5fb440e54dc, type: 2}
     - target: {fileID: 5351388680599946895, guid: db40b787fba5ab745be673b539756769, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -103,5 +107,9 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 286a67538a0a95b41b46614da767b274, type: 2}
+    - target: {fileID: 9063077903814894499, guid: db40b787fba5ab745be673b539756769, type: 3}
+      propertyPath: ForceMultiplier
+      value: 4000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db40b787fba5ab745be673b539756769, type: 3}

@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: glowing red
-  m_Shader: {fileID: -6465566751694194690, guid: d691fb2186204d34cbc4de3facb8d4c2, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: a7482cbd42190b24e9a5d3453ed15185, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 2
