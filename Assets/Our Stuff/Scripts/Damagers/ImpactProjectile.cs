@@ -10,10 +10,6 @@ public class ImpactProjectile : ProjectileDamage
 
     
 
-    private void Update()
-    {
-        
-    }
 
     protected virtual void OnCollisionEnter(Collision collision)
     {

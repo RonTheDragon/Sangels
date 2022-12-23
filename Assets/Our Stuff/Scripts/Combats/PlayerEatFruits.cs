@@ -98,7 +98,12 @@ public class PlayerEatFruits : Combat
         EffectMovement.FruitSpeedEffect = 1;
         EffectMovement.FruitJumpEffect = 1;
         EffectHealth.FruitFireEffect = 0;
+        EffectHealth.FruitArmorEffect = 1;
+        EffectHealth.FruitKnockEffect = 1;
     }
+
+
+
 
     void DigestingFepler()
     {
@@ -112,6 +117,10 @@ public class PlayerEatFruits : Combat
         float SpeedEffect = 1;
         SpeedEffect -= GutCurrert/ (GutMaxCapacity + GutMaxCapacity/10);
         EffectMovement.FruitSpeedEffect = SpeedEffect;
+
+        float ArmorEffect = 1;
+        ArmorEffect += GutCurrert / (GutMaxCapacity)*10;
+        EffectHealth.FruitArmorEffect = ArmorEffect;
     }
 
     void DigestingLuber()
@@ -119,5 +128,14 @@ public class PlayerEatFruits : Combat
         float JumpEffect = 1;
         JumpEffect += (GutCurrert / GutMaxCapacity)*0.5f;
         EffectMovement.FruitJumpEffect = JumpEffect;
+
+        float knockEffect = 1;
+        knockEffect += (GutCurrert / GutMaxCapacity)*2;
+        EffectHealth.FruitKnockEffect = knockEffect;
+
     }
+
+
+ 
+
 }

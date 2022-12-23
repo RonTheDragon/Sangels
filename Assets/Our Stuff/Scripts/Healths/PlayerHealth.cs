@@ -7,14 +7,15 @@ using UnityEngine.InputSystem.XR;
 public class PlayerHealth : Health
 {
     [HideInInspector] public float FruitFireEffect = 0;
-
+    [HideInInspector] public float FruitKnockEffect = 1;
+    [HideInInspector] public float FruitArmorEffect = 1;
     ThirdPersonMovement playerController => GetComponent<ThirdPersonMovement>();
     public override void TakeDamage(float damage, float knockback, Vector3 pushFrom, Vector2 Stagger, GameObject Attacker = null)
     {
         if (_isDead) return;
-
-        CurrentHealth -=damage;
+        CurrentHealth -= damage / FruitArmorEffect;
         bool Staggered = IsStaggered(Stagger);
+        knockback *= FruitKnockEffect;
         if (!Staggered) knockback *= 0.4f;
         playerController.AddForce(-pushFrom, knockback);
 
@@ -47,5 +48,9 @@ public class PlayerHealth : Health
         
     }
 
-
+    [ContextMenu("Heal Me")]
+    void HealPlayerMaxHealth()
+    {
+        CurrentHealth = MaxHealth;
+    }
 }
