@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
-public class Explosion : ExplosiveProjectile
+public class Explosion : ProjectileDamage
 {
+    public float Radius;
+
     [SerializeField] List<ParticleSystem> ExplosionParticles;
     [SerializeField] float _timeTillTurnOff;
 
-    public void Explode()
+    public virtual void Explode()
     {
         foreach(ParticleSystem p in ExplosionParticles)
         {

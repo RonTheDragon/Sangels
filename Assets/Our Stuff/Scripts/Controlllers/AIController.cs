@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-//using UnityEditor.Experimental.GraphView;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.AI;
@@ -88,16 +87,6 @@ public class AIController : Controllers
 
     }
 
-    public override void ChangeSpeed(float speed = -1)
-    {
-        if (speed != -1)
-        {
-            Speed = speed;
-        }
-        agent.speed = Speed;
-        anim.SetFloat("Speed", Speed / RegularAnimationSpeed);
-
-    }
 
     void RoamCooldown()
     {
@@ -261,6 +250,22 @@ public class AIController : Controllers
     {
         Target = target;
         aiAtackManager.Target = target;
+    }
+
+    public override void ChangeSpeed(float speed = -1)
+    {
+        if (speed != -1)
+        {
+            Speed = speed;
+        }
+        agent.speed = GetSpeed();
+        anim.SetFloat("Speed", GetSpeed() / RegularAnimationSpeed);
+
+    }
+
+    public override float GetSpeed()
+    {
+        return Speed * (1 - (GlubCurrentEffect / (GlubMax + (GlubMax / 30))));
     }
 }
 

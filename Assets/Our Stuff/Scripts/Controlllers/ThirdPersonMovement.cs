@@ -113,7 +113,7 @@ public class ThirdPersonMovement : Controllers
             if (!SlingShot.isAiming && Speed!=0)
                 transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
             Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
-            CC.Move(MoveDir * Speed * Time.deltaTime);
+            CC.Move(MoveDir * GetSpeed() * Time.deltaTime);
         }
         else { 
         anim.SetBool("Walking", false);
@@ -233,12 +233,16 @@ public class ThirdPersonMovement : Controllers
 
     public override void ChangeSpeed(float speed = -1)
     {
-
         if (speed != -1)
         {
-            Speed = speed * FruitSpeedEffect;
+            Speed = speed;
         }
-        anim.SetFloat("Speed", Speed / RegularAnimationSpeed);
+        anim.SetFloat("Speed", GetSpeed() / RegularAnimationSpeed);
+    }
+
+    public override float GetSpeed()
+    {
+        return Speed * FruitSpeedEffect * (1 - (GlubCurrentEffect / (GlubMax + (GlubMax / 10))));
     }
 }
 

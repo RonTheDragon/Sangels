@@ -87,6 +87,7 @@ public class PlayerEatFruits : Combat
             case Fruit.Fepler: DigestingFepler(); GutFill.color = Color.red; break;
             case Fruit.Albert: DigestingAlbert(); GutFill.color = Brown; break; 
             case Fruit.Luber: DigestingLuber(); GutFill.color = Color.cyan; break;
+            case Fruit.Glub: DigestingGlub(); GutFill.color = Color.black; break;
             default: break;
         }
 
@@ -135,7 +136,17 @@ public class PlayerEatFruits : Combat
 
     }
 
+    void DigestingGlub()
+    {
+        float JumpEffect = 1;
+        JumpEffect -= (GutCurrert / GutMaxCapacity) * 0.5f;
+        EffectMovement.FruitJumpEffect = JumpEffect;
 
- 
+        float knockEffect = 1;
+        knockEffect -= (GutCurrert / GutMaxCapacity) * 0.8f;
+        EffectHealth.FruitKnockEffect = knockEffect;
+    }
+
+
 
 }

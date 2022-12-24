@@ -24,6 +24,11 @@ abstract public class Controllers : MonoBehaviour
 
     public Action OnStagger;
 
+    [Header("Glub")]
+    [ReadOnly][SerializeField] protected float GlubCurrentEffect;
+    [SerializeField] protected float GlubRemovedPS = 30;
+    [SerializeField] protected float GlubMax = 100;
+
     protected Animator anim => transform.GetChild(0).GetComponent<Animator>();
 
     float _targetWeight;
@@ -32,10 +37,31 @@ abstract public class Controllers : MonoBehaviour
     {
         Loop += applyingForce;
         Loop += MoveLookOverTime;
+        Loop += GlubRemove;
     }
     protected void Update()
     {
         Loop?.Invoke();
+    }
+
+    void GlubRemove()
+    {
+        if (GlubCurrentEffect > 0)
+        {
+            GlubCurrentEffect -= GlubRemovedPS * Time.deltaTime;
+
+            if (GlubCurrentEffect > GlubMax)
+                GlubCurrentEffect = GlubMax;
+            ChangeSpeed();
+        }
+    }
+
+    public void AddGlub(float glub)
+    {
+        GlubCurrentEffect += glub;
+        if (GlubCurrentEffect > GlubMax)
+            GlubCurrentEffect = GlubMax;
+        ChangeSpeed();
     }
 
     public void AddForce(Vector3 dir, float force)
@@ -65,6 +91,8 @@ abstract public class Controllers : MonoBehaviour
     }
 
     public abstract void ChangeSpeed(float speed = -1);
+
+    public abstract float GetSpeed();
 
 
     public virtual void Hurt(float Pain, GameObject Attacker = null, bool Staggered = false)
