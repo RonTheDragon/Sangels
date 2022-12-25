@@ -36,6 +36,13 @@ public class FruitWheal : MonoBehaviour
         Image backgroundComponent = backgroundImage.GetComponent<Image>();
         backgroundComponent.color = new Color(0.9f, 0.9f, 0.9f);
         backgroundComponent.rectTransform.sizeDelta = new Vector2(_radius * 2, _radius * 2);
+        backgroundComponent.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+
+        // Add an "Aspect Ratio Fitter" component to the background image
+        AspectRatioFitter aspectRatioFitter = backgroundImage.AddComponent<AspectRatioFitter>();
+        aspectRatioFitter.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+        aspectRatioFitter.aspectRatio = 1;
+
 
         // Create an image game object for each image in the array
         for (int i = 0; i < numImages; i++)
@@ -50,13 +57,13 @@ public class FruitWheal : MonoBehaviour
             float angle = angleStep * i;
             float x = _radius * Mathf.Cos(angle * Mathf.Deg2Rad);
             float y = _radius * Mathf.Sin(angle * Mathf.Deg2Rad);
-
             image.GetComponent<RectTransform>().anchoredPosition = new Vector2(x, y);
 
             // Set the image sprite and size
             Image imageComponent = image.GetComponent<Image>();
             imageComponent.sprite = fruitImages[i];
             imageComponent.rectTransform.sizeDelta = new Vector2(_radius * 2 / 3, _radius * 2 / 3);
+            imageComponent.rectTransform.pivot = new Vector2(0.5f, 0.5f);
 
             // Create a line between the center of the wheel and the current image
             GameObject line = new GameObject("Line", typeof(Image));
@@ -67,15 +74,8 @@ public class FruitWheal : MonoBehaviour
             lineComponent.rectTransform.pivot = new Vector2(0.5f, 0);
             lineComponent.rectTransform.anchoredPosition = Vector2.zero;
             lineComponent.rectTransform.rotation = Quaternion.Euler(0, 0, angle + 90);
-
-            ActivateUI.UIGameObject = wheel;
-
         }
-
-
-
-
-
+        ActivateUI.UIGameObject = wheel;
     }
 }
 

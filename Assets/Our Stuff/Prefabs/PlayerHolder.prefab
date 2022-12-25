@@ -836,7 +836,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: dc36dbe72dd89254180ffdf6d76db218, type: 3}
   - {fileID: 21300000, guid: 43171b4738e05984eaa233a43e0caf12, type: 3}
   - {fileID: 21300000, guid: b28d8cb6e4c029c42b91efb8fee8c814, type: 3}
-  _radius: 350
+  _radius: 200
   _lineThickness: 4
 --- !u!114 &3458114600562438288
 MonoBehaviour:
@@ -1078,7 +1078,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127943017131814319}
-  m_LocalRotation: {x: 0.09463041, y: 0.18325011, z: -0.017724946, w: 0.9783406}
+  m_LocalRotation: {x: 0.09463043, y: 0.18325013, z: -0.017724948, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
