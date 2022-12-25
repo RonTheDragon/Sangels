@@ -705,7 +705,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1417687644339772273}
-  m_LocalRotation: {x: -0.007173138, y: 0.00035117587, z: 0.042664893, w: 0.9990636}
+  m_LocalRotation: {x: -0.0071731387, y: 0.00035117587, z: 0.042664897, w: 0.9990636}
   m_LocalPosition: {x: 0.082826346, y: 0.26968136, z: 0.005072734}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -726,6 +726,8 @@ GameObject:
   - component: {fileID: 1506114500363170857}
   - component: {fileID: 1506114500363170856}
   - component: {fileID: 1506114500363170855}
+  - component: {fileID: 6032254611632039616}
+  - component: {fileID: 3458114600562438288}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -817,6 +819,37 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &6032254611632039616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506114500363170853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e05989187a015540b05da8314291e84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 1506114500363170857}
+  fruitImages:
+  - {fileID: 21300000, guid: dc36dbe72dd89254180ffdf6d76db218, type: 3}
+  - {fileID: 21300000, guid: 43171b4738e05984eaa233a43e0caf12, type: 3}
+  - {fileID: 21300000, guid: b28d8cb6e4c029c42b91efb8fee8c814, type: 3}
+  _radius: 350
+  _lineThickness: 4
+--- !u!114 &3458114600562438288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506114500363170853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fa9511bf70b6be4d88a869e0f9f4d0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1506114500605549629
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,7 +1013,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1963473303710736787}
-  m_LocalRotation: {x: 0.011381619, y: 0.038404092, z: -0.0027378106, w: 0.9991937}
+  m_LocalRotation: {x: 0.009983944, y: 0.73369247, z: 0.006112095, w: 0.67938083}
   m_LocalPosition: {x: -0, y: 0.26462066, z: -0.030931955}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1045,7 +1078,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127943017131814319}
-  m_LocalRotation: {x: 0.09463043, y: 0.18325013, z: -0.017724948, w: 0.9783406}
+  m_LocalRotation: {x: 0.09463041, y: 0.18325011, z: -0.017724946, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -2858,6 +2891,9 @@ MonoBehaviour:
   LookingAt: {fileID: 400005232067196757}
   rig: {fileID: 3411079627600858810}
   _lookingSpeed: 10
+  GlubCurrentEffect: 0
+  GlubRemovedPS: 30
+  GlubMax: 100
   PlayerNumber: 0
   _jump: 15
   _gravity: 20
@@ -3050,6 +3086,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 05980253-00f1-4e5d-900b-417b0b98bb21
     m_ActionName: Sangel/Eat[/Keyboard/f,/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3458114600562438288}
+        m_TargetAssemblyTypeName: ActivateUI, Assembly-CSharp
+        m_MethodName: ToggleGameObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f4451e46-2a52-4d5d-88dc-c0186e4f6362
+    m_ActionName: UI/FruitWheelG[/Keyboard/g]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Sangel
@@ -3579,7 +3631,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5840255186920816596}
-  m_LocalRotation: {x: 0.09463041, y: 0.18325011, z: -0.017724946, w: 0.9783406}
+  m_LocalRotation: {x: 0.09463043, y: 0.18325013, z: -0.017724948, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -4393,7 +4445,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7620546746006605388}
-  m_LocalRotation: {x: -0.03772585, y: -0.000000076358, z: 4.0567105e-29, w: 0.99928814}
+  m_LocalRotation: {x: 0.0021878518, y: -0.7060137, z: 0.026653945, w: 0.70769304}
   m_LocalPosition: {x: -0, y: 0.2204544, z: 0.062024534}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
