@@ -19,11 +19,10 @@ public class AiCombatManager : CombatManager
     public void AttackTarget()
     {
         if (Target == null || UsingAttackTimeLeft>0) return;
-        OverrideToAttack();
         if (SOMeleeAttack.MinDist < Vector3.Distance(transform.position, Target.position) && Vector3.Distance(transform.position, Target.position) < SOMeleeAttack.MaxDist)
         {
             anim.SetTrigger(SOMeleeAttack.AnimationName);
-            aiController.ChangeSpeed(SOMeleeAttack.speedWhileUsing);
+            aiController.SetSpeed(SOMeleeAttack.speedWhileUsing);
             UsingAttackTimeLeft = SOMeleeAttack.UsingTime;
         }
     }
@@ -31,13 +30,13 @@ public class AiCombatManager : CombatManager
 
     protected override void AttackEnded()
     {
-        aiController.ChangeSpeed(aiController.NormalSpeed);
+        aiController.SetSpeed(aiController.NormalSpeed);
     }
 
     protected override void Staggered()
     {
         base.Staggered();
-        aiController.ChangeSpeed(0);
+        aiController.SetSpeed(0);
     }
 }
 

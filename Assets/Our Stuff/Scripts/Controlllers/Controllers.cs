@@ -52,7 +52,7 @@ abstract public class Controllers : MonoBehaviour
 
             if (GlubCurrentEffect > GlubMax)
                 GlubCurrentEffect = GlubMax;
-            ChangeSpeed();
+            SetSpeed();
         }
     }
 
@@ -61,7 +61,7 @@ abstract public class Controllers : MonoBehaviour
         GlubCurrentEffect += glub;
         if (GlubCurrentEffect > GlubMax)
             GlubCurrentEffect = GlubMax;
-        ChangeSpeed();
+        SetSpeed();
     }
 
     public void AddForce(Vector3 dir, float force)
@@ -90,7 +90,7 @@ abstract public class Controllers : MonoBehaviour
         rig.weight = Mathf.Lerp(rig.weight, _targetWeight, _lookingSpeed * Time.deltaTime);
     }
 
-    public abstract void ChangeSpeed(float speed = -1);
+    public abstract void SetSpeed(float speed = -1);
 
     public abstract float GetSpeed();
 

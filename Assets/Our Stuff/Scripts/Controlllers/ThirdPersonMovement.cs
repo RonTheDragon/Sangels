@@ -231,7 +231,11 @@ public class ThirdPersonMovement : Controllers
         Gizmos.color = isGrounded ? Color.blue : Color.red; Gizmos.DrawCube(_boxPosition, _boxSize * 2);
     }
 
-    public override void ChangeSpeed(float speed = -1)
+    public override float GetSpeed()
+    {
+        return Speed * FruitSpeedEffect * (1 - (GlubCurrentEffect / (GlubMax + (GlubMax / 10))));
+    }
+    public override void SetSpeed(float speed = -1)
     {
         if (speed != -1)
         {
@@ -240,9 +244,5 @@ public class ThirdPersonMovement : Controllers
         anim.SetFloat("Speed", GetSpeed() / RegularAnimationSpeed);
     }
 
-    public override float GetSpeed()
-    {
-        return Speed * FruitSpeedEffect * (1 - (GlubCurrentEffect / (GlubMax + (GlubMax / 10))));
-    }
 }
 

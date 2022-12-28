@@ -21,7 +21,7 @@ public abstract class CombatManager : MonoBehaviour
 
     [HideInInspector] public List<Combat> Damagers = new List<Combat>();
 
-    [SerializeField] protected SOMeleeAttack SOMeleeAttack;
+    public SOMeleeAttack SOMeleeAttack;
 
 
     public void Update()
@@ -37,16 +37,7 @@ public abstract class CombatManager : MonoBehaviour
             
         }
     }
-    protected void OverrideToAttack()
-    {
-        foreach (Combat d in Damagers)
-        {
-            d.DamageAmount = SOMeleeAttack.DamageAmount;
-            d.Knockback = SOMeleeAttack.Knockback;
-            d.Stagger = SOMeleeAttack.Stagger;
-        }
 
-    }
     protected abstract void AttackEnded();
 
     protected virtual void Staggered()

@@ -67,16 +67,15 @@ public class PlayerCombatManager : CombatManager
 
     protected override void AttackEnded()
     {
-        TPM.ChangeSpeed(TPM.NormalSpeed);
+        TPM.SetSpeed(TPM.NormalSpeed);
     }
 
     void Melee()
     {
         if (_melee && UsingAttackTimeLeft==0)
         {
-            OverrideToAttack();
             anim.SetTrigger(SOMeleeAttack.AnimationName);
-            TPM.ChangeSpeed(SOMeleeAttack.speedWhileUsing);
+            TPM.SetSpeed(SOMeleeAttack.speedWhileUsing);
             UsingAttackTimeLeft = SOMeleeAttack.UsingTime;
         }
     }
@@ -85,9 +84,8 @@ public class PlayerCombatManager : CombatManager
     {
         if (_eat && UsingAttackTimeLeft == 0)
         {
-            OverrideToAttack();
             Eat?.Invoke();
-            TPM.ChangeSpeed(SOMeleeAttack.speedWhileUsing);
+            TPM.SetSpeed(SOMeleeAttack.speedWhileUsing);
             UsingAttackTimeLeft = 0.5f;
         }
     }
@@ -96,9 +94,8 @@ public class PlayerCombatManager : CombatManager
     {
         if (_shoot && UsingAttackTimeLeft == 0)
         {
-            OverrideToAttack();
             anim.SetTrigger("ChargeSlingshot");
-            TPM.ChangeSpeed(TPM.NormalSpeed/2);
+            TPM.SetSpeed(TPM.NormalSpeed/2);
             Shoot?.Invoke();
             _holdingFire = true;
         }
@@ -123,6 +120,6 @@ public class PlayerCombatManager : CombatManager
         base.Staggered();
         OnStopHoldShoot?.Invoke();
         _holdingFire = false;
-        TPM.ChangeSpeed(0);
+        TPM.SetSpeed(0);
     }
 }

@@ -252,7 +252,7 @@ public class AIController : Controllers
         aiAtackManager.Target = target;
     }
 
-    public override void ChangeSpeed(float speed = -1)
+    public override void SetSpeed(float speed = -1)
     {
         if (speed != -1)
         {
