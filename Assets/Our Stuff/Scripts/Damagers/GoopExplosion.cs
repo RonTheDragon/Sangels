@@ -11,16 +11,14 @@ public class GoopExplosion : Explosion
     [SerializeField] float _effectCooldown = 0.5f;
     float _effectCool;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    LayerMask goop => GameManager.instance.GoopStick;
+
+ 
 
     // Update is called once per frame
     void Update()
     {
-        if (!gooped && RB.velocity.magnitude < 0.1f) { gooped = true; Goop.SetActive(true); transform.rotation = Quaternion.identity; RB.isKinematic = true; }
+        // if (!gooped && RB.velocity.magnitude < 0.1f) { gooped = true; Goop.SetActive(true); transform.rotation = Quaternion.identity; RB.isKinematic = true; }
 
         if (gooped)
         {
@@ -31,7 +29,7 @@ public class GoopExplosion : Explosion
             else
             {
                 Collider[] colliders = Physics.OverlapSphere(transform.position, Radius);
-                foreach(Collider collider in colliders)
+                foreach (Collider collider in colliders)
                 {
                     if (Attackable == (Attackable | (1 << collider.gameObject.layer)))
                     {
@@ -50,6 +48,19 @@ public class GoopExplosion : Explosion
         RB.isKinematic = false;
         Goop.SetActive(false);
         gooped = false;
-        RB.velocity = Vector3.down*3;
+        RB.velocity = Vector3.down * 3;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (!gooped && goop == (goop | (1 << collision.gameObject.layer)))
+        {
+            gooped = true;
+            Vector3 normal = collision.contacts[0].normal;
+            Quaternion rotation = Quaternion.FromToRotation(Vector3.down, -normal);
+            transform.rotation = rotation;
+            Goop.SetActive(true);
+            RB.isKinematic = true;
+        }
     }
 }
