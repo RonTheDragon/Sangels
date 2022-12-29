@@ -18,20 +18,22 @@ public class BouncingProjectile : ImpactProjectile
     protected override void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
+        
         if (Attackable == (Attackable | (1 << collision.gameObject.layer)))
             AlreadyHit.Add(collision.gameObject);
 
         if (BouncingCounter < _maxBouncing && rb.velocity.magnitude > _minimumVel)//do the staff with the layers
         {
-                Transform Target = FindBounceTarget();
+            Transform Target = FindBounceTarget();
                 if (Target != null && AlreadyHit.FirstOrDefault(c => c.transform == Target) == null)
                 {
-                    fruit.transform.LookAt(Target);
+                    Debug.Log("bounced");
+                    fruit.transform.LookAt(Target.position);
                     fruit.LaunchProjectile(rb.velocity.magnitude * _bouncePower);
                     BouncingCounter++;
                 }
         }  
-
+        
        // Debug.Log("has bounced");
     }
 
@@ -45,17 +47,17 @@ public class BouncingProjectile : ImpactProjectile
         float tmpDistance;
         foreach (Collider collider in Colliders) 
         {
+            
             RaycastHit hit;
             if (Physics.Raycast(transform.position, collider.transform.position - transform.position, out hit, GetMaxBouncingDistance(), BouncingFruitLayer)) 
             {
                 if (hit.collider == collider)
                 {
-
                     tmpDistance = Vector3.Distance(transform.position, collider.transform.position);
                     if (tmpDistance < minDistance)
                     {
                         minDistance = tmpDistance;
-                        target = collider;
+                        target = collider;                 
                     }
                 }
             }

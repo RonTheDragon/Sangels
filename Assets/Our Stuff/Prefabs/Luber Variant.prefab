@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4546429956438131216}
   - component: {fileID: 3152626925881821583}
   - component: {fileID: 2642861652799451692}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PlaceHolder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1805127241716384923}
   - component: {fileID: 45625004810275957}
   - component: {fileID: 5595188308774148396}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PlaceHolder (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -277,7 +277,7 @@ MonoBehaviour:
   DamageBySpeed: {x: 1, y: 10}
   _maxBouncing: 20
   BouncingCounter: 0
-  _maxBouncingDistance: 50
+  _maxBouncingDistance: 1
   _bouncePower: 1
   AlreadyHit: []
   _minimumVel: 1
