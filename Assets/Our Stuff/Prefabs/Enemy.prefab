@@ -1071,10 +1071,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb99f77f9504aa48ad71698642d009d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageAmount: 10
-  Knockback: 10
-  Stagger: {x: 0, y: 0}
-  Fire: 0
   Attackable:
     serializedVersion: 2
     m_Bits: 0
@@ -2570,6 +2566,9 @@ MonoBehaviour:
   LookingAt: {fileID: 3019735477120511849}
   rig: {fileID: 4643502931346221247}
   _lookingSpeed: 10
+  GlubCurrentEffect: 0
+  GlubRemovedPS: 30
+  GlubMax: 100
   _roamCooldown: {x: 1, y: 3}
   _roamCD: 0
   _patrolRange: 20
@@ -2602,7 +2601,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 1
+  m_BaseOffset: 1.1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &6631142739324611383

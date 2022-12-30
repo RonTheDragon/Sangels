@@ -13,7 +13,7 @@ public class PlayerAmmoSwitch : Combat
     // Start is called before the first frame update
     void Start()
     {
-        attackManager.JoinAttackerManager(this);
+        attackManager.Damagers.Add(this);
         SwitchAmmo();
         playerAttackManager.Loop += AmmoSwitching;
     }

@@ -44,10 +44,4 @@ public abstract class CombatManager : MonoBehaviour
     {
         UsingAttackTimeLeft = StaggeredTime;
     }
-
-    public void JoinAttackerManager(Combat d)
-    {
-        Damagers.Add(d);
-        d.Attackable = Attackable;
-    }
 }

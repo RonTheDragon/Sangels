@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class AiHealth : Health
 {
-    AIController aiController => GetComponent<AIController>();
+    AIController aiController => (AIController)controller;
 
     public override void TakeDamage(float damage, float knockback, Vector3 pushFrom, Vector2 Stagger, GameObject Attacker = null)
     {

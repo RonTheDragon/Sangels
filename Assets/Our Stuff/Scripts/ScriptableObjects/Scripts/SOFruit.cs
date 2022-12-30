@@ -17,10 +17,9 @@ public class SOFruit : ScriptableObject
         Glub,
         Fepler,
         Luber,
-        Scaurn,
-        Hulier,
-        Kremer,
-        Albert
+        Velo,
+        Vitaliv,
+        Scrumbulk
     }
     public Fruit fruit;
 

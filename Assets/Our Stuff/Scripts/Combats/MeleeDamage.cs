@@ -14,21 +14,25 @@ public class MeleeDamage : Combat
     IEnumerator WaitOneFrame()
     {
         yield return null;
-        attackManager.JoinAttackerManager(this);
+        attackManager.Damagers.Add(this);
         foreach (TriggerRegistration meleeTrigger in _meleeTriggers)
         {
-            meleeTrigger.Attackable = Attackable;
+            meleeTrigger.Attackable = attackManager.Attackable;
         }
     }
 
-    public RegisteredDamaged SubmitToRegisteredObjects(Health mom) 
+    public virtual RegisteredDamaged SubmitToRegisteredObjects(Health TargetHealth) 
     {
-        mom.TakeDamage(attackManager.SOMeleeAttack.DamageAmount,
+        TargetHealth.TakeDamage(
+            attackManager.SOMeleeAttack.DamageAmount,
             attackManager.SOMeleeAttack.Knockback,
             transform.position,
-            attackManager.SOMeleeAttack.Stagger,transform.parent.gameObject);
-        if(attackManager.SOMeleeAttack.Fire> 0)mom.TakeFire(attackManager.SOMeleeAttack.Fire);
-        return new RegisteredDamaged(GetDamageCD, mom.gameObject);
+            attackManager.SOMeleeAttack.Stagger,
+            transform.parent.gameObject);
+
+        if(attackManager.SOMeleeAttack.Fire> 0)TargetHealth.TakeFire(attackManager.SOMeleeAttack.Fire);
+
+        return new RegisteredDamaged(GetDamageCD, TargetHealth.gameObject);
     }
 
     public void addTrigger(TriggerRegistration tr)

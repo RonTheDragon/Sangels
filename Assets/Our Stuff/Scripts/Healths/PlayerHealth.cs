@@ -9,7 +9,7 @@ public class PlayerHealth : Health
     [HideInInspector] public float FruitFireEffect = 0;
     [HideInInspector] public float FruitKnockEffect = 1;
     [HideInInspector] public float FruitArmorEffect = 1;
-    ThirdPersonMovement playerController => GetComponent<ThirdPersonMovement>();
+    ThirdPersonMovement playerController => (ThirdPersonMovement)controller;
     public override void TakeDamage(float damage, float knockback, Vector3 pushFrom, Vector2 Stagger, GameObject Attacker = null)
     {
         if (_isDead) return;
@@ -38,6 +38,7 @@ public class PlayerHealth : Health
         throw new NotImplementedException();
     }
 
+
     public override void Die()
     {
         if (CurrentHealth > 0) return;
@@ -53,4 +54,5 @@ public class PlayerHealth : Health
     {
         CurrentHealth = MaxHealth;
     }
+
 }

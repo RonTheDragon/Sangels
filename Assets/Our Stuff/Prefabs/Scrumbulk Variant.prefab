@@ -89,7 +89,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6673690505569125820, guid: db40b787fba5ab745be673b539756769, type: 3}
       propertyPath: m_Name
-      value: Albert Variant
+      value: Scrumbulk Variant
       objectReference: {fileID: 0}
     - target: {fileID: 7837446568293206817, guid: db40b787fba5ab745be673b539756769, type: 3}
       propertyPath: m_LocalScale.x

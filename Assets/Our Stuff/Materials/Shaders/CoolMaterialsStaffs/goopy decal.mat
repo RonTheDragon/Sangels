@@ -49,6 +49,6 @@ Material:
     - _Wave_confines: 1
     - _wave_Speed: 0.2
     m_Colors:
-    - _BaseColor: {r: 0, g: 0, b: 0, a: 0}
-    - _Bubble_Color: {r: 0.38431373, g: 0, b: 0.7169812, a: 0}
+    - _BaseColor: {r: 0.003413924, g: 0.003413924, b: 0.04438101, a: 0}
+    - _Bubble_Color: {r: 0.49756372, g: 0, b: 0.7176471, a: 0}
   m_BuildTextureStacks: []

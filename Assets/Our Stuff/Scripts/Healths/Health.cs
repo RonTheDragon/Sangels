@@ -25,6 +25,8 @@ public abstract class Health : MonoBehaviour
     [SerializeField] protected float _fireExtinguishing = 25;
     [SerializeField] protected ParticleSystem FireParticle;
 
+    protected Controllers controller => GetComponent<Controllers>();
+
     [SerializeField] Image HealthBar;
 
     float _peviousCurrentHealth;
@@ -48,6 +50,11 @@ public abstract class Health : MonoBehaviour
     public virtual void TakeFire(float Fire)
     {
         _fireCurrently += Fire;
+    }
+
+    public virtual void TakeGlub(float glub)
+    {
+        controller.AddGlub(glub);
     }
 
     public abstract void TakeStun();

@@ -58,7 +58,7 @@ public class PlayerSlingshot : Combat
     // Start is called before the first frame update
     void Start()
     {
-        attackManager.JoinAttackerManager(this);
+        attackManager.Damagers.Add(this);
         cam = playerAttackManager.Cam.transform;
         cinemachine = playerAttackManager.Cinemachine;
         playerAttackManager.Loop += Shoot;
@@ -169,7 +169,7 @@ public class PlayerSlingshot : Combat
             ProjectileDamage d = fruit.GetComponent<ProjectileDamage>();
             d.Shooter = transform.parent.gameObject;
             _fruitMass = fruit.GetComponent<Rigidbody>().mass;
-            d.Attackable = Attackable;
+            d.Attackable = attackManager.Attackable;
         }
     }
 
@@ -236,7 +236,7 @@ public class PlayerSlingshot : Combat
         //      degree =  cam.localEulerAngles.x;
         //Debug.Log($"{targetAngleX}  ");
 
-        return new Vector2(deltaAngleCamAndTriggerY*0.1f, deltaAngleCamAndTriggerX * 0.1f);
+        return new Vector2(deltaAngleCamAndTriggerY*0.01f*hit.distance, deltaAngleCamAndTriggerX * 0.01f * hit.distance);
     }
 
    
