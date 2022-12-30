@@ -1,8 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing.Printing;
-//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 public abstract class Health : MonoBehaviour

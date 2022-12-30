@@ -106,8 +106,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 652034595348916931}
-  - component: {fileID: 472077291171979871}
   - component: {fileID: 2565899877237667328}
+  - component: {fileID: 472077291171979871}
   - component: {fileID: 4156646711117183895}
   - component: {fileID: 670301637293329066}
   - component: {fileID: 8582004076976288162}
@@ -139,6 +139,37 @@ Transform:
   m_Father: {fileID: 5726065352780677290}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2565899877237667328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164291974302134393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34dbadd0ab71b434eb3848baee42eeee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _melee: 0
+  StaggeredTime: 1.6
+  Attackable:
+    serializedVersion: 2
+    m_Bits: 0
+  Damagers: []
+  SOMeleeAttack: {fileID: 11400000, guid: 281ba3b4511db33428b37e5206b5b593, type: 2}
+  CurrentAmmo: {fileID: 0}
+  AmmoTypes:
+  - {fileID: 11400000, guid: ee4f5e133df96d0469aefe61d9509b77, type: 2}
+  - {fileID: 11400000, guid: c52bd40215458b34dbd5f1f605129405, type: 2}
+  - {fileID: 11400000, guid: 27c7bfcb798d38441902a2f7a687f0f8, type: 2}
+  - {fileID: 11400000, guid: bb64bf3f5a4e93c42802c4ae1675b93e, type: 2}
+  _currentAmmo: 0
+  RefillAmmoOnStart: 1
+  Cam: {fileID: 5726065353198074104}
+  Cinemachine: {fileID: 5726065353114077419}
+  _shoot: 0
+  _scroll: 0
 --- !u!95 &472077291171979871
 Animator:
   serializedVersion: 4
@@ -159,29 +190,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2565899877237667328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 164291974302134393}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34dbadd0ab71b434eb3848baee42eeee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _melee: 0
-  StaggeredTime: 1.6
-  Attackable:
-    serializedVersion: 2
-    m_Bits: 0
-  Damagers: []
-  SOMeleeAttack: {fileID: 11400000, guid: 281ba3b4511db33428b37e5206b5b593, type: 2}
-  Cam: {fileID: 5726065353198074104}
-  Cinemachine: {fileID: 5726065353114077419}
-  _shoot: 0
-  _scroll: 0
 --- !u!114 &4156646711117183895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,12 +327,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03d0f21434db326489a1efd07811769f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentAmmo: {fileID: 0}
-  AmmoTypes:
-  - {fileID: 11400000, guid: ee4f5e133df96d0469aefe61d9509b77, type: 2}
-  - {fileID: 11400000, guid: c52bd40215458b34dbd5f1f605129405, type: 2}
-  - {fileID: 11400000, guid: 27c7bfcb798d38441902a2f7a687f0f8, type: 2}
-  - {fileID: 11400000, guid: bb64bf3f5a4e93c42802c4ae1675b93e, type: 2}
 --- !u!114 &7181143273901993522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,6 +343,17 @@ MonoBehaviour:
   GutCurrert: 0
   GutDrainSpeed: 3
   GutFill: {fileID: 147683843849375430}
+  LuberPassive: 0.5
+  LuberWeakness: 2
+  LuberMelee: 2
+  ScrumbulkPassive: 10
+  ScrumbulkWeakness: 1
+  ScrumbulkMelee: 10
+  GlubPassive: 0.8
+  GlubWeakness: 0.5
+  GlubMelee: 50
+  FeplerWeakness: 50
+  FeplerMelee: 50
 --- !u!114 &2374607002002561565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1054,7 +1067,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127943017131814319}
-  m_LocalRotation: {x: 0.09463041, y: 0.18325011, z: -0.017724946, w: 0.9783406}
+  m_LocalRotation: {x: 0.09463043, y: 0.18325013, z: -0.017724948, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -2097,7 +2110,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3497720927849900763}
-  m_LocalRotation: {x: 0.09463041, y: 0.18325011, z: -0.017724946, w: 0.9783406}
+  m_LocalRotation: {x: 0.09463043, y: 0.18325013, z: -0.017724948, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -2806,6 +2819,7 @@ GameObject:
   - component: {fileID: 5726065353308739104}
   - component: {fileID: 7003550955189823698}
   - component: {fileID: 6793577228225957471}
+  - component: {fileID: 4924774160092730365}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -3104,6 +3118,19 @@ MonoBehaviour:
   FruitFireEffect: 0
   FruitKnockEffect: 1
   FruitArmorEffect: 1
+--- !u!114 &4924774160092730365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5726065352780677289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa6e13bd86aacb4abdc058e999916be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCombatManager: {fileID: 2565899877237667328}
 --- !u!1 &5726065353114077423
 GameObject:
   m_ObjectHideFlags: 0
@@ -3449,7 +3476,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5726065353198074110}
-  m_LocalRotation: {x: 0.09463041, y: 0.18325011, z: -0.017724946, w: 0.9783406}
+  m_LocalRotation: {x: 0.09463043, y: 0.18325013, z: -0.017724948, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 2, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3591,7 +3618,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5840255186920816596}
-  m_LocalRotation: {x: 0.09463043, y: 0.18325013, z: -0.017724948, w: 0.9783406}
+  m_LocalRotation: {x: 0.09463041, y: 0.18325011, z: -0.017724946, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0

@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class PlayerAmmoSwitch : Combat
 {
-    [Header("Ammo Switching")]
-    [ReadOnly]public SOFruit CurrentAmmo;
-    [SerializeField] List<SOFruit> AmmoTypes;
     PlayerCombatManager playerAttackManager => (PlayerCombatManager)attackManager;
-    int _currentAmmo;
 
     // Start is called before the first frame update
     void Start()
@@ -20,26 +16,44 @@ public class PlayerAmmoSwitch : Combat
 
     void AmmoSwitching()
     {
-        if (AmmoTypes.Count > 1)
+        if (playerAttackManager.AmmoTypes.Count > 1 && playerAttackManager.AvailableFruits() > 0)
         {
             if (playerAttackManager._scroll > 0)
             {
-                _currentAmmo++;
-                if (_currentAmmo > AmmoTypes.Count - 1)
+                for (int i = 0; i < playerAttackManager.AmmoTypes.Count; i++)
                 {
-                    _currentAmmo = 0;
+                    playerAttackManager._currentAmmo++;
+                    if (playerAttackManager._currentAmmo > playerAttackManager.AmmoTypes.Count - 1)
+                    {
+                        playerAttackManager._currentAmmo = 0;
+                    }
+                    if (playerAttackManager.AmmoTypes[playerAttackManager._currentAmmo].CurrentAmount > 0)
+                    {
+                        SwitchAmmo();
+                        break;
+                    }
                 }
-                SwitchAmmo();
             }
             else if (playerAttackManager._scroll < 0)
             {
-                _currentAmmo--;
-                if (_currentAmmo < 0)
+                for (int i = 0; i < playerAttackManager.AmmoTypes.Count; i++)
                 {
-                    _currentAmmo = AmmoTypes.Count - 1;
+                    playerAttackManager._currentAmmo--;
+                    if (playerAttackManager._currentAmmo < 0)
+                    {
+                        playerAttackManager._currentAmmo = playerAttackManager.AmmoTypes.Count - 1;
+                    }
+                    if (playerAttackManager.AmmoTypes[playerAttackManager._currentAmmo].CurrentAmount > 0)
+                    {
+                        SwitchAmmo();
+                        break;
+                    }
                 }
-                SwitchAmmo();
             }
+        }
+        else 
+        {
+            playerAttackManager.CurrentAmmo = null;
         }
     }
 
@@ -48,16 +62,16 @@ public class PlayerAmmoSwitch : Combat
 
     void SwitchAmmo()
     {
-        if (AmmoTypes.Count > 0)
+        if (playerAttackManager.AmmoTypes.Count > 0)
         {
-            CurrentAmmo = AmmoTypes[_currentAmmo];
+            playerAttackManager.CurrentAmmo = playerAttackManager.AmmoTypes[playerAttackManager._currentAmmo];
             playerAttackManager._scroll = 0;
 
             //Debug.Log(CurrentAmmo);
         }
         else
         {
-            CurrentAmmo = null;
+            playerAttackManager.CurrentAmmo = null;
         }
     }
 }

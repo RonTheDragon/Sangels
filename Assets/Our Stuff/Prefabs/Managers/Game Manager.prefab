@@ -71,15 +71,18 @@ MonoBehaviour:
   TrajectoryHits:
     serializedVersion: 2
     m_Bits: 2039
+  ProjectileBounceCanSee:
+    serializedVersion: 2
+    m_Bits: 2047
+  GoopStick:
+    serializedVersion: 2
+    m_Bits: 1
   Everything:
     serializedVersion: 2
     m_Bits: 2147483647
   Nothing:
     serializedVersion: 2
     m_Bits: 0
-  ProjectileBounceCanSee:
-    serializedVersion: 2
-    m_Bits: 4095
   PlayerMasks:
   - serializedVersion: 2
     m_Bits: 5247
@@ -372,7 +375,7 @@ MonoBehaviour:
     - tag: Luber
       prefab: {fileID: 8328853403786945772, guid: 13ca0b5215f497c4ca69fe5b9418f2b5, type: 3}
       size: 20
-    - tag: Albert
+    - tag: Scrumbulk
       prefab: {fileID: 1417715162589546882, guid: f2eece5782c09d24ca43281d4207bfd4, type: 3}
       size: 20
     - tag: Fepler

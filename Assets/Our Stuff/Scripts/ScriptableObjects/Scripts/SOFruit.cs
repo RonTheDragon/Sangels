@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-
-
-
 [SerializeField]
 [CreateAssetMenu(fileName = "New Fruit", menuName = "Fruit Data", order = 51)]
 public class SOFruit : ScriptableObject
@@ -23,5 +20,6 @@ public class SOFruit : ScriptableObject
     }
     public Fruit fruit;
 
-
+    public int MaxAmount;
+    public int CurrentAmount;
 }

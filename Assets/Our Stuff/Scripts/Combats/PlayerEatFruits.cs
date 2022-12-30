@@ -54,7 +54,7 @@ public class PlayerEatFruits : Combat
 
     void Eat()
     {
-        Digest(ammoSwitch.CurrentAmmo.fruit);
+            Digest(playerAttackManager.CurrentAmmo.fruit);
     }
 
     void Digest(Fruit fruit)
