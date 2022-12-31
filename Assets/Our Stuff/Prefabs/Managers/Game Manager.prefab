@@ -61,19 +61,19 @@ MonoBehaviour:
     m_Bits: 1
   PlayersCanAttack:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 17408
   EnemiesCanSee:
     serializedVersion: 2
-    m_Bits: 9
+    m_Bits: 16393
   EnemiesCanAttack:
     serializedVersion: 2
     m_Bits: 8
   TrajectoryHits:
     serializedVersion: 2
-    m_Bits: 2039
+    m_Bits: 18423
   ProjectileBounceCanSee:
     serializedVersion: 2
-    m_Bits: 2047
+    m_Bits: 18431
   GoopStick:
     serializedVersion: 2
     m_Bits: 1
@@ -392,6 +392,20 @@ MonoBehaviour:
     - tag: Goop
       prefab: {fileID: 3945015108336934066, guid: d4972aed479c1ae4e9abbc7eac0cef85, type: 3}
       size: 20
+  - tag: Collectables
+    pools:
+    - tag: LuberC
+      prefab: {fileID: 4086633904681325726, guid: 31587be5a584d384997da74f6b098970, type: 3}
+      size: 30
+    - tag: FeplerC
+      prefab: {fileID: 8680296304451144461, guid: 558966b71c475b24c8e645590fd1de82, type: 3}
+      size: 30
+    - tag: GlubC
+      prefab: {fileID: 251396202482415524, guid: 8653f9e1ac77c234b8614bec0ce8222e, type: 3}
+      size: 30
+    - tag: ScrumbulkC
+      prefab: {fileID: 4362036618209853045, guid: 4f9dae4893e942f43a2fe330a9e1d739, type: 3}
+      size: 30
 --- !u!1 &7100667302818920659
 GameObject:
   m_ObjectHideFlags: 0

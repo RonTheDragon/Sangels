@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class AiHealth : Health
+public class AiHealth : CharacterHealth
 {
     AIController aiController => (AIController)controller;
 

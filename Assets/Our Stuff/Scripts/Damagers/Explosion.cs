@@ -29,7 +29,11 @@ public class Explosion : ProjectileDamage
                     float dist = Vector3.Distance(transform.position, pos);
                     float DistanceMultipler = (-dist / Radius) + 1;
                     hp.TakeDamage(DamageAmount * DistanceMultipler, Knockback * DistanceMultipler, transform.position, Stagger * DistanceMultipler, Shooter);
-                    if (Fire > 0) hp.TakeFire(Fire * DistanceMultipler);
+                    if (hp is CharacterHealth)
+                    {
+                        CharacterHealth characterHealth = (CharacterHealth)hp;
+                        if (Fire > 0) characterHealth.TakeFire(Fire * DistanceMultipler);
+                    }
                 }
             }
 

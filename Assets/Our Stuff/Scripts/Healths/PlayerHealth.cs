@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 
-public class PlayerHealth : Health
+public class PlayerHealth : CharacterHealth
 {
     [HideInInspector] public float FruitFireEffect = 0;
     [HideInInspector] public float FruitKnockEffect = 1;

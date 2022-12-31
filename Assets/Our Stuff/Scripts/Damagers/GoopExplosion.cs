@@ -34,7 +34,10 @@ public class GoopExplosion : Explosion
                     if (Attackable == (Attackable | (1 << collider.gameObject.layer)))
                     {
                         Controllers control = collider.GetComponent<Controllers>();
-                        control.AddGlub(100);
+                        if (control != null)
+                        {
+                            control.AddGlub(100);
+                        }
                     }
                 }
                 _effectCool = _effectCooldown;

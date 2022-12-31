@@ -29,8 +29,11 @@ public class MeleeDamage : Combat
             transform.position,
             attackManager.SOMeleeAttack.Stagger,
             transform.parent.gameObject);
-
-        if(attackManager.SOMeleeAttack.Fire> 0)TargetHealth.TakeFire(attackManager.SOMeleeAttack.Fire);
+        if (TargetHealth is CharacterHealth)
+        {
+            CharacterHealth characterHealth = (CharacterHealth) TargetHealth;
+            if (attackManager.SOMeleeAttack.Fire > 0) characterHealth.TakeFire(attackManager.SOMeleeAttack.Fire);
+        }
 
         return new RegisteredDamaged(GetDamageCD, TargetHealth.gameObject);
     }

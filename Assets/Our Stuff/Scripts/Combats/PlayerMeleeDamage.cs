@@ -17,10 +17,13 @@ public class PlayerMeleeDamage : MeleeDamage
             transform.position,
             attackManager.SOMeleeAttack.Stagger * FruitStunEffect, //Temporary here till we have real stun
             transform.parent.gameObject);
+        if (TargetHealth is CharacterHealth)
+        {
+            CharacterHealth characterHealth = (CharacterHealth)TargetHealth;
+            if ((attackManager.SOMeleeAttack.Fire + FruitFireEffect) > 0) characterHealth.TakeFire(attackManager.SOMeleeAttack.Fire + FruitFireEffect);
 
-        if ((attackManager.SOMeleeAttack.Fire+ FruitFireEffect) > 0) TargetHealth.TakeFire(attackManager.SOMeleeAttack.Fire+ FruitFireEffect);
-
-        if (FruitGlubEffect>0)  TargetHealth.TakeGlub(FruitGlubEffect); 
+            if (FruitGlubEffect > 0) characterHealth.TakeGlub(FruitGlubEffect);
+        }
 
         return new RegisteredDamaged(GetDamageCD, TargetHealth.gameObject);
     }
