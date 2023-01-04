@@ -28,7 +28,7 @@ abstract public class Controllers : MonoBehaviour
     [ReadOnly][SerializeField] protected float GlubCurrentEffect;
     [SerializeField] protected float GlubRemovedPS = 30;
     [SerializeField] protected float GlubMax = 100;
-
+    CharacterHealth characterHealth =>GetComponent<CharacterHealth>();
     protected Animator anim => transform.GetChild(0).GetComponent<Animator>();
 
     float _targetWeight;
@@ -95,11 +95,13 @@ abstract public class Controllers : MonoBehaviour
     public abstract float GetSpeed();
 
 
+
     public virtual void Hurt(float Pain, GameObject Attacker = null, bool Staggered = false)
     {
-        if (Staggered && Speed!=0) 
+        if (Staggered && characterHealth.IsStagged) 
         {
-            anim.SetTrigger("Stagger"); OnStagger?.Invoke();
+            anim.SetTrigger("Stagger"); 
+            OnStagger?.Invoke();
         }
         else
         {

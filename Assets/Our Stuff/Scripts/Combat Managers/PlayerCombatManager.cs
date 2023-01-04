@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 
 public class PlayerCombatManager : CombatManager
 {
@@ -29,7 +30,6 @@ public class PlayerCombatManager : CombatManager
     public Action Shoot;
     public Action OnStopHoldShoot;
     public Action Eat;
-
 
     private void Start()
     {

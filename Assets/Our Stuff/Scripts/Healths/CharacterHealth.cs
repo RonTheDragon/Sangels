@@ -24,14 +24,15 @@ public abstract class CharacterHealth : Health
     [SerializeField] Image HealthBar;
 
     float _peviousCurrentHealth;
-
     Action Loop;
 
+    public bool IsStagged;
     new void Start()
     {
         base.Start();
         Loop += OnFire;
         Loop += UpdateHealthBar;
+        controller.OnStagger += Stagged;
     }
 
     protected void Update()
@@ -53,6 +54,11 @@ public abstract class CharacterHealth : Health
     {
         if (StaggerResistance >= UnityEngine.Random.Range(stagger.x, stagger.y)) return false;
         return true;
+    }
+
+    void Stagged()
+    {
+        IsStagged = true;
     }
 
     void OnFire()
