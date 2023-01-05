@@ -20,7 +20,23 @@ PrefabInstance:
       value: GlubC
       objectReference: {fileID: 0}
     - target: {fileID: 1984400893372709615, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
+      propertyPath: _fruit
+      value: Cglub
+      objectReference: {fileID: 0}
+    - target: {fileID: 1984400893372709615, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
       propertyPath: GizmoColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1984400893372709615, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
+      propertyPath: _gizmoColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1984400893372709615, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
+      propertyPath: _gizmoColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1984400893372709615, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
+      propertyPath: _gizmoColor.r
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5060424128699796761, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
@@ -69,7 +85,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8390456268749154444, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
       propertyPath: m_Name
-      value: GlubTree
+      value: GlubTree Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c79e133b400a1644809364d2c045e30, type: 3}

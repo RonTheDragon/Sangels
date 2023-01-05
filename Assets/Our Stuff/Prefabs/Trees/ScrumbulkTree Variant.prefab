@@ -23,6 +23,18 @@ PrefabInstance:
       propertyPath: GizmoColor.r
       value: 0.20754719
       objectReference: {fileID: 0}
+    - target: {fileID: 1984400893372709615, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
+      propertyPath: _gizmoColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1984400893372709615, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
+      propertyPath: _gizmoColor.g
+      value: 0.13922183
+      objectReference: {fileID: 0}
+    - target: {fileID: 1984400893372709615, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
+      propertyPath: _gizmoColor.r
+      value: 0.2924528
+      objectReference: {fileID: 0}
     - target: {fileID: 5060424128699796761, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
       propertyPath: m_RootOrder
       value: 0
