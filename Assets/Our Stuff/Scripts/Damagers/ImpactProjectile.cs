@@ -5,23 +5,23 @@ using UnityEngine;
 public class ImpactProjectile : ProjectileDamage
 {
     [Tooltip("x = Min Speed, slower wont cause damage\ny = Max Speed, On This Speed The Fruit Causes his full damage")]
-    [SerializeField] Vector2 DamageBySpeed;
-    protected Rigidbody rb => GetComponent<Rigidbody>();
+    [SerializeField] private Vector2 EffectBySpeed;
+    protected Rigidbody _rigidBody => GetComponent<Rigidbody>();
 
     
 
 
     protected virtual void OnCollisionEnter(Collision collision)
     {
-        float speed = rb.velocity.magnitude;
+        float speed = _rigidBody.velocity.magnitude;
 
-        if (Attackable == (Attackable | (1 << collision.gameObject.layer)) && speed > DamageBySpeed.x)
+        if (Attackable == (Attackable | (1 << collision.gameObject.layer)) && speed > EffectBySpeed.x)
         {
             Health hp = collision.gameObject.GetComponent<Health>();
             if (hp!=null)
             {
-                if (speed > DamageBySpeed.y) speed= DamageBySpeed.y; 
-                float SpeedMutiply = speed /DamageBySpeed.y;
+                if (speed > EffectBySpeed.y) speed= EffectBySpeed.y; 
+                float SpeedMutiply = speed /EffectBySpeed.y;
 
                 hp.TakeDamage(DamageAmount * SpeedMutiply, Knockback * SpeedMutiply, transform.position, Stagger*SpeedMutiply, Shooter);
             }

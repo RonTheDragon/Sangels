@@ -9,27 +9,27 @@ public class PlayerHealth : CharacterHealth
     [HideInInspector] public float FruitFireEffect = 0;
     [HideInInspector] public float FruitKnockEffect = 1;
     [HideInInspector] public float FruitArmorEffect = 1;
-    ThirdPersonMovement playerController => (ThirdPersonMovement)controller;
+    private PlayerController _playerController => (PlayerController)controller;
     public override void TakeDamage(float damage, float knockback, Vector3 pushFrom, Vector2 Stagger, GameObject Attacker = null)
     {
         if (_isDead) return;
         CurrentHealth -= damage / FruitArmorEffect;
-        bool Staggered = IsStaggered(Stagger);
+        bool Staggered = TryStagger(Stagger);
         knockback *= FruitKnockEffect;
         if (!Staggered) knockback *= 0.4f;
-        playerController.AddForce(-pushFrom, knockback);
+        _playerController.AddForce(-pushFrom, knockback);
 
         string AttackerName = Attacker != null ? Attacker.name : "No One";
-        playerController.Hurt(damage / MaxHurtAnimationDamage,Attacker, Staggered);
+        _playerController.Hurt(damage / MaxHurtAnimationDamage,Attacker, Staggered);
         Debug.Log($"{gameObject.name} took {damage} damage and {knockback} Knockback from {AttackerName}");
     }
 
-    new void Update()
+    new private void Update()
     {
         base.Update();
-        if (FruitFireEffect != _fireMin)
+        if (FruitFireEffect != _onFireSpectrum.x)
         {
-            _fireMin = FruitFireEffect;
+            _onFireSpectrum.x = FruitFireEffect;
         }
     }
 
@@ -50,7 +50,7 @@ public class PlayerHealth : CharacterHealth
     }
 
     [ContextMenu("Heal Me")]
-    void HealPlayerMaxHealth()
+    private void HealPlayerMaxHealth()
     {
         CurrentHealth = MaxHealth;
     }

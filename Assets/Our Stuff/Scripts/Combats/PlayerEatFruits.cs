@@ -15,12 +15,12 @@ public class PlayerEatFruits : Combat
 
     //Effected By Fruits 
     PlayerMeleeDamage EffectMelee => GetComponent<PlayerMeleeDamage>();
-    ThirdPersonMovement EffectMovement => transform.GetComponentInParent<ThirdPersonMovement>();
+    PlayerController EffectMovement => transform.GetComponentInParent<PlayerController>();
     PlayerHealth EffectHealth => transform.GetComponentInParent<PlayerHealth>();
 
 
     PlayerAmmoSwitch ammoSwitch => GetComponent<PlayerAmmoSwitch>();
-    PlayerCombatManager playerAttackManager => (PlayerCombatManager)attackManager;
+    PlayerCombatManager playerAttackManager => (PlayerCombatManager)_attackManager;
 
     Color Brown => Color.Lerp(Color.yellow, Color.Lerp(Color.red, Color.blue, 0.5f), 0.5f);
 
@@ -46,7 +46,7 @@ public class PlayerEatFruits : Combat
     // Start is called before the first frame update
     void Start()
     {
-        attackManager.Damagers.Add(this);
+        _attackManager.Damagers.Add(this);
         playerAttackManager.Eat += Eat;
         playerAttackManager.Loop += Digestion;
         ResetEffects();

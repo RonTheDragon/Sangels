@@ -6,18 +6,18 @@ using UnityEngine;
 
 public class AiHealth : CharacterHealth
 {
-    AIController aiController => (AIController)controller;
+    private AIController _aiController => (AIController)controller;
 
     public override void TakeDamage(float damage, float knockback, Vector3 pushFrom, Vector2 Stagger, GameObject Attacker = null)
     {
         if (_isDead) return;
         CurrentHealth -= damage;
-        bool Staggered = IsStaggered(Stagger);
+        bool Staggered = TryStagger(Stagger);
         if (!Staggered) knockback *= 0.1f;
-        aiController.AddForce(pushFrom, knockback);
+        _aiController.AddForce(pushFrom, knockback);
         string AttackerName = Attacker != null ? Attacker.name : "No One";
         Debug.Log($"{gameObject.name} took {damage} damage and {knockback} Knockback from {AttackerName}");
-        aiController.Hurt(damage/ MaxHurtAnimationDamage,Attacker, Staggered);
+        _aiController.Hurt(damage/ MaxHurtAnimationDamage,Attacker, Staggered);
         Die();
     }
     public override void TakeStun()
@@ -32,11 +32,5 @@ public class AiHealth : CharacterHealth
         gameObject.SetActive(false);
         _isDead = true;
     }
-
-
-
-
-
-
 
 }

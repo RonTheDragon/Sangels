@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Combat : MonoBehaviour
 {
-    protected GameManager GM => GameManager.instance;
-    protected CombatManager attackManager => GetComponent<CombatManager>();
+    protected GameManager _gameManager => GameManager.instance;
+    protected CombatManager _attackManager => GetComponent<CombatManager>();
     
 }

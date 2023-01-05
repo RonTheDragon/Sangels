@@ -42,13 +42,13 @@ public class PlayerSlingshot : Combat
     Projectile fruit;
     float _fruitMass;
 
-    LayerMask LineTrajectoryMask => GM.TrajectoryHits;
+    LayerMask LineTrajectoryMask => _gameManager.TrajectoryHits;
 
-    ThirdPersonMovement TPM => GetComponentInParent<ThirdPersonMovement>();
+    PlayerController TPM => GetComponentInParent<PlayerController>();
     LineRenderer LR => cinemachine.GetComponent<LineRenderer>();
 
     PlayerAmmoSwitch ammoSwitch => GetComponent<PlayerAmmoSwitch>();
-    PlayerCombatManager playerAttackManager => (PlayerCombatManager)attackManager;
+    PlayerCombatManager playerAttackManager => (PlayerCombatManager)_attackManager;
     CinemachineCameraOffset offset => cinemachine.GetComponent<CinemachineCameraOffset>();
 
     [SerializeField] CinemachineFreeLook cfl;
@@ -58,7 +58,7 @@ public class PlayerSlingshot : Combat
     // Start is called before the first frame update
     void Start()
     {
-        attackManager.Damagers.Add(this);
+        _attackManager.Damagers.Add(this);
         cam = playerAttackManager.Cam.transform;
         cinemachine = playerAttackManager.Cinemachine;
         playerAttackManager.Loop += Shoot;
@@ -71,7 +71,7 @@ public class PlayerSlingshot : Combat
     void Shoot()
     {
         RaycastHit hit;
-        if (Physics.Raycast(cam.position,cam.forward,out hit,Mathf.Infinity,GM.Everything,QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(cam.position,cam.forward,out hit,Mathf.Infinity,_gameManager.Everything,QueryTriggerInteraction.Ignore))
         {
             if (hit.distance < 5) { ProjectileSpawnLocation.LookAt(cam.position + cam.forward * 20); }
             else
@@ -163,13 +163,13 @@ public class PlayerSlingshot : Combat
         if (!fruit && !string.IsNullOrEmpty(playerAttackManager.CurrentAmmo.fruit.ToString()))
         {
             fruit = ObjectPooler.Instance.SpawnFromPool(playerAttackManager.CurrentAmmo.fruit.ToString(), ProjectileSpawnLocation.position, ProjectileSpawnLocation.rotation).GetComponent<Projectile>();
-            fruit.SpawnOnSlingShot(ProjectileSpawnLocation);
+            fruit.SpawnOnSlingshot(ProjectileSpawnLocation);
             CurrentCharge = StartCharge;
             _charging = true;
             ProjectileDamage d = fruit.GetComponent<ProjectileDamage>();
             d.Shooter = transform.parent.gameObject;
             _fruitMass = fruit.GetComponent<Rigidbody>().mass;
-            d.Attackable = attackManager.Attackable;
+            d.Attackable = _attackManager.Attackable;
         }
     }
 
@@ -225,8 +225,8 @@ public class PlayerSlingshot : Combat
         float targetAngleY = Mathf.Atan2(cam.position.z - hit.collider.transform.position.z, cam.position.x - hit.collider.transform.position.x) * Mathf.Rad2Deg + 90;
         float targetAngleX = Mathf.Atan2(Vector3.Distance(CamInYZeroX, ColliderInYZeroX), cam.position.y - hit.collider.transform.position.y) * Mathf.Rad2Deg-90;
         
-        float deltaAngleCamAndTriggerY= GM.AngleDifference(targetAngleY, -cam.eulerAngles.y);
-        float deltaAngleCamAndTriggerX = -GM.AngleDifference(targetAngleX, -cam.eulerAngles.x);
+        float deltaAngleCamAndTriggerY= _gameManager.AngleDifference(targetAngleY, -cam.eulerAngles.y);
+        float deltaAngleCamAndTriggerX = -_gameManager.AngleDifference(targetAngleX, -cam.eulerAngles.x);
         //float degree=0;
 
         //Vector2 hitPoint = new Vector2(hit.point.x, hit.point.y);

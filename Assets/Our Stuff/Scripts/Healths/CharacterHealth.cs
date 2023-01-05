@@ -6,38 +6,39 @@ public abstract class CharacterHealth : Health
 {
     //data
 
+    [Header("Stagger")]
     [SerializeField] protected float StaggerResistance;
+    [ReadOnly] public bool IsStaggered;
 
     [Tooltip("The closer the damage amount to this number, the more painful the hurt animation looks")]
     [SerializeField] protected float MaxHurtAnimationDamage = 15;
 
     [Header("Fire")]
     [ReadOnly][SerializeField] protected float _fireCurrently;
-    protected float _fireMin = 0;
-    protected float _fireMax = 100;
+    [Tooltip("X = Minium Fire (the lowest you can get, if 0 then not on fire)\nY = Maximum Fire (how much on fire you can become)")]
+    protected Vector2 _onFireSpectrum = new Vector2(0,100);
     [SerializeField] protected float _fireDamage = 10;
     [SerializeField] protected float _fireExtinguishing = 25;
     [SerializeField] protected ParticleSystem FireParticle;
 
+
     protected Controllers controller => GetComponent<Controllers>();
 
-    [SerializeField] Image HealthBar;
+    [SerializeField] private Image _healthBar;
+    private float _peviousCurrentHealth;
+    private Action _loop;
 
-    float _peviousCurrentHealth;
-    Action Loop;
-
-    public bool IsStagged;
     new void Start()
     {
         base.Start();
-        Loop += OnFire;
-        Loop += UpdateHealthBar;
-        controller.OnStagger += Stagged;
+        _loop += OnFire;
+        _loop += UpdateHealthBar;
+        controller.OnStagger += () => IsStaggered=true;
     }
 
     protected void Update()
     {
-        Loop?.Invoke();
+        _loop?.Invoke();
     }
 
     public virtual void TakeFire(float Fire)
@@ -50,20 +51,15 @@ public abstract class CharacterHealth : Health
         controller.AddGlub(glub);
     }
 
-    protected bool IsStaggered(Vector2 stagger)
+    protected bool TryStagger(Vector2 stagger)
     {
         if (StaggerResistance >= UnityEngine.Random.Range(stagger.x, stagger.y)) return false;
         return true;
     }
 
-    void Stagged()
-    {
-        IsStagged = true;
-    }
-
     void OnFire()
     {
-        if (_fireCurrently < _fireMin) { _fireCurrently = _fireMin; }
+        if (_fireCurrently < _onFireSpectrum.x) { _fireCurrently = _onFireSpectrum.x; }
         else { _fireCurrently -= _fireExtinguishing * Time.deltaTime; }
 
         if (_fireCurrently > 0)
@@ -72,10 +68,10 @@ public abstract class CharacterHealth : Health
             var e = FireParticle.emission;
             e.rateOverTimeMultiplier = _fireCurrently / 10;
 
-            CurrentHealth -= _fireCurrently / _fireMax * (_fireDamage / 100);
+            CurrentHealth -= _fireCurrently / _onFireSpectrum.y * (_fireDamage / 100);
             Die();
 
-            if (_fireCurrently > _fireMax) _fireCurrently = _fireMax;
+            if (_fireCurrently > _onFireSpectrum.y) _fireCurrently = _onFireSpectrum.y;
         }
         else if (FireParticle.isPlaying)
         {
@@ -85,7 +81,7 @@ public abstract class CharacterHealth : Health
 
     void UpdateHealthBar()
     {
-        if (HealthBar != null && _peviousCurrentHealth != CurrentHealth)
+        if (_healthBar != null && _peviousCurrentHealth != CurrentHealth)
         {
             float healthPercent = CurrentHealth / MaxHealth;
 
@@ -94,8 +90,8 @@ public abstract class CharacterHealth : Health
             // Lerp between yellow and red at 25% health
             Color color2 = Color.Lerp(Color.yellow, Color.red, (0.5f - healthPercent) * 2f);
             // Use the appropriate color based on the current health
-            HealthBar.color = (healthPercent > 0.5f) ? color1 : color2;
-            HealthBar.fillAmount = CurrentHealth / MaxHealth;
+            _healthBar.color = (healthPercent > 0.5f) ? color1 : color2;
+            _healthBar.fillAmount = CurrentHealth / MaxHealth;
         }
         _peviousCurrentHealth = CurrentHealth;
     }

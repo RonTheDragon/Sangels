@@ -7,12 +7,12 @@ public class Explosion : ProjectileDamage
 {
     public float Radius;
 
-    [SerializeField] List<ParticleSystem> ExplosionParticles;
-    [SerializeField] float _timeTillTurnOff;
+    [SerializeField] private List<ParticleSystem> _explosionParticles;
+    [SerializeField] private float _timeTillTurnOff;
 
     public virtual void Explode()
     {
-        foreach(ParticleSystem p in ExplosionParticles)
+        foreach(ParticleSystem p in _explosionParticles)
         {
             p.Play();
         }

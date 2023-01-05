@@ -12,15 +12,15 @@ public class PlayerMeleeDamage : MeleeDamage
     public override RegisteredDamaged SubmitToRegisteredObjects(Health TargetHealth)
     {
         TargetHealth.TakeDamage(
-            attackManager.SOMeleeAttack.DamageAmount,
-            attackManager.SOMeleeAttack.Knockback * FruitKnockEffect,
+            _attackManager.SOMeleeAttack.DamageAmount,
+            _attackManager.SOMeleeAttack.Knockback * FruitKnockEffect,
             transform.position,
-            attackManager.SOMeleeAttack.Stagger * FruitStunEffect, //Temporary here till we have real stun
+            _attackManager.SOMeleeAttack.Stagger * FruitStunEffect, //Temporary here till we have real stun
             transform.parent.gameObject);
         if (TargetHealth is CharacterHealth)
         {
             CharacterHealth characterHealth = (CharacterHealth)TargetHealth;
-            if ((attackManager.SOMeleeAttack.Fire + FruitFireEffect) > 0) characterHealth.TakeFire(attackManager.SOMeleeAttack.Fire + FruitFireEffect);
+            if ((_attackManager.SOMeleeAttack.Fire + FruitFireEffect) > 0) characterHealth.TakeFire(_attackManager.SOMeleeAttack.Fire + FruitFireEffect);
 
             if (FruitGlubEffect > 0) characterHealth.TakeGlub(FruitGlubEffect);
         }

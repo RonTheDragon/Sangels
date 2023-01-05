@@ -9,12 +9,12 @@ using UnityEngine;
     public class TrackProjectile : ImpactProjectile
     {
 
-        Vector3 _currentVelocity;
-        quaternion _currentRotation;
+        private Vector3 _currentVelocity;
+        private quaternion _currentRotation;
 
         private void Update()
         {
-            _currentVelocity = rb.velocity;
+            _currentVelocity = _rigidBody.velocity;
             _currentRotation = transform.rotation;
         }
 
@@ -23,7 +23,7 @@ using UnityEngine;
         protected override void OnCollisionEnter(Collision collision)
         {
             base.OnCollisionEnter(collision);
-            rb.velocity = _currentVelocity;
+            _rigidBody.velocity = _currentVelocity;
             transform.rotation = _currentRotation;
         }
 

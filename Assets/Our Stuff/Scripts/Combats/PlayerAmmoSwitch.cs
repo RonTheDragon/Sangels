@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlayerAmmoSwitch : Combat
 {
-    PlayerCombatManager playerAttackManager => (PlayerCombatManager)attackManager;
+    PlayerCombatManager playerAttackManager => (PlayerCombatManager)_attackManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        attackManager.Damagers.Add(this);
+        _attackManager.Damagers.Add(this);
         SwitchAmmo();
         playerAttackManager.Loop += AmmoSwitching;
     }

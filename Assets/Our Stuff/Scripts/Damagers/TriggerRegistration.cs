@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class TriggerRegistration : MonoBehaviour
 {
-    List<RegisteredDamaged> _registeredDamagedList = new List<RegisteredDamaged>();
-    [HideInInspector]public LayerMask Attackable;
-    [SerializeField] MeleeDamage _meleeDamage;
+    [HideInInspector] public LayerMask Attackable;
+    private List<RegisteredDamaged> _registeredDamagedList = new List<RegisteredDamaged>();
+    [SerializeField] private MeleeDamage _meleeDamage;
 
     private void Awake()
     {
-        _meleeDamage.addTrigger(this);
+        _meleeDamage.AddTrigger(this);
     }
     private void Update()
     {
@@ -31,18 +31,10 @@ public class TriggerRegistration : MonoBehaviour
                 }
             }
         }
-
-
-
-
-
-
-
-
     }
 
 
-    void TimeManager() 
+    private void TimeManager() 
     {
         if (_registeredDamagedList.Count > 0)
         {
@@ -57,7 +49,7 @@ public class TriggerRegistration : MonoBehaviour
         }
     }
 
-    bool IsInList(GameObject AttackedObject) 
+    private bool IsInList(GameObject AttackedObject) 
     {
         if(_registeredDamagedList!=null)
         foreach (RegisteredDamaged attackedObject in _registeredDamagedList)

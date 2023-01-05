@@ -8,7 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ThirdPersonMovement : Controllers
+public class PlayerController : Controllers
 {
     // Visible //
 

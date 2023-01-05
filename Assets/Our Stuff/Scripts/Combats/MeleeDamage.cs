@@ -4,41 +4,41 @@ using UnityEngine;
 
 public class MeleeDamage : Combat
 {
-    List<TriggerRegistration> _meleeTriggers = new List<TriggerRegistration>();
     public float GetDamageCD;
+    private List<TriggerRegistration> _meleeTriggers = new List<TriggerRegistration>();
 
-    void Start()
+    private void Start()
     {
         StartCoroutine("WaitOneFrame");
     }
-    IEnumerator WaitOneFrame()
+    private IEnumerator WaitOneFrame()
     {
         yield return null;
-        attackManager.Damagers.Add(this);
+        _attackManager.Damagers.Add(this);
         foreach (TriggerRegistration meleeTrigger in _meleeTriggers)
         {
-            meleeTrigger.Attackable = attackManager.Attackable;
+            meleeTrigger.Attackable = _attackManager.Attackable;
         }
     }
 
     public virtual RegisteredDamaged SubmitToRegisteredObjects(Health TargetHealth) 
     {
         TargetHealth.TakeDamage(
-            attackManager.SOMeleeAttack.DamageAmount,
-            attackManager.SOMeleeAttack.Knockback,
+            _attackManager.SOMeleeAttack.DamageAmount,
+            _attackManager.SOMeleeAttack.Knockback,
             transform.position,
-            attackManager.SOMeleeAttack.Stagger,
+            _attackManager.SOMeleeAttack.Stagger,
             transform.parent.gameObject);
         if (TargetHealth is CharacterHealth)
         {
             CharacterHealth characterHealth = (CharacterHealth) TargetHealth;
-            if (attackManager.SOMeleeAttack.Fire > 0) characterHealth.TakeFire(attackManager.SOMeleeAttack.Fire);
+            if (_attackManager.SOMeleeAttack.Fire > 0) characterHealth.TakeFire(_attackManager.SOMeleeAttack.Fire);
         }
 
         return new RegisteredDamaged(GetDamageCD, TargetHealth.gameObject);
     }
 
-    public void addTrigger(TriggerRegistration tr)
+    public void AddTrigger(TriggerRegistration tr)
     {
         _meleeTriggers.Add(tr);
     }

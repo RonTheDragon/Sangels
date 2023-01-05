@@ -98,7 +98,7 @@ abstract public class Controllers : MonoBehaviour
 
     public virtual void Hurt(float Pain, GameObject Attacker = null, bool Staggered = false)
     {
-        if (Staggered && characterHealth.IsStagged) 
+        if (Staggered && characterHealth.IsStaggered) 
         {
             anim.SetTrigger("Stagger"); 
             OnStagger?.Invoke();

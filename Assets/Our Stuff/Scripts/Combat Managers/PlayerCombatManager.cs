@@ -16,7 +16,7 @@ public class PlayerCombatManager : CombatManager
     [Header("Refrences")]
     public Camera Cam;
     public CinemachineFreeLook Cinemachine;
-    ThirdPersonMovement TPM => GetComponentInParent<ThirdPersonMovement>();
+    PlayerController TPM => GetComponentInParent<PlayerController>();
 
     [HideInInspector]
     public bool _shoot;
