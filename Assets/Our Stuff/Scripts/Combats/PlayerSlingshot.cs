@@ -9,149 +9,146 @@ using UnityEngine.Rendering;
 public class PlayerSlingshot : Combat
 {
     //Serializefield 
-    [SerializeField] Transform ProjectileSpawnLocation;
-
+    [SerializeField] private Transform _projectileSpawnLocation;
 
     [Header("Aiming")]
-    [SerializeField] float AimingSpeed;
-    [ReadOnly][SerializeField] float CurrentFOV;
-    [SerializeField] float AimingFOV = 1;
-    [ReadOnly]public bool isAiming;
-    [SerializeField][Range(10, 100)] int _linePoints = 25;
-    [SerializeField][Range(0.01f, 0.25f)] float _timeBetweenPoints = 0.01f;
+    [SerializeField] private float _aimingSpeed;
+    [ReadOnly][SerializeField] private float _currentFOV;
+    [SerializeField] private float _aimingFOV = 1;
+    [ReadOnly] public bool IsAiming;
+    [SerializeField][Range(10, 100)] private int _linePoints = 25;
+    [SerializeField][Range(0.01f, 0.25f)] private float _timeBetweenPoints = 0.01f;
 
     [Header("Charge")]
-    [SerializeField] float MaxCharge = 2000;
-    [SerializeField] float StartCharge = 100;
-    [SerializeField] float ChargingSpeed = 1900;
-    [ReadOnly][SerializeField] float CurrentCharge;
+    [SerializeField] private float _maxCharge = 2000;
+    [SerializeField] private float _startCharge = 100;
+    [SerializeField] private float _chargingSpeed = 1900;
+    [ReadOnly][SerializeField] private float _currentCharge;
 
     [Header("AimAssist")]
-    [ReadOnly][SerializeField] Transform TargetAim;
-    float _aimAssistRange;
-    [SerializeField] LayerMask AimTriggerLM;
-    [SerializeField] float _aimAssistDir;
-    [SerializeField] float _aimAssistSpeed;
-    [ReadOnly] [SerializeField] float _AimAssitTimeLcokOn;//timer
+    [ReadOnly][SerializeField] private Transform _targetAim;
+    [SerializeField] private float _aimAssistRange = 30;
+    [SerializeField] private LayerMask _aimTriggerLM;
+    [SerializeField] private float _aimAssistDir;
+    [SerializeField] private float _aimAssistSpeed;
+    [ReadOnly] [SerializeField] private float _AimAssitTimeLockOn;//timer
 
     //Private 
-    bool _charging;
+    private bool _charging;
 
-    Transform cam;
-    CinemachineFreeLook cinemachine;
-    Projectile fruit;
-    float _fruitMass;
+    private Transform _cam;
+    private CinemachineFreeLook _cinemachine;
+    private Projectile _fruit;
+    private float _fruitMass;
 
-    LayerMask LineTrajectoryMask => _gameManager.TrajectoryHits;
+    private LayerMask _lineTrajectoryMask => _gameManager.TrajectoryHits;
 
-    PlayerController TPM => GetComponentInParent<PlayerController>();
-    LineRenderer LR => cinemachine.GetComponent<LineRenderer>();
+    private PlayerController _playerController => GetComponentInParent<PlayerController>();
+    private LineRenderer _line => _cinemachine.GetComponent<LineRenderer>();
+    private PlayerCombatManager _playerAttackManager => (PlayerCombatManager)_attackManager;
+    private CinemachineCameraOffset _offset => _cinemachine.GetComponent<CinemachineCameraOffset>();
 
-    PlayerAmmoSwitch ammoSwitch => GetComponent<PlayerAmmoSwitch>();
-    PlayerCombatManager playerAttackManager => (PlayerCombatManager)_attackManager;
-    CinemachineCameraOffset offset => cinemachine.GetComponent<CinemachineCameraOffset>();
-
-    [SerializeField] CinemachineFreeLook cfl;
-    InputHandler _inputHandler => cfl.GetComponent<InputHandler>();
+    [SerializeField] private CinemachineFreeLook _cfl;
+    private InputHandler _inputHandler => _cfl.GetComponent<InputHandler>();
 
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _attackManager.Damagers.Add(this);
-        cam = playerAttackManager.Cam.transform;
-        cinemachine = playerAttackManager.Cinemachine;
-        playerAttackManager.Loop += Shoot;
-        playerAttackManager.Loop += Aim;
-        playerAttackManager.Shoot += OnStartShooting;
-        playerAttackManager.OnStopHoldShoot += OnStoppedShooting;
+        _cam = _playerAttackManager.Cam.transform;
+        _cinemachine = _playerAttackManager.Cinemachine;
+        _playerAttackManager.Loop += Shoot;
+        _playerAttackManager.Loop += Aim;
+        _playerAttackManager.Shoot += OnStartShooting;
+        _playerAttackManager.OnStopHoldShoot += OnStoppedShooting;
     }
-    
 
-    void Shoot()
+
+    private void Shoot()
     {
         RaycastHit hit;
-        if (Physics.Raycast(cam.position,cam.forward,out hit,Mathf.Infinity,_gameManager.Everything,QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(_cam.position,_cam.forward,out hit,Mathf.Infinity,_gameManager.Everything,QueryTriggerInteraction.Ignore))
         {
-            if (hit.distance < 5) { ProjectileSpawnLocation.LookAt(cam.position + cam.forward * 20); }
+            if (hit.distance < 5) { _projectileSpawnLocation.LookAt(_cam.position + _cam.forward * 20); }
             else
             {
-                ProjectileSpawnLocation.LookAt(hit.point);
+                _projectileSpawnLocation.LookAt(hit.point);
             }
         }
         else
         {
-            ProjectileSpawnLocation.LookAt(cam.position+cam.forward*200);
+            _projectileSpawnLocation.LookAt(_cam.position+_cam.forward*200);
         }
         
         if (_charging)
         {
-            CurrentCharge += ChargingSpeed * Time.deltaTime;
-            if (CurrentCharge > MaxCharge) CurrentCharge = MaxCharge;
+            _currentCharge += _chargingSpeed * Time.deltaTime;
+            if (_currentCharge > _maxCharge) _currentCharge = _maxCharge;
         }
 
 
     }
-  
 
-    void Aim()
+
+    private void Aim()
     {
-        CurrentFOV = offset.m_Offset.z;
-        if (isAiming)
+        _currentFOV = _offset.m_Offset.z;
+        if (IsAiming)
         {
-            TPM.LookAt(cam.position + cam.forward * 20);
+            _playerController.LookAt(_cam.position + _cam.forward * 20);
             AimAssist();
 
-            if (CurrentCharge > StartCharge) 
+            if (_currentCharge > _startCharge) 
             DrawProjection();
-            if (CurrentFOV < AimingFOV)
+            if (_currentFOV < _aimingFOV)
             {
-                CurrentFOV += AimingSpeed * Time.deltaTime;
-                offset.m_Offset.Set(0, 0, CurrentFOV);
+                _currentFOV += _aimingSpeed * Time.deltaTime;
+                _offset.m_Offset.Set(0, 0, _currentFOV);
             }
             else {
-                CurrentFOV = AimingFOV;
-                offset.m_Offset.Set(0, 0, CurrentFOV);
+                _currentFOV = _aimingFOV;
+                _offset.m_Offset.Set(0, 0, _currentFOV);
             }
         }
         else
         {
-            TPM.LookAtReset();
+            _playerController.LookAtReset();
 
-            LR.enabled = false;
-            if (CurrentFOV > 0)
+            _line.enabled = false;
+            if (_currentFOV > 0)
             {
-                CurrentFOV -= AimingSpeed * Time.deltaTime;
-                offset.m_Offset.Set(0, 0, CurrentFOV);
+                _currentFOV -= _aimingSpeed * Time.deltaTime;
+                _offset.m_Offset.Set(0, 0, _currentFOV);
             }
             else {
-                CurrentFOV = 0;
-                offset.m_Offset.Set(0, 0, CurrentFOV);
+                _currentFOV = 0;
+                _offset.m_Offset.Set(0, 0, _currentFOV);
             }
         }
     }
 
-    void DrawProjection()
+    private void DrawProjection()
     {
-        LR.enabled = true;
-        LR.positionCount = Mathf.CeilToInt(_linePoints / _timeBetweenPoints) + 1;
-        Vector3 startPosition = ProjectileSpawnLocation.position;
-        Vector3 startVelocity = (CurrentCharge*fruit.ForceMultiplier) * ProjectileSpawnLocation.forward / _fruitMass;
+        _line.enabled = true;
+        _line.positionCount = Mathf.CeilToInt(_linePoints / _timeBetweenPoints) + 1;
+        Vector3 startPosition = _projectileSpawnLocation.position;
+        Vector3 startVelocity = (_currentCharge*_fruit.ForceMultiplier) * _projectileSpawnLocation.forward / _fruitMass;
         int i = 0;
-        LR.SetPosition(i, startPosition);
+        _line.SetPosition(i, startPosition);
         for (float time = 0; time < _linePoints; time += _timeBetweenPoints)
         {
             i++;
             Vector3 point = startPosition + time * startVelocity;
             point.y = startPosition.y + startVelocity.y * time + (Physics.gravity.y / 2f * time * time);
-            LR.SetPosition(i, point);
+            _line.SetPosition(i, point);
 
-            Vector3 lastPosition = LR.GetPosition(i - 1);
+            Vector3 lastPosition = _line.GetPosition(i - 1);
             if (Physics.Raycast(lastPosition, (point - lastPosition).normalized,
-                out RaycastHit hit, (point - lastPosition).magnitude, LineTrajectoryMask))
+                out RaycastHit hit, (point - lastPosition).magnitude, _lineTrajectoryMask))
             {
-                LR.SetPosition(i, hit.point);
-                LR.positionCount = i + 1;
+                _line.SetPosition(i, hit.point);
+                _line.positionCount = i + 1;
                 return;
             }
         }
@@ -159,36 +156,36 @@ public class PlayerSlingshot : Combat
 
     public void OnStartShooting()
     {
-        isAiming = true;
-        if (!fruit && !string.IsNullOrEmpty(playerAttackManager.CurrentAmmo.fruit.ToString()))
+        IsAiming = true;
+        if (!_fruit && !string.IsNullOrEmpty(_playerAttackManager.CurrentAmmo.fruit.ToString()))
         {
-            fruit = ObjectPooler.Instance.SpawnFromPool(playerAttackManager.CurrentAmmo.fruit.ToString(), ProjectileSpawnLocation.position, ProjectileSpawnLocation.rotation).GetComponent<Projectile>();
-            fruit.SpawnOnSlingshot(ProjectileSpawnLocation);
-            CurrentCharge = StartCharge;
+            _fruit = ObjectPooler.Instance.SpawnFromPool(_playerAttackManager.CurrentAmmo.fruit.ToString(), _projectileSpawnLocation.position, _projectileSpawnLocation.rotation).GetComponent<Projectile>();
+            _fruit.SpawnOnSlingshot(_projectileSpawnLocation);
+            _currentCharge = _startCharge;
             _charging = true;
-            ProjectileDamage d = fruit.GetComponent<ProjectileDamage>();
+            ProjectileDamage d = _fruit.GetComponent<ProjectileDamage>();
             d.Shooter = transform.parent.gameObject;
-            _fruitMass = fruit.GetComponent<Rigidbody>().mass;
+            _fruitMass = _fruit.GetComponent<Rigidbody>().mass;
             d.Attackable = _attackManager.Attackable;
         }
     }
 
-    void OnStoppedShooting()
+    private void OnStoppedShooting()
     {
-        isAiming = false;
+        IsAiming = false;
         _inputHandler.IsAimAssist = false;
-        if (fruit)
+        if (_fruit)
         {
-            Physics.IgnoreCollision(fruit.GetComponent<Collider>(), GetComponentInParent<Collider>());
-            fruit.LaunchProjectile(CurrentCharge);
-            CurrentCharge = 0;
+            Physics.IgnoreCollision(_fruit.GetComponent<Collider>(), GetComponentInParent<Collider>());
+            _fruit.LaunchProjectile(_currentCharge);
+            _currentCharge = 0;
             _charging = false;
-            fruit = null;
+            _fruit = null;
         }
     }
 
 
-    void AimAssist() 
+    private void AimAssist() 
     {
         if (CheckIfNeedsAimAssist())
         {
@@ -200,33 +197,33 @@ public class PlayerSlingshot : Combat
             _inputHandler.IsAimAssist = false;
     }
 
-    bool CheckIfNeedsAimAssist()
+    private bool CheckIfNeedsAimAssist()
     {
         RaycastHit hit;
-        Debug.DrawRay(cam.position, cam.forward * _aimAssistDir, Color.black);
-        if (Physics.Raycast(cam.position, cam.forward * _aimAssistDir, out hit,  _aimAssistDir, 1 << AimTriggerLM))
+        Debug.DrawRay(_cam.position, _cam.forward * _aimAssistDir, Color.black);
+        if (Physics.Raycast(_cam.position, _cam.forward * _aimAssistDir, out hit,  _aimAssistDir, 1 << _aimTriggerLM))
         {
           //  Debug.Log("Raycast has hit");
             return true;
         }
         return false;
     }
-    Vector2 AimAssistLock() 
+    private Vector2 AimAssistLock() 
     {
         RaycastHit hit;
-        if (!Physics.Raycast(cam.position, cam.forward, out hit, _aimAssistDir, AimTriggerLM,QueryTriggerInteraction.Collide))
+        if (!Physics.Raycast(_cam.position, _cam.forward, out hit, _aimAssistRange, _aimTriggerLM,QueryTriggerInteraction.Collide))
         return Vector2.zero;
         //if (AimTriggerLM != (AimTriggerLM | (1 << hit.transform.gameObject.layer))) return Vector2.zero;
         //Debug.Log("Raycast has hit");
-        Vector3 CamInYZeroX= cam.position;
+        Vector3 CamInYZeroX= _cam.position;
         CamInYZeroX = new Vector3(CamInYZeroX.x, 0, CamInYZeroX.z);
         Vector3 ColliderInYZeroX = new Vector3(hit.collider.transform.position.x,0, hit.collider.transform.position.z);
-        float y= cam.rotation.y;
-        float targetAngleY = Mathf.Atan2(cam.position.z - hit.collider.transform.position.z, cam.position.x - hit.collider.transform.position.x) * Mathf.Rad2Deg + 90;
-        float targetAngleX = Mathf.Atan2(Vector3.Distance(CamInYZeroX, ColliderInYZeroX), cam.position.y - hit.collider.transform.position.y) * Mathf.Rad2Deg-90;
+        float y= _cam.rotation.y;
+        float targetAngleY = Mathf.Atan2(_cam.position.z - hit.collider.transform.position.z, _cam.position.x - hit.collider.transform.position.x) * Mathf.Rad2Deg + 90;
+        float targetAngleX = Mathf.Atan2(Vector3.Distance(CamInYZeroX, ColliderInYZeroX), _cam.position.y - hit.collider.transform.position.y) * Mathf.Rad2Deg-90;
         
-        float deltaAngleCamAndTriggerY= _gameManager.AngleDifference(targetAngleY, -cam.eulerAngles.y);
-        float deltaAngleCamAndTriggerX = -_gameManager.AngleDifference(targetAngleX, -cam.eulerAngles.x);
+        float deltaAngleCamAndTriggerY= _gameManager.AngleDifference(targetAngleY, -_cam.eulerAngles.y);
+        float deltaAngleCamAndTriggerX = -_gameManager.AngleDifference(targetAngleX, -_cam.eulerAngles.x);
         //float degree=0;
 
         //Vector2 hitPoint = new Vector2(hit.point.x, hit.point.y);

@@ -100,9 +100,9 @@ public class PlayerController : Controllers
         Vector2 Movement = _movement.normalized; //Get input from player for movem
 
         float targetAngle = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y; //get where player is looking
-        float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, !SlingShot.isAiming ? targetAngle : cam.eulerAngles.y, ref f, 0.1f); //Smoothing
+        float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, !SlingShot.IsAiming ? targetAngle : cam.eulerAngles.y, ref f, 0.1f); //Smoothing
         //Debug.Log($"targetAngle: {targetAngle}, Angle: {Angle}");
-        if (SlingShot.isAiming)
+        if (SlingShot.IsAiming)
             transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
 
 
@@ -110,7 +110,7 @@ public class PlayerController : Controllers
         if (Movement.magnitude > 0.1f)
         {
             anim.SetBool("Walking", true);
-            if (!SlingShot.isAiming && Speed!=0)
+            if (!SlingShot.IsAiming && Speed!=0)
                 transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
             Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
             CC.Move(MoveDir * GetSpeed() * Time.deltaTime);
