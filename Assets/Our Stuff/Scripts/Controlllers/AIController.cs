@@ -6,66 +6,65 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
 
-public class AIController : Controllers
+public class AIController : Controller
 {
     // Visible
 
     [Header("Roaming")]
     [Tooltip("x = Min Cooldown\n y = Max Cooldown\n and the random picks between them")]
-    [SerializeField] Vector2 _roamCooldown = new Vector2(1, 3);
-    [ReadOnly][SerializeField] float _roamCD;
-    [SerializeField] float _patrolRange = 20;
+    [SerializeField] private Vector2 _roamCooldown = new Vector2(1, 3);
+    [ReadOnly][SerializeField] private float _roamCD;
+    [SerializeField] private float _patrolRange = 20;
 
     [Header("Scanning")]
-    [SerializeField] float _scanRadius;
-    [SerializeField] float _angleOfVision = 90;
-    [SerializeField] float _sensingRadius = 3;
-    [SerializeField] float ScanFrequent = 1;
-    [ReadOnly][SerializeField] float _scanCD;
-    [ReadOnly][SerializeField] Transform Target;
+    [SerializeField] private float _scanRadius;
+    [SerializeField] private float _angleOfVision = 90;
+    [SerializeField] private float _sensingRadius = 3;
+    [SerializeField] private float _scanFrequent = 1;
+    [ReadOnly][SerializeField] private float _scanCD;
+    [ReadOnly][SerializeField] private Transform _target;
 
     [Header("Alertion")]
-    [SerializeField] float AlertRadius;
-    [ReadOnly][SerializeField] float CurrentAlert;
-    [SerializeField] float AttackAlert = 0.5f;
-    [SerializeField] float MaxAlert = 3;
+    [SerializeField] private float _alertRadius;
+    [ReadOnly][SerializeField] private float _currentAlert;
+    [SerializeField] private float _attackAlert = 0.5f;
+    [SerializeField] private float _maxAlert = 3;
 
     // Invisible
 
     //Layer Masks
-    LayerMask _canSee;
-    LayerMask _attackable;
+    private LayerMask _canSee;
+    private LayerMask _attackable;
 
 
     // Refrences
-    Rigidbody RB => GetComponent<Rigidbody>();
-    GameManager GM => GameManager.instance;
-    AiCombatManager aiAtackManager => GetComponentInChildren<AiCombatManager>();
-    Vector3 spawnPoint => transform.position;
-    NavMeshAgent agent => GetComponent<NavMeshAgent>();
+    private GameManager _gm => GameManager.instance;
+    private AiCombatManager _aiAtackManager => GetComponentInChildren<AiCombatManager>();
+    private Vector3 _spawnPoint => transform.position;
+    private NavMeshAgent _agent => GetComponent<NavMeshAgent>();
 
 
-    new void Start()
+    new private void Start()
     {
         base.Start();
-        _canSee = GM.EnemiesCanSee;
-        _attackable = GM.EnemiesCanAttack;
+        _canSee = _gm.EnemiesCanSee;
+        _attackable = _gm.EnemiesCanAttack;
 
-        anim.SetBool("Walking", true);
+        _anim.SetBool("Walking", true);
     }
 
-    new void Update()
+    new private void Update()
     {
         base.Update();
         AIbrain();
     }
 
-    void AIbrain()
+    private void AIbrain()
     {
 
-        if (Target != null)
+        if (_target != null)
         {
-            LookAt(Target.position);
+            LookAt(_target.position);
             AlertSystem();
         }
         else
@@ -75,10 +74,10 @@ public class AIController : Controllers
             ScanCooldown();
         }
 
-        if (CurrentAlert > AttackAlert && Target != null)
+        if (_currentAlert > _attackAlert && _target != null)
         {
             FollowTarget();
-            aiAtackManager.AttackTarget();
+            _aiAtackManager.AttackTarget();
         }
         else
         {
@@ -88,7 +87,7 @@ public class AIController : Controllers
     }
 
 
-    void RoamCooldown()
+    private void RoamCooldown()
     {
             if (_roamCD <= 0)
             {
@@ -101,13 +100,13 @@ public class AIController : Controllers
             }
     }
 
-    void ScanCooldown()
+    private void ScanCooldown()
     {
 
         if (_scanCD <= 0)
         {
             ScanForTarget();
-            _scanCD = ScanFrequent;
+            _scanCD = _scanFrequent;
         }
         else
         {
@@ -118,26 +117,26 @@ public class AIController : Controllers
 
 
 
-    void WalkAround()
+    private void WalkAround()
     {
-        if (Vector3.Distance(spawnPoint, transform.position) < _patrolRange)
+        if (Vector3.Distance(_spawnPoint, transform.position) < _patrolRange)
         {
             Vector3 walkTo = new Vector3();
             for (int i = 0; i < 10; i++)
             {
                 walkTo.x = Random.Range(-10, 10);
                 walkTo.z = Random.Range(-10, 10);
-                if (_patrolRange > Vector3.Distance(spawnPoint, transform.position + walkTo) && agent.isActiveAndEnabled)//in range
+                if (_patrolRange > Vector3.Distance(_spawnPoint, transform.position + walkTo) && _agent.isActiveAndEnabled)//in range
                 {
-                    agent.SetDestination(transform.position + walkTo);
+                    _agent.SetDestination(transform.position + walkTo);
                 }
             }
         }
-        else if (agent.isActiveAndEnabled)
-            agent.SetDestination(spawnPoint);
+        else if (_agent.isActiveAndEnabled)
+            _agent.SetDestination(_spawnPoint);
     }
 
-    void ScanForTarget()
+    private void ScanForTarget()
     {
         List<Collider> colliders = Physics.OverlapSphere(transform.position, _scanRadius, _attackable).ToList();
         if (colliders == null)
@@ -159,7 +158,7 @@ public class AIController : Controllers
         {
 
 
-            Collider c = GM.ClosestColliderInList(colliders);//if doesnt work, lets check if its the same object.
+            Collider c = _gm.ClosestColliderInList(colliders);//if doesnt work, lets check if its the same object.
 
             RaycastHit hit;
             if (Physics.Raycast(transform.position, c.transform.position - transform.position, out hit, _scanRadius, _canSee))
@@ -167,7 +166,7 @@ public class AIController : Controllers
                 if (hit.collider == c)
                 {
                     SetTarget(c.transform);
-                    CurrentAlert = 0;
+                    _currentAlert = 0;
                     return;
                 }
             }
@@ -175,17 +174,17 @@ public class AIController : Controllers
         }
     }
 
-    void FollowTarget()
+    private void FollowTarget()
     {
-        if (agent.isActiveAndEnabled)
-        agent.SetDestination(Target.position);
+        if (_agent.isActiveAndEnabled)
+        _agent.SetDestination(_target.position);
     }
 
-    bool CheckIfInFront(Vector3 pos)
+    private bool CheckIfInFront(Vector3 pos)
     {
 
         float targetAngle = Mathf.Atan2(transform.position.z- pos.z, transform.position.x - pos.x) * Mathf.Rad2Deg +90 ;
-        float deltaAngleAIAndTarget = GM.AngleDifference(targetAngle, -transform.eulerAngles.y);
+        float deltaAngleAIAndTarget = _gm.AngleDifference(targetAngle, -transform.eulerAngles.y);
         //Debug.Log($"{targetAngle} , {-transform.eulerAngles.y} = {deltaAngleAIAndTarget}");
         if (deltaAngleAIAndTarget < _angleOfVision/2 && deltaAngleAIAndTarget > -_angleOfVision/2)
         {
@@ -194,30 +193,30 @@ public class AIController : Controllers
             return false;
     }
 
-    void AlertSystem() 
+    private void AlertSystem() 
     {
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, Target.transform.position - transform.position, out hit, AlertRadius, _canSee))
+        if (Physics.Raycast(transform.position, _target.transform.position - transform.position, out hit, _alertRadius, _canSee))
         {
-            if (hit.transform == Target)
+            if (hit.transform == _target)
             {
                 AlertionRay(Color.blue);
-                CurrentAlert += Time.deltaTime;
-                CurrentAlert = CurrentAlert > MaxAlert ? MaxAlert : CurrentAlert;
+                _currentAlert += Time.deltaTime;
+                _currentAlert = _currentAlert > _maxAlert ? _maxAlert : _currentAlert;
                 return;
             }
         }
         AlertionRay(Color.red);
-        CurrentAlert -= Time.deltaTime;
-        if (CurrentAlert < 0) { Target = null; }
+        _currentAlert -= Time.deltaTime;
+        if (_currentAlert < 0) { _target = null; }
     }
 
-    void AlertionRay(Color c)
+    private void AlertionRay(Color c)
     {
-        Debug.DrawRay(transform.position, Target.position - transform.position, c);
+        Debug.DrawRay(transform.position, _target.position - transform.position, c);
     }
-    void DetectionRay()
+    private void DetectionRay()
     {
         Vector3 RightEye = new Vector3(Mathf.Sin(Mathf.Deg2Rad * _angleOfVision / 2), 0, Mathf.Cos(Mathf.Deg2Rad * _angleOfVision / 2));
         Vector3 LeftEye = new Vector3(Mathf.Sin(Mathf.Deg2Rad * -_angleOfVision / 2), 0, Mathf.Cos(Mathf.Deg2Rad * -_angleOfVision / 2));
@@ -227,7 +226,7 @@ public class AIController : Controllers
         Debug.DrawRay(transform.position, transform.rotation * LeftEye * _scanRadius, Color.green);
     }
 
-    protected override void applyingForce()
+    protected override void ApplyingForce()
     {
         if (_forceStrength > 0)
         {
@@ -239,17 +238,21 @@ public class AIController : Controllers
     public override void Hurt(float Pain, GameObject Attacker = null, bool Staggered = false)
     {
         base.Hurt(Pain, Attacker,Staggered);
-        if (Target == null && Attacker != null || Staggered && Attacker != null)
+        if (_target == null && Attacker != null || Staggered && Attacker != null)
         {
             SetTarget(Attacker.transform);
-            CurrentAlert = MaxAlert;
+            _currentAlert = _maxAlert;
         }
     }
 
-    void SetTarget(Transform target)
+    private void SetTarget(Transform target)
     {
-        Target = target;
-        aiAtackManager.Target = target;
+        _target = target;
+        _aiAtackManager.Target = target;
+    }
+    public override float GetSpeed()
+    {
+        return Speed * (1 - (_glubCurrentEffect / (_glubMax + (_glubMax / 30))));
     }
 
     public override void SetSpeed(float speed = -1)
@@ -258,15 +261,11 @@ public class AIController : Controllers
         {
             Speed = speed;
         }
-        agent.speed = GetSpeed();
-        anim.SetFloat("Speed", GetSpeed() / RegularAnimationSpeed);
+        _agent.speed = GetSpeed();
+        _anim.SetFloat("Speed", GetSpeed() / RegularAnimationSpeed);
 
     }
 
-    public override float GetSpeed()
-    {
-        return Speed * (1 - (GlubCurrentEffect / (GlubMax + (GlubMax / 30))));
-    }
 }
 
 

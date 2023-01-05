@@ -8,43 +8,43 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : Controllers
+public class PlayerController : Controller
 {
     // Visible //
 
-    [ReadOnly][SerializeField] int PlayerNumber;
+    [ReadOnly][SerializeField] private int _playerNumber;
 
     [Header("Jumping")]
     [Tooltip("The Height of the jumps")]
-    [SerializeField] float _jump = 20;
+    [SerializeField] private float _jump = 20;
     [Tooltip("The Falling Speed")]
-    [SerializeField] float _gravity = 10;
+    [SerializeField] private float _gravity = 10;
 
     [Header("Sliding")]
     [Tooltip("on What floor angle we start to slide and cant jump on")]
-    [SerializeField] float slopeLimit = 45;
+    [SerializeField] private float _slopeLimit = 45;
     [Tooltip("The Speed of sliding")]
-    [SerializeField] float SlideSpeed = 5;
+    [SerializeField] private float _slideSpeed = 5;
     [Tooltip("Are we sliding?")]
-    [ReadOnly][SerializeField] bool isSliding;
+    [ReadOnly][SerializeField] private bool _isSliding;
     [Tooltip("The Normal of the floor, (how steep is the floor)")]
-    [ReadOnly][SerializeField] Vector3 hitNormal;
+    [ReadOnly][SerializeField] private Vector3 _hitNormal;
 
     [Header("Ground Check")]
     [Tooltip("the Y position of the Ground Checkbox")]
-    [SerializeField] float Y;
+    [SerializeField] private float _checkboxY;
     [Tooltip("how wide the Ground Checkbox")]
-    [SerializeField] float Wide = 0;
+    [SerializeField] private float _wide = 0;
     [Tooltip("how tall the Ground Checkbox")]
-    [SerializeField] float Height = .15f;
+    [SerializeField] private float _height = .15f;
     [Tooltip("Are we On The Ground?")]
-    [ReadOnly][SerializeField] bool isGrounded;
+    [ReadOnly][SerializeField] private bool _isGrounded;
 
     [Header("References")]
     [Tooltip("Place The Player's Camera Here")]
-    [SerializeField] Transform cam;
+    [SerializeField] private Transform _camTransform;
     [Tooltip("Place The Player's Cinemachine Here")]
-    [SerializeField] CinemachineFreeLook cfl;
+    [SerializeField] private CinemachineFreeLook _cfl;
 
     [HideInInspector] public float FruitSpeedEffect=1;
     [HideInInspector] public float FruitJumpEffect=1;
@@ -52,87 +52,87 @@ public class PlayerController : Controllers
     // Invisible //
 
     // Auto Referencing
-    CharacterController CC => GetComponent<CharacterController>();
-    PlayerSlingshot SlingShot  => transform.GetChild(0).GetComponent<PlayerSlingshot>();
-    Camera _cam => cam.GetComponent<Camera>();
-    InputHandler _inputHandler => cfl.GetComponent<InputHandler>();
-    PlayerInput _playerInput => GetComponent<PlayerInput>();
-    GameManager GM => GameManager.instance;
+    private CharacterController _cc => GetComponent<CharacterController>();
+    private PlayerSlingshot _slingshot  => transform.GetChild(0).GetComponent<PlayerSlingshot>();
+    private Camera _cam => _camTransform.GetComponent<Camera>();
+    private InputHandler _inputHandler => _cfl.GetComponent<InputHandler>();
+    private PlayerInput _playerInput => GetComponent<PlayerInput>();
+    private GameManager _gm => GameManager.instance;
 
     // Stored Data
-    Vector2 _movement;
-    bool _jumped;
-    float _gravityPull;
-    float f;
-    LayerMask Jumpable;
+    private Vector2 _movement;
+    private bool _jumped;
+    private float _gravityPull;
+    private float _f;
+    private LayerMask _jumpable;
 
     // Ground Check 
-    Vector3 _boxPosition => CC.transform.position + (Vector3.up * CC.bounds.extents.y) * Y;
-    Vector3 _boxSize => new Vector3(CC.bounds.extents.x + Wide, Height * 2, CC.bounds.extents.z + Wide);
+    private Vector3 _boxPosition => _cc.transform.position + (Vector3.up * _cc.bounds.extents.y) * _checkboxY;
+    private Vector3 _boxSize => new Vector3(_cc.bounds.extents.x + _wide, _height * 2, _cc.bounds.extents.z + _wide);
 
 
     // Start is called before the first frame update
-    new void Start()
+    new private void Start()
     {
         base.Start();
 
-        Loop+= groundCheck;
-        Loop+= gravitation;
-        Loop+= jumping;
-        Loop += movement;
-        Loop += slide;
+        _loop+= GroundCheck;
+        _loop+= Gravitation;
+        _loop+= Jumping;
+        _loop += PlayerMovement;
+        _loop += Slide;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible   = false;
-        Jumpable = GM.CanJumpOn;
-        setUpPlayer();
+        _jumpable = _gm.CanJumpOn;
+        SetUpPlayer();
     }
 
     // Update is called once per frame
-    new void Update()
+    new private void Update()
     {
         base.Update();
     }
 
     /// <summary> Allows the player to walk. </summary>
-    void movement()
+    private void PlayerMovement()
     {
         Vector2 Movement = _movement.normalized; //Get input from player for movem
 
-        float targetAngle = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y; //get where player is looking
-        float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, !SlingShot.IsAiming ? targetAngle : cam.eulerAngles.y, ref f, 0.1f); //Smoothing
+        float targetAngle = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + _camTransform.eulerAngles.y; //get where player is looking
+        float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, !_slingshot.IsAiming ? targetAngle : _camTransform.eulerAngles.y, ref _f, 0.1f); //Smoothing
         //Debug.Log($"targetAngle: {targetAngle}, Angle: {Angle}");
-        if (SlingShot.IsAiming)
+        if (_slingshot.IsAiming)
             transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
 
 
 
         if (Movement.magnitude > 0.1f)
         {
-            anim.SetBool("Walking", true);
-            if (!SlingShot.IsAiming && Speed!=0)
+            _anim.SetBool("Walking", true);
+            if (!_slingshot.IsAiming && Speed!=0)
                 transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
             Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
-            CC.Move(MoveDir * GetSpeed() * Time.deltaTime);
+            _cc.Move(MoveDir * GetSpeed() * Time.deltaTime);
         }
         else { 
-        anim.SetBool("Walking", false);
+        _anim.SetBool("Walking", false);
         }
     }
 
     /// <summary> Allows the player to jump. </summary>
-    private void jumping()
+    private void Jumping()
     {
-        if (_jumped && isGrounded && !isSliding)
+        if (_jumped && _isGrounded && !_isSliding)
         {
             AddForce(Vector3.up, _jump * FruitJumpEffect );
         }
     }
 
     /// <summary> Takes care of Gravity </summary>
-    private void gravitation()
+    private void Gravitation()
     {
-        if (isGrounded)
+        if (_isGrounded)
         {
             _gravityPull = .1f;
         }
@@ -140,56 +140,56 @@ public class PlayerController : Controllers
         {
             _gravityPull += .2f * Time.deltaTime;
         }
-        CC.Move(Vector3.down * _gravity * _gravityPull * Time.deltaTime);
+        _cc.Move(Vector3.down * _gravity * _gravityPull * Time.deltaTime);
     }
 
     /// <summary> Checking the ground and tell the player if he is grounded or sliding. </summary>
-    private void groundCheck()
+    private void GroundCheck()
     {
-        isGrounded = Physics.CheckBox(_boxPosition, _boxSize, quaternion.identity, Jumpable);
+        _isGrounded = Physics.CheckBox(_boxPosition, _boxSize, quaternion.identity, _jumpable);
         
-        isSliding = (!(Vector3.Angle(Vector3.up, hitNormal) <= slopeLimit));
-        hitNormal = hitNormal * .99f;
+        _isSliding = (!(Vector3.Angle(Vector3.up, _hitNormal) <= _slopeLimit));
+        _hitNormal = _hitNormal * .99f;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (Jumpable == (Jumpable | (1 << hit.gameObject.layer)) && hit.point.y<transform.position.y)
+        if (_jumpable == (_jumpable | (1 << hit.gameObject.layer)) && hit.point.y<transform.position.y)
         {
-            hitNormal = hit.normal;
+            _hitNormal = hit.normal;
         }
     }
 
     /// <summary> Making the player to slide on steep slopes. </summary>
-    private void slide()
+    private void Slide()
     {
-        if (isSliding)
+        if (_isSliding)
         {
             Vector3 slid = Vector3.zero;
-            slid.x += ((1f - hitNormal.y) * hitNormal.x * SlideSpeed);
-            slid.z += ((1f - hitNormal.y) * hitNormal.z * SlideSpeed);
+            slid.x += ((1f - _hitNormal.y) * _hitNormal.x * _slideSpeed);
+            slid.z += ((1f - _hitNormal.y) * _hitNormal.z * _slideSpeed);
 
-            CC.Move(slid*Time.deltaTime);
+            _cc.Move(slid*Time.deltaTime);
         }
     }
 
     /// <summary> When the Player Spawns, This takes care of him. </summary>
-    private void setUpPlayer()
+    private void SetUpPlayer()
     {
         _inputHandler.horizontal = _playerInput.actions.FindAction("Look"); // Set up Looking Controls 
-        PlayerNumber = GM.AddPlayer(gameObject); // Give The Player a Number
-        switch (PlayerNumber) // Makes Cinemachine work with local Multiplayer
+        _playerNumber = _gm.AddPlayer(gameObject); // Give The Player a Number
+        switch (_playerNumber) // Makes Cinemachine work with local Multiplayer
         {
-            case 1: cfl.gameObject.layer = LayerMask.NameToLayer("Player1"); _cam.cullingMask = GM.PlayerMasks[0];
+            case 1: _cfl.gameObject.layer = LayerMask.NameToLayer("Player1"); _cam.cullingMask = _gm.PlayerMasks[0];
                 break;
             case 2:
-                cfl.gameObject.layer = LayerMask.NameToLayer("Player2"); _cam.cullingMask = GM.PlayerMasks[1];
+                _cfl.gameObject.layer = LayerMask.NameToLayer("Player2"); _cam.cullingMask = _gm.PlayerMasks[1];
                 break;
             case 3:
-                cfl.gameObject.layer = LayerMask.NameToLayer("Player3"); _cam.cullingMask = GM.PlayerMasks[2];
+                _cfl.gameObject.layer = LayerMask.NameToLayer("Player3"); _cam.cullingMask = _gm.PlayerMasks[2];
                 break;
             case 4:
-                cfl.gameObject.layer = LayerMask.NameToLayer("Player4"); _cam.cullingMask = GM.PlayerMasks[3];
+                _cfl.gameObject.layer = LayerMask.NameToLayer("Player4"); _cam.cullingMask = _gm.PlayerMasks[3];
                 break;
             default: return;
         }
@@ -198,18 +198,18 @@ public class PlayerController : Controllers
     /// <summary> Triggers when the player disconnects his controller </summary>
     public void Leave()
     {
-        if (GM.LeaveOnDisconnect) // Only Remove Player if LeaveOnDisconnect is True
+        if (_gm.LeaveOnDisconnect) // Only Remove Player if LeaveOnDisconnect is True
         {
-            GM.PlayerLeft(PlayerNumber); // Tell The Game Manager we Removed a Player
+            _gm.PlayerLeft(_playerNumber); // Tell The Game Manager we Removed a Player
             Destroy(gameObject); // Remove The Player
         }
     }
 
-    protected override void applyingForce()
+    protected override void ApplyingForce()
     {
         if (_forceStrength > 0)
         {
-            CC.Move(_forceDirection.normalized * _forceStrength * Time.deltaTime);
+            _cc.Move(_forceDirection.normalized * _forceStrength * Time.deltaTime);
             _forceStrength -= 0.02f + _forceStrength * 2 * Time.deltaTime;
         }
     }
@@ -225,15 +225,15 @@ public class PlayerController : Controllers
     }
 
     //Gizmos
-    void OnDrawGizmosSelected()
+    private void OnDrawGizmosSelected()
     {
         // Draw a Box in the Editor to show whether we are touching the ground, Blue is Touching, Red is Not Touching.
-        Gizmos.color = isGrounded ? Color.blue : Color.red; Gizmos.DrawCube(_boxPosition, _boxSize * 2);
+        Gizmos.color = _isGrounded ? Color.blue : Color.red; Gizmos.DrawCube(_boxPosition, _boxSize * 2);
     }
 
     public override float GetSpeed()
     {
-        return Speed * FruitSpeedEffect * (1 - (GlubCurrentEffect / (GlubMax + (GlubMax / 10))));
+        return Speed * FruitSpeedEffect * (1 - (_glubCurrentEffect / (_glubMax + (_glubMax / 10))));
     }
     public override void SetSpeed(float speed = -1)
     {
@@ -241,7 +241,7 @@ public class PlayerController : Controllers
         {
             Speed = speed;
         }
-        anim.SetFloat("Speed", GetSpeed() / RegularAnimationSpeed);
+        _anim.SetFloat("Speed", GetSpeed() / RegularAnimationSpeed);
     }
 
 }

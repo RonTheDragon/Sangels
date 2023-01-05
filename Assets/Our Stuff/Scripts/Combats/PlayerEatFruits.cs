@@ -6,184 +6,182 @@ using static SOFruit;
 
 public class PlayerEatFruits : Combat
 {
-    SOFruit.Fruit CurrentFruitDigested;
-    [SerializeField] float GutMaxCapacity = 100;
-    [ReadOnly][SerializeField] float GutCurrert;
-    [SerializeField] float GutDrainSpeed = 3;
+    private Fruit _currentFruitDigested;
+    [SerializeField] private float _gutMaxCapacity = 100;
+    [ReadOnly][SerializeField] private float _gutCurrert;
+    [SerializeField] private float _gutDrainSpeed = 3;
 
-    [SerializeField] Image GutFill;
+    [SerializeField] private Image _gutFill;
 
     //Effected By Fruits 
-    PlayerMeleeDamage EffectMelee => GetComponent<PlayerMeleeDamage>();
-    PlayerController EffectMovement => transform.GetComponentInParent<PlayerController>();
-    PlayerHealth EffectHealth => transform.GetComponentInParent<PlayerHealth>();
+    private PlayerMeleeDamage _effectMelee => GetComponent<PlayerMeleeDamage>();
+    private PlayerController _effectMovement => transform.GetComponentInParent<PlayerController>();
+    private PlayerHealth _effectHealth => transform.GetComponentInParent<PlayerHealth>();
 
+    private PlayerCombatManager _playerAttackManager => (PlayerCombatManager)_attackManager;
 
-    PlayerAmmoSwitch ammoSwitch => GetComponent<PlayerAmmoSwitch>();
-    PlayerCombatManager playerAttackManager => (PlayerCombatManager)_attackManager;
-
-    Color Brown => Color.Lerp(Color.yellow, Color.Lerp(Color.red, Color.blue, 0.5f), 0.5f);
+    private Color _brown => Color.Lerp(Color.yellow, Color.Lerp(Color.red, Color.blue, 0.5f), 0.5f);
 
     [Header("Luber Effects")]
-    [Tooltip("Jump Boost")][SerializeField] float LuberPassive = 0.5f;
-    [Tooltip("Knockback Weakness")][SerializeField] float LuberWeakness = 2;
-    [Tooltip("Knocking back Targets")][SerializeField] float LuberMelee = 2;
+    [Tooltip("Jump Boost")][SerializeField] private float _luberPassive = 0.5f;
+    [Tooltip("Knockback Weakness")][SerializeField] private float _luberWeakness = 2;
+    [Tooltip("Knocking back Targets")][SerializeField] private float _luberMelee = 2;
 
     [Header("Scrumbulk Effects")]
-    [Tooltip("Armor Boost")][SerializeField] float ScrumbulkPassive = 10;
-    [Tooltip("Movement Slowness")][SerializeField] float ScrumbulkWeakness = 1;
-    [Tooltip("Stun Targets")][SerializeField] float ScrumbulkMelee = 10;
+    [Tooltip("Armor Boost")][SerializeField] private float _scrumbulkPassive = 10;
+    [Tooltip("Movement Slowness")][SerializeField] private float _scrumbulkWeakness = 1;
+    [Tooltip("Stun Targets")][SerializeField] private float _scrumbulkMelee = 10;
 
     [Header("Glub Effects")]
-    [Tooltip("Knockback Resistance")][SerializeField] float GlubPassive = 0.8f;
-    [Tooltip("Jump Lower")][SerializeField] float GlubWeakness = 0.5f;
-    [Tooltip("Slow Targets")][SerializeField] float GlubMelee = 50;
+    [Tooltip("Knockback Resistance")][SerializeField] private float _glubPassive = 0.8f;
+    [Tooltip("Jump Lower")][SerializeField] private float _glubWeakness = 0.5f;
+    [Tooltip("Slow Targets")][SerializeField] private float _glubMelee = 50;
 
     [Header("Fepler Effects")]
-    [Tooltip("Sets You On Fire")][SerializeField] float FeplerWeakness = 50;
-    [Tooltip("Burn Targets")][SerializeField] float FeplerMelee = 50;
+    [Tooltip("Sets You On Fire")][SerializeField] private float _feplerWeakness = 50;
+    [Tooltip("Burn Targets")][SerializeField] private float _feplerMelee = 50;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _attackManager.Damagers.Add(this);
-        playerAttackManager.Eat += Eat;
-        playerAttackManager.Loop += Digestion;
+        _playerAttackManager.Eat += Eat;
+        _playerAttackManager.Loop += Digestion;
         ResetEffects();
     }
 
-    void Eat()
+    private void Eat()
     {
-            Digest(playerAttackManager.CurrentAmmo.fruit);
+            Digest(_playerAttackManager.CurrentAmmo.fruit);
     }
 
-    void Digest(Fruit fruit)
+    private void Digest(Fruit fruit)
     {
-        if (CurrentFruitDigested != fruit)
+        if (_currentFruitDigested != fruit)
         {
-            if (GutCurrert > 0)
+            if (_gutCurrert > 0)
             {
-                GutCurrert = 0;
+                _gutCurrert = 0;
                 //Burp
             }
-            CurrentFruitDigested=fruit;
+            _currentFruitDigested=fruit;
             ResetEffects();
         }
 
         StartCoroutine("AddToGut");
     }
 
-    IEnumerator AddToGut()
+    private IEnumerator AddToGut()
     {
         yield return new WaitForSeconds(0.5f);
 
         // How much to add to gut
         for (int i = 1; i <= 10; i++)
         {
-            if (GutCurrert <= (GutMaxCapacity / 10) * i)
+            if (_gutCurrert <= (_gutMaxCapacity / 10) * i)
             {
-                GutCurrert += GutMaxCapacity / (2 + i);
+                _gutCurrert += _gutMaxCapacity / (2 + i);
                 break;
             }
         }
-        if (GutCurrert > GutMaxCapacity) { GutCurrert = GutMaxCapacity; }
+        if (_gutCurrert > _gutMaxCapacity) { _gutCurrert = _gutMaxCapacity; }
     }
 
-    void Digestion()
+    private void Digestion()
     {
-        if (GutCurrert > 0)
+        if (_gutCurrert > 0)
         {
-            GutCurrert -= GutDrainSpeed * Time.deltaTime;
+            _gutCurrert -= _gutDrainSpeed * Time.deltaTime;
         }
-        else if (GutCurrert < 0)
+        else if (_gutCurrert < 0)
         {
-            GutCurrert = 0;
+            _gutCurrert = 0;
             ResetEffects();
         }      
 
-        switch (CurrentFruitDigested)
+        switch (_currentFruitDigested)
         {
-            case Fruit.Fepler: DigestingFepler(); GutFill.color = Color.red; break;
-            case Fruit.Scrumbulk: DigestingScrumbulk(); GutFill.color = Brown; break; 
-            case Fruit.Luber: DigestingLuber(); GutFill.color = Color.cyan; break;
-            case Fruit.Glub: DigestingGlub(); GutFill.color = Color.black; break;
+            case Fruit.Fepler: DigestingFepler(); _gutFill.color = Color.red; break;
+            case Fruit.Scrumbulk: DigestingScrumbulk(); _gutFill.color = _brown; break; 
+            case Fruit.Luber: DigestingLuber(); _gutFill.color = Color.cyan; break;
+            case Fruit.Glub: DigestingGlub(); _gutFill.color = Color.black; break;
             default: break;
         }
 
-        GutFill.fillAmount = GutCurrert / GutMaxCapacity;
+        _gutFill.fillAmount = _gutCurrert / _gutMaxCapacity;
     }
 
-    void ResetEffects()
+    private void ResetEffects()
     {
         // Movement 
-        EffectMovement.FruitJumpEffect = 1;
-        EffectMovement.FruitSpeedEffect = 1;
+        _effectMovement.FruitJumpEffect = 1;
+        _effectMovement.FruitSpeedEffect = 1;
 
         // Health
-        EffectHealth.FruitKnockEffect = 1;
-        EffectHealth.FruitArmorEffect = 1;
-        EffectHealth.FruitFireEffect = 0;
+        _effectHealth.FruitKnockEffect = 1;
+        _effectHealth.FruitArmorEffect = 1;
+        _effectHealth.FruitFireEffect = 0;
 
         // Melee
-        EffectMelee.FruitStunEffect = 1;
-        EffectMelee.FruitKnockEffect = 1;
-        EffectMelee.FruitFireEffect = 0;
-        EffectMelee.FruitGlubEffect = 0;
+        _effectMelee.FruitStunEffect = 1;
+        _effectMelee.FruitKnockEffect = 1;
+        _effectMelee.FruitFireEffect = 0;
+        _effectMelee.FruitGlubEffect = 0;
     }
 
-    void DigestingFepler()
-    {
-        float FireEffect = 0;
-        FireEffect += GutCurrert / GutMaxCapacity * FeplerWeakness;
-        EffectHealth.FruitFireEffect = FireEffect;
-
-        float MeleeFireEffect = 0;
-        MeleeFireEffect += GutCurrert / GutMaxCapacity * FeplerMelee;
-        EffectMelee.FruitFireEffect = MeleeFireEffect;
-    }
-
-    void DigestingScrumbulk()
-    {
-        float ArmorEffect = 1;
-        ArmorEffect += GutCurrert / (GutMaxCapacity)* ScrumbulkPassive;
-        EffectHealth.FruitArmorEffect = ArmorEffect;
-
-        float SpeedEffect = 1;
-        SpeedEffect -= (GutCurrert/ (GutMaxCapacity + GutMaxCapacity/10))*ScrumbulkWeakness;
-        EffectMovement.FruitSpeedEffect = SpeedEffect;
-
-        float MeleeStunEffect = 1;
-        MeleeStunEffect += GutCurrert / GutMaxCapacity * ScrumbulkMelee;
-        EffectMelee.FruitStunEffect = MeleeStunEffect;
-    }
-
-    void DigestingLuber()
+    private void DigestingLuber()
     {
         float JumpEffect = 1;
-        JumpEffect += (GutCurrert / GutMaxCapacity)* LuberPassive;
-        EffectMovement.FruitJumpEffect = JumpEffect;
+        JumpEffect += (_gutCurrert / _gutMaxCapacity)* _luberPassive;
+        _effectMovement.FruitJumpEffect = JumpEffect;
 
         float knockEffect = 1;
-        knockEffect += (GutCurrert / GutMaxCapacity)*LuberWeakness;
-        EffectHealth.FruitKnockEffect = knockEffect;
+        knockEffect += (_gutCurrert / _gutMaxCapacity)*_luberWeakness;
+        _effectHealth.FruitKnockEffect = knockEffect;
 
         float MeleeKnockEffect = 1;
-        MeleeKnockEffect += (GutCurrert / GutMaxCapacity) * LuberMelee;
-        EffectMelee.FruitKnockEffect = MeleeKnockEffect;
+        MeleeKnockEffect += (_gutCurrert / _gutMaxCapacity) * _luberMelee;
+        _effectMelee.FruitKnockEffect = MeleeKnockEffect;
     }
 
-    void DigestingGlub()
+    private void DigestingScrumbulk()
+    {
+        float ArmorEffect = 1;
+        ArmorEffect += _gutCurrert / (_gutMaxCapacity)* _scrumbulkPassive;
+        _effectHealth.FruitArmorEffect = ArmorEffect;
+
+        float SpeedEffect = 1;
+        SpeedEffect -= (_gutCurrert/ (_gutMaxCapacity + _gutMaxCapacity/10))*_scrumbulkWeakness;
+        _effectMovement.FruitSpeedEffect = SpeedEffect;
+
+        float MeleeStunEffect = 1;
+        MeleeStunEffect += _gutCurrert / _gutMaxCapacity * _scrumbulkMelee;
+        _effectMelee.FruitStunEffect = MeleeStunEffect;
+    }
+
+    private void DigestingGlub()
     {
         float knockEffect = 1;
-        knockEffect -= (GutCurrert / GutMaxCapacity) * GlubPassive;
-        EffectHealth.FruitKnockEffect = knockEffect;
+        knockEffect -= (_gutCurrert / _gutMaxCapacity) * _glubPassive;
+        _effectHealth.FruitKnockEffect = knockEffect;
 
         float JumpEffect = 1;
-        JumpEffect -= (GutCurrert / GutMaxCapacity) * GlubWeakness;
-        EffectMovement.FruitJumpEffect = JumpEffect;
+        JumpEffect -= (_gutCurrert / _gutMaxCapacity) * _glubWeakness;
+        _effectMovement.FruitJumpEffect = JumpEffect;
 
         float MeleeGlubEffect = 0;
-        MeleeGlubEffect += (GutCurrert / GutMaxCapacity) * GlubMelee;
-        EffectMelee.FruitGlubEffect = MeleeGlubEffect;
+        MeleeGlubEffect += (_gutCurrert / _gutMaxCapacity) * _glubMelee;
+        _effectMelee.FruitGlubEffect = MeleeGlubEffect;
+    }
+
+    private void DigestingFepler()
+    {
+        float FireEffect = 0;
+        FireEffect += _gutCurrert / _gutMaxCapacity * _feplerWeakness;
+        _effectHealth.FruitFireEffect = FireEffect;
+
+        float MeleeFireEffect = 0;
+        MeleeFireEffect += _gutCurrert / _gutMaxCapacity * _feplerMelee;
+        _effectMelee.FruitFireEffect = MeleeFireEffect;
     }
 }

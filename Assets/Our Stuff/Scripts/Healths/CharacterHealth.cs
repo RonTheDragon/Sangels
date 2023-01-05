@@ -22,7 +22,7 @@ public abstract class CharacterHealth : Health
     [SerializeField] protected ParticleSystem FireParticle;
 
 
-    protected Controllers controller => GetComponent<Controllers>();
+    protected Controller controller => GetComponent<Controller>();
 
     [SerializeField] private Image _healthBar;
     private float _peviousCurrentHealth;

@@ -33,7 +33,7 @@ public class GoopExplosion : Explosion
                 {
                     if (Attackable == (Attackable | (1 << collider.gameObject.layer)))
                     {
-                        Controllers control = collider.GetComponent<Controllers>();
+                        Controller control = collider.GetComponent<Controller>();
                         if (control != null)
                         {
                             control.AddGlub(100);
