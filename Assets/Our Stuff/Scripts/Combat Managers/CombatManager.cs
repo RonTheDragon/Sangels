@@ -6,16 +6,16 @@ using UnityEngine;
 public abstract class CombatManager : MonoBehaviour
 {
     [HideInInspector]
-    public bool _melee;
+    public bool IsMelee;
 
-    [SerializeField] protected float StaggeredTime = 2;
+    [SerializeField] protected float _staggeredTime = 2;
 
     [HideInInspector]
     public Action Loop;
-    public Animator anim => GetComponent<Animator>();
-    protected GameManager GM => GameManager.instance;
+    public Animator Anim => GetComponent<Animator>();
+    protected GameManager _gm => GameManager.Instance;
 
-    protected float UsingAttackTimeLeft;
+    protected float _usingAttackTimeLeft;
 
     [HideInInspector] public LayerMask Attackable;
 
@@ -26,13 +26,13 @@ public abstract class CombatManager : MonoBehaviour
 
     public void Update()
     {
-        if (UsingAttackTimeLeft > 0)
+        if (_usingAttackTimeLeft > 0)
         {
-            UsingAttackTimeLeft -=Time.deltaTime;
+            _usingAttackTimeLeft -=Time.deltaTime;
         }
-        else if (UsingAttackTimeLeft < 0) 
+        else if (_usingAttackTimeLeft < 0) 
         {
-            UsingAttackTimeLeft = 0f;
+            _usingAttackTimeLeft = 0f;
             AttackEnded();
             
         }
@@ -42,6 +42,6 @@ public abstract class CombatManager : MonoBehaviour
 
     protected virtual void Staggered()
     {
-        UsingAttackTimeLeft = StaggeredTime;
+        _usingAttackTimeLeft = _staggeredTime;
     }
 }

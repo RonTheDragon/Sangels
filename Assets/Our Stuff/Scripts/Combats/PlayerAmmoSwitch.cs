@@ -18,32 +18,32 @@ public class PlayerAmmoSwitch : Combat
     {
         if (_playerAttackManager.AmmoTypes.Count > 1 && _playerAttackManager.AvailableFruits() > 0)
         {
-            if (_playerAttackManager._scroll > 0)
+            if (_playerAttackManager.UseScroll > 0)
             {
                 for (int i = 0; i < _playerAttackManager.AmmoTypes.Count; i++)
                 {
-                    _playerAttackManager._currentAmmo++;
-                    if (_playerAttackManager._currentAmmo > _playerAttackManager.AmmoTypes.Count - 1)
+                    _playerAttackManager.CurrentAmmoSlot++;
+                    if (_playerAttackManager.CurrentAmmoSlot > _playerAttackManager.AmmoTypes.Count - 1)
                     {
-                        _playerAttackManager._currentAmmo = 0;
+                        _playerAttackManager.CurrentAmmoSlot = 0;
                     }
-                    if (_playerAttackManager.AmmoTypes[_playerAttackManager._currentAmmo].CurrentAmount > 0)
+                    if (_playerAttackManager.AmmoTypes[_playerAttackManager.CurrentAmmoSlot].CurrentAmount > 0)
                     {
                         SwitchAmmo();
                         break;
                     }
                 }
             }
-            else if (_playerAttackManager._scroll < 0)
+            else if (_playerAttackManager.UseScroll < 0)
             {
                 for (int i = 0; i < _playerAttackManager.AmmoTypes.Count; i++)
                 {
-                    _playerAttackManager._currentAmmo--;
-                    if (_playerAttackManager._currentAmmo < 0)
+                    _playerAttackManager.CurrentAmmoSlot--;
+                    if (_playerAttackManager.CurrentAmmoSlot < 0)
                     {
-                        _playerAttackManager._currentAmmo = _playerAttackManager.AmmoTypes.Count - 1;
+                        _playerAttackManager.CurrentAmmoSlot = _playerAttackManager.AmmoTypes.Count - 1;
                     }
-                    if (_playerAttackManager.AmmoTypes[_playerAttackManager._currentAmmo].CurrentAmount > 0)
+                    if (_playerAttackManager.AmmoTypes[_playerAttackManager.CurrentAmmoSlot].CurrentAmount > 0)
                     {
                         SwitchAmmo();
                         break;
@@ -64,8 +64,8 @@ public class PlayerAmmoSwitch : Combat
     {
         if (_playerAttackManager.AmmoTypes.Count > 0)
         {
-            _playerAttackManager.CurrentAmmo = _playerAttackManager.AmmoTypes[_playerAttackManager._currentAmmo];
-            _playerAttackManager._scroll = 0;
+            _playerAttackManager.CurrentAmmo = _playerAttackManager.AmmoTypes[_playerAttackManager.CurrentAmmoSlot];
+            _playerAttackManager.UseScroll = 0;
 
             //Debug.Log(CurrentAmmo);
         }

@@ -8,35 +8,35 @@ public class AiCombatManager : CombatManager
 
     [ReadOnly] public Transform Target;
 
-    AIController aiController => GetComponentInParent<AIController>();
+    private AIController _aiController => GetComponentInParent<AIController>();
 
     private void Start()
     {
-        aiController.OnStagger += Staggered;
-        Attackable = GM.EnemiesCanAttack;
+        _aiController.OnStagger += Staggered;
+        Attackable = _gm.EnemiesCanAttack;
     }
 
     public void AttackTarget()
     {
-        if (Target == null || UsingAttackTimeLeft>0) return;
+        if (Target == null || _usingAttackTimeLeft>0) return;
         if (SOMeleeAttack.MinDist < Vector3.Distance(transform.position, Target.position) && Vector3.Distance(transform.position, Target.position) < SOMeleeAttack.MaxDist)
         {
-            anim.SetTrigger(SOMeleeAttack.AnimationName);
-            aiController.SetSpeed(SOMeleeAttack.speedWhileUsing);
-            UsingAttackTimeLeft = SOMeleeAttack.UsingTime;
+            Anim.SetTrigger(SOMeleeAttack.AnimationName);
+            _aiController.SetSpeed(SOMeleeAttack.speedWhileUsing);
+            _usingAttackTimeLeft = SOMeleeAttack.UsingTime;
         }
     }
     
 
     protected override void AttackEnded()
     {
-        aiController.SetSpeed(aiController.NormalSpeed);
+        _aiController.SetSpeed(_aiController.NormalSpeed);
     }
 
     protected override void Staggered()
     {
         base.Staggered();
-        aiController.SetSpeed(0);
+        _aiController.SetSpeed(0);
     }
 }
 

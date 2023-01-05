@@ -38,7 +38,7 @@ public class AIController : Controller
 
 
     // Refrences
-    private GameManager _gm => GameManager.instance;
+    private GameManager _gm => GameManager.Instance;
     private AiCombatManager _aiAtackManager => GetComponentInChildren<AiCombatManager>();
     private Vector3 _spawnPoint => transform.position;
     private NavMeshAgent _agent => GetComponent<NavMeshAgent>();

@@ -12,7 +12,7 @@ public class BouncingProjectile : ImpactProjectile
     [SerializeField] private float _maxBouncingDistance;
     [SerializeField] private float _bouncePower;
     [SerializeField] private float _minimumVel=1;
-    private LayerMask _bouncingFruitLayer => GameManager.instance.ProjectileBounceCanSee;
+    private LayerMask _bouncingFruitLayer => GameManager.Instance.ProjectileBounceCanSee;
 
 
     protected override void OnCollisionEnter(Collision collision)

@@ -5,28 +5,28 @@ public class FruitTree : MonoBehaviour
 {
     [Header("Fruit Spawn Locations")]
     [Tooltip("Pick an object with Empty childs, the childs are used for the fruit spawning spots")][SerializeField] Transform GrowingSpots;
-    [SerializeField] Color GizmoColor = Color.green;
-    [SerializeField] float GizmoSize = 0.5f;
+    [SerializeField] Color _gizmoColor = Color.green;
+    [SerializeField] float _gizmoSize = 0.5f;
 
     [Header("Growing")]
     [Tooltip("x = min Time\ny = max Time\n")]
     public Vector2 RegrowTime = new Vector2(5, 20);
     [HideInInspector]public float CurrentRegrowTime;
-    [SerializeField] string Fruit;
+    [SerializeField] private string _fruit;
     [Tooltip("x = min\ny = max\nif both bigger than the Growing Spots amount then always all the spots will grow fruits")]
-    [SerializeField] Vector2 RandomAmountOfFruits = new Vector2(2, 5);
+    [SerializeField] private Vector2 _randomAmountOfFruits = new Vector2(2, 5);
 
-    List<GameObject> Fruits = new List<GameObject>();
+    private List<GameObject> _fruits = new List<GameObject>();
     
 
     public void DropFruits()
     {
-        foreach (GameObject f in Fruits)
+        foreach (GameObject f in _fruits)
         {
             f.GetComponent<Rotate>().enabled = true;
             f.GetComponent<FruitCollectable>().Falling = true;
         }
-        Fruits.Clear();
+        _fruits.Clear();
     }
 
     public void GrowFruits()
@@ -39,7 +39,7 @@ public class FruitTree : MonoBehaviour
             }
             else
             {
-                int Amount = (int)Random.Range(RandomAmountOfFruits.x, RandomAmountOfFruits.y);
+                int Amount = (int)Random.Range(_randomAmountOfFruits.x, _randomAmountOfFruits.y);
                 if (Amount < 1) Amount = 1;
                 else if (Amount > GrowingSpots.childCount) Amount = GrowingSpots.childCount;
 
@@ -80,11 +80,11 @@ public class FruitTree : MonoBehaviour
 
     private void GrowFruit(Transform t)
     {
-        GameObject FruitObject = ObjectPooler.Instance.SpawnFromPool(Fruit, t.position, t.rotation);
+        GameObject FruitObject = ObjectPooler.Instance.SpawnFromPool(_fruit, t.position, t.rotation);
         FruitObject.GetComponent<Collider>().isTrigger = false;
         FruitObject.GetComponent<Rotate>().enabled = false;
         FruitObject.GetComponent<Rigidbody>().isKinematic = true;
-        Fruits.Add(FruitObject);
+        _fruits.Add(FruitObject);
     }
 
     public void RandomizeGrowTime()
@@ -98,10 +98,10 @@ public class FruitTree : MonoBehaviour
         {
             if (GrowingSpots.childCount > 0)
             {
-                Gizmos.color = GizmoColor;
+                Gizmos.color = _gizmoColor;
                 foreach (Transform t in GrowingSpots)
                 {
-                    Gizmos.DrawSphere(t.position, GizmoSize);
+                    Gizmos.DrawSphere(t.position, _gizmoSize);
                 }
             }
         }

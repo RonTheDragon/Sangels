@@ -57,7 +57,7 @@ public class PlayerController : Controller
     private Camera _cam => _camTransform.GetComponent<Camera>();
     private InputHandler _inputHandler => _cfl.GetComponent<InputHandler>();
     private PlayerInput _playerInput => GetComponent<PlayerInput>();
-    private GameManager _gm => GameManager.instance;
+    private GameManager _gm => GameManager.Instance;
 
     // Stored Data
     private Vector2 _movement;

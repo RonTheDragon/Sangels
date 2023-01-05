@@ -11,7 +11,7 @@ public class GoopExplosion : Explosion
     [SerializeField] private float _effectCooldown = 0.5f;
     private float _effectCool;
 
-    private LayerMask _goopMask => GameManager.instance.GoopStick;
+    private LayerMask _goopMask => GameManager.Instance.GoopStick;
 
  
 

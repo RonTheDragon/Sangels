@@ -7,15 +7,15 @@ public class ObjectPooler : MonoBehaviour
     [System.Serializable]
     public class Pool
     {
-        public string tag;
-        public GameObject prefab;
-        public int size;
+        public string Tag;
+        public GameObject Prefab;
+        public int Size;
     }
     [System.Serializable]
     public class Group
     {
-        public string tag;
-        public List<Pool> pools;
+        public string Tag;
+        public List<Pool> Pools;
     }
     #region Singleton
     public static ObjectPooler Instance;
@@ -28,25 +28,25 @@ public class ObjectPooler : MonoBehaviour
 
     //public GameObject Player;
     public List<Group> Groups;
-    public Dictionary<string, Queue<GameObject>> poolDictionary;
+    public Dictionary<string, Queue<GameObject>> PoolDictionary;
 
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        poolDictionary = new Dictionary<string, Queue<GameObject>>();
+        PoolDictionary = new Dictionary<string, Queue<GameObject>>();
         foreach (Group g in Groups)
         {
-            foreach (Pool pool in g.pools)
+            foreach (Pool pool in g.Pools)
             {
                 Queue<GameObject> objectPool = new Queue<GameObject>();
-                for (int i = 0; i < pool.size; i++)
+                for (int i = 0; i < pool.Size; i++)
                 {
-                    GameObject obj = Instantiate(pool.prefab, gameObject.transform);
+                    GameObject obj = Instantiate(pool.Prefab, gameObject.transform);
                     obj.SetActive(false);
                     objectPool.Enqueue(obj);
                 }
-                poolDictionary.Add(pool.tag, objectPool);
+                PoolDictionary.Add(pool.Tag, objectPool);
             }
         }
 
@@ -54,22 +54,22 @@ public class ObjectPooler : MonoBehaviour
 
     public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation, bool DontSpawnIfActive = false)
     {
-        if (!poolDictionary.ContainsKey(tag))
+        if (!PoolDictionary.ContainsKey(tag))
         {
             Debug.LogWarning("Pool with tag " + tag + " doesn't excist.");
             return null;
         }
-        GameObject objectToSpawn = poolDictionary[tag].Dequeue();
+        GameObject objectToSpawn = PoolDictionary[tag].Dequeue();
         if (DontSpawnIfActive)
         {
             int Count = 0;
             while (objectToSpawn.activeSelf == true && Count < 200)
             {
-                poolDictionary[tag].Enqueue(objectToSpawn);
-                objectToSpawn = poolDictionary[tag].Dequeue();
+                PoolDictionary[tag].Enqueue(objectToSpawn);
+                objectToSpawn = PoolDictionary[tag].Dequeue();
                 Count++;
             }
-            if (Count == 200) { poolDictionary[tag].Enqueue(objectToSpawn); return objectToSpawn; }
+            if (Count == 200) { PoolDictionary[tag].Enqueue(objectToSpawn); return objectToSpawn; }
         }
         objectToSpawn.SetActive(true);
         objectToSpawn.transform.position = position;
@@ -81,25 +81,25 @@ public class ObjectPooler : MonoBehaviour
             pooledObj.OnObjectSpawn();
         }
 
-        poolDictionary[tag].Enqueue(objectToSpawn);
+        PoolDictionary[tag].Enqueue(objectToSpawn);
 
         return objectToSpawn;
     }
     public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation, Vector3 Scale, bool DontSpawnIfActive = false)
     {
-        if (!poolDictionary.ContainsKey(tag))
+        if (!PoolDictionary.ContainsKey(tag))
         {
             Debug.LogWarning("Pool with tag " + tag + " doesn't excist.");
             return null;
         }
-        GameObject objectToSpawn = poolDictionary[tag].Dequeue();
+        GameObject objectToSpawn = PoolDictionary[tag].Dequeue();
         if (DontSpawnIfActive)
         {
             int Count = 0;
             while (objectToSpawn.activeSelf == true && Count < 200)
             {
-                poolDictionary[tag].Enqueue(objectToSpawn);
-                objectToSpawn = poolDictionary[tag].Dequeue();
+                PoolDictionary[tag].Enqueue(objectToSpawn);
+                objectToSpawn = PoolDictionary[tag].Dequeue();
                 Count++;
             }
         }
@@ -114,21 +114,15 @@ public class ObjectPooler : MonoBehaviour
             pooledObj.OnObjectSpawn();
         }
 
-        poolDictionary[tag].Enqueue(objectToSpawn);
+        PoolDictionary[tag].Enqueue(objectToSpawn);
 
         return objectToSpawn;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
 
 public interface IpooledObject
 {
 
-    void OnObjectSpawn();
+    public void OnObjectSpawn();
 
 }

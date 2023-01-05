@@ -10,22 +10,22 @@ public class PlayerCombatManager : CombatManager
     [Header("Ammo Switching")]
     [ReadOnly] public SOFruit CurrentAmmo;
     public List<SOFruit> AmmoTypes;
-    [ReadOnly] public int _currentAmmo;
+    [ReadOnly] public int CurrentAmmoSlot;
     public bool RefillAmmoOnStart;
 
     [Header("Refrences")]
     public Camera Cam;
     public CinemachineFreeLook Cinemachine;
-    PlayerController TPM => GetComponentInParent<PlayerController>();
+    private PlayerController _pc => GetComponentInParent<PlayerController>();
 
     [HideInInspector]
-    public bool _shoot;
+    public bool UseShoot;
     [HideInInspector]
-    public float _scroll;
+    public float UseScroll;
 
-    bool _shootLastFrame;
-    bool _holdingFire;
-    bool _eat;
+    private bool _shootLastFrame;
+    private bool _holdingFire;
+    private bool _eat;
 
     public Action Shoot;
     public Action OnStopHoldShoot;
@@ -38,15 +38,15 @@ public class PlayerCombatManager : CombatManager
             RefillAllAmmo();
         }
 
-        Attackable = GM.PlayersCanAttack;
+        Attackable = _gm.PlayersCanAttack;
         Loop += Melee;
         Loop += Shooting;
         Loop += Eating;
-        TPM.OnStagger += Staggered;
+        _pc.OnStagger += Staggered;
     }
 
     // Update is called once per frame
-    new void Update()
+    new private void Update()
     {
         base.Update();
         Loop?.Invoke();
@@ -57,12 +57,12 @@ public class PlayerCombatManager : CombatManager
     //Inputs
     public void OnShoot(InputAction.CallbackContext context)
     {
-        _shoot = context.action.triggered;
+        UseShoot = context.action.triggered;
     }
 
     public void OnMelee(InputAction.CallbackContext context)
     {
-        _melee = context.action.triggered;
+        base.IsMelee = context.action.triggered;
     }
 
     public void OnEat(InputAction.CallbackContext context)
@@ -72,43 +72,43 @@ public class PlayerCombatManager : CombatManager
 
     public void OnScroll(InputAction.CallbackContext context)
     {
-        _scroll = context.action.ReadValue<float>();
+        UseScroll = context.action.ReadValue<float>();
     }
 
     protected override void AttackEnded()
     {
-        TPM.SetSpeed(TPM.NormalSpeed);
+        _pc.SetSpeed(_pc.NormalSpeed);
     }
 
-    void Melee()
+    private void Melee()
     {
-        if (_melee && UsingAttackTimeLeft==0)
+        if (IsMelee && _usingAttackTimeLeft == 0)
         {
-            anim.SetTrigger(SOMeleeAttack.AnimationName);
-            TPM.SetSpeed(SOMeleeAttack.speedWhileUsing);
-            UsingAttackTimeLeft = SOMeleeAttack.UsingTime;
+            Anim.SetTrigger(SOMeleeAttack.AnimationName);
+            _pc.SetSpeed(SOMeleeAttack.speedWhileUsing);
+            _usingAttackTimeLeft = SOMeleeAttack.UsingTime;
         }
     }
 
-    void Eating()
+    private void Eating()
     {
         if (CurrentAmmo == null) return;
-        if (_eat && UsingAttackTimeLeft == 0 && ConsumeAmmo())
+        if (_eat && _usingAttackTimeLeft == 0 && ConsumeAmmo())
         {
             Eat?.Invoke();
-            TPM.SetSpeed(SOMeleeAttack.speedWhileUsing);
-            UsingAttackTimeLeft = 0.5f;
+            _pc.SetSpeed(SOMeleeAttack.speedWhileUsing);
+            _usingAttackTimeLeft = 0.5f;
         }
     }
 
-    void Shooting()
+    private void Shooting()
     {
         if (CurrentAmmo != null)
         {
-            if (_shoot && UsingAttackTimeLeft == 0 && ConsumeAmmo())
+            if (UseShoot && _usingAttackTimeLeft == 0 && ConsumeAmmo())
             {
-                anim.SetTrigger("ChargeSlingshot");
-                TPM.SetSpeed(TPM.NormalSpeed / 2);
+                Anim.SetTrigger("ChargeSlingshot");
+                _pc.SetSpeed(_pc.NormalSpeed / 2);
                 Shoot?.Invoke();
                 _holdingFire = true;
             }
@@ -116,17 +116,17 @@ public class PlayerCombatManager : CombatManager
 
         if (_holdingFire)
         {
-            UsingAttackTimeLeft = 1;
+            _usingAttackTimeLeft = 1;
 
-            if (_shootLastFrame && !_shoot)
+            if (_shootLastFrame && !UseShoot)
             {
-                anim.SetTrigger("ShootSlingshot");
+                Anim.SetTrigger("ShootSlingshot");
                 OnStopHoldShoot?.Invoke();
-                UsingAttackTimeLeft = 0.2f;
+                _usingAttackTimeLeft = 0.2f;
                 _holdingFire = false;
             }
         }
-        _shootLastFrame = _shoot;
+        _shootLastFrame = UseShoot;
     }
 
     protected override void Staggered()
@@ -134,7 +134,7 @@ public class PlayerCombatManager : CombatManager
         base.Staggered();
         OnStopHoldShoot?.Invoke();
         _holdingFire = false;
-        TPM.SetSpeed(0);
+        _pc.SetSpeed(0);
     }
 
     public bool ConsumeAmmo()
@@ -166,7 +166,7 @@ public class PlayerCombatManager : CombatManager
         {
             f.CurrentAmount = f.MaxAmount;
         }
-        if (CurrentAmmo == null) { _scroll = 1; }
+        if (CurrentAmmo == null) { UseScroll = 1; }
     }
 
     public bool CollectFruit(SOFruit.Fruit f, int Amount =1)
@@ -179,7 +179,7 @@ public class PlayerCombatManager : CombatManager
             if (Fruit.CurrentAmount > Fruit.MaxAmount) Fruit.CurrentAmount= Fruit.MaxAmount; // if we carry too much then remove
             return true; // Pick up
         }
-        if (CurrentAmmo == null) { _scroll = 1; }
+        if (CurrentAmmo == null) { UseScroll = 1; }
         return false; // we full, we cant pick up any more
     }
 }

@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     // Visible //
 
     [Tooltip("List of all The Players")]
-    [ReadOnly][SerializeField] GameObject[] Players = new GameObject[4];
+    [ReadOnly][SerializeField] GameObject[] _players = new GameObject[4];
 
     [Tooltip("True - will Remove a player that disconnected his Controller\n\nFalse - will Keep the player inside, allowing him to rejoin to where he left off")]
     public bool LeaveOnDisconnect;
@@ -32,17 +32,17 @@ public class GameManager : MonoBehaviour
 
     // Invisible //
 
-    [HideInInspector] public static GameManager instance;
-    bool _turnedOffStartingCam;
+    [HideInInspector] public static GameManager Instance;
+    private bool _turnedOffStartingCam;
 
-    GameObject _playerSpawner => transform.GetChild(0).gameObject;
-    GameObject _noPlayersCamera => _playerSpawner.transform.GetChild(0).gameObject;
-    Transform _playerSpawnPoint => _playerSpawner.transform.GetChild(1);
+    private GameObject _playerSpawner => transform.GetChild(0).gameObject;
+    private GameObject _noPlayersCamera => _playerSpawner.transform.GetChild(0).gameObject;
+    private Transform _playerSpawnPoint => _playerSpawner.transform.GetChild(1);
 
     // Starts Before The Game Starts
     private void Awake()
     {
-        instance = this;
+        Instance = this;
     }
 
     /// <summary> When Any Player Joins </summary>
@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
     /// <summary> When "LeaveOnDisconnect" is true and someone left </summary>
     public void PlayerLeft(int n)
     {
-            Players[n - 1] = null;
+            _players[n - 1] = null;
             // Turn On No Players Camera if there are no players left        
             if (0 == CountPlayers())
             {
@@ -84,9 +84,9 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            if (Players[i] == null)
+            if (_players[i] == null)
             {
-                Players[i] = Player;
+                _players[i] = Player;
                 return (i+1);
             }
         }
@@ -95,9 +95,9 @@ public class GameManager : MonoBehaviour
         return 0;
     }
 
-    GameObject GetLeadPlayer()
+    private GameObject GetLeadPlayer()
     {
-        foreach(GameObject p in Players)
+        foreach(GameObject p in _players)
         {
             if(p != null)
             {
@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
         int count = 0;
         for (int i = 0; i < 4; i++)
         {
-            if (Players[i] != null)
+            if (_players[i] != null)
             {
                 count++;
             }
