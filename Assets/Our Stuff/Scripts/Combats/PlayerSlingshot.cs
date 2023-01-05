@@ -20,9 +20,9 @@ public class PlayerSlingshot : Combat
     [SerializeField][Range(0.01f, 0.25f)] private float _timeBetweenPoints = 0.01f;
 
     [Header("Charge")]
-    [SerializeField] private float _maxCharge = 2000;
-    [SerializeField] private float _startCharge = 100;
-    [SerializeField] private float _chargingSpeed = 1900;
+    [SerializeField] private float _maxCharge = 40;
+    [SerializeField] private float _startCharge = 2;
+    [SerializeField] private float _chargingSpeed = 38;
     [ReadOnly][SerializeField] private float _currentCharge;
 
     [Header("AimAssist")]

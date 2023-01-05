@@ -278,7 +278,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   Shooter: {fileID: 0}
-  EffectBySpeed: {x: 3, y: 10}
+  EffectBySpeed: {x: 1, y: 10}
   BouncingCounter: 0
   AlreadyHit: []
   _maxBouncing: 20
