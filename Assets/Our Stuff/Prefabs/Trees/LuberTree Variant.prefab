@@ -16,6 +16,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 124a2ef6a82417b458752c6fe843a11e, type: 2}
     - target: {fileID: 1984400893372709615, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
+      propertyPath: _fruit
+      value: LuberC
+      objectReference: {fileID: 0}
+    - target: {fileID: 1984400893372709615, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
       propertyPath: GizmoColor.b
       value: 0.98883367
       objectReference: {fileID: 0}

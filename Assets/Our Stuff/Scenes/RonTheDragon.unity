@@ -14756,22 +14756,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Manager
       objectReference: {fileID: 0}
-    - target: {fileID: 285133754880836022, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
-      propertyPath: PlayerMasks.Array.data[0].m_Bits
-      value: 29823
-      objectReference: {fileID: 0}
-    - target: {fileID: 285133754880836022, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
-      propertyPath: PlayerMasks.Array.data[1].m_Bits
-      value: 29887
-      objectReference: {fileID: 0}
-    - target: {fileID: 285133754880836022, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
-      propertyPath: PlayerMasks.Array.data[2].m_Bits
-      value: 30015
-      objectReference: {fileID: 0}
-    - target: {fileID: 285133754880836022, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
-      propertyPath: PlayerMasks.Array.data[3].m_Bits
-      value: 30271
-      objectReference: {fileID: 0}
     - target: {fileID: 285133754880836023, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
       propertyPath: m_RootOrder
       value: 0

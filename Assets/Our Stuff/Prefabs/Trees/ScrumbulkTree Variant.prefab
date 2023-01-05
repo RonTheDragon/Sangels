@@ -16,6 +16,10 @@ PrefabInstance:
       value: ScrumbulkC
       objectReference: {fileID: 0}
     - target: {fileID: 1984400893372709615, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
+      propertyPath: _fruit
+      value: ScrumbulkC
+      objectReference: {fileID: 0}
+    - target: {fileID: 1984400893372709615, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
       propertyPath: GizmoColor.g
       value: 0.08248239
       objectReference: {fileID: 0}
