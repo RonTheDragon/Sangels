@@ -203,21 +203,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _projectileSpawnLocation: {fileID: 2614702472748530955}
-  _aimingSpeed: 0
+  _aimingSpeed: 6
   _currentFOV: 0
   _aimingFOV: 1
   IsAiming: 0
   _linePoints: 25
   _timeBetweenPoints: 0.01
-  _maxCharge: 2000
-  _startCharge: 100
-  _chargingSpeed: 1900
+  _maxCharge: 40
+  _startCharge: 2
+  _chargingSpeed: 38
   _currentCharge: 0
   _targetAim: {fileID: 0}
   _aimAssistRange: 30
   _aimTriggerLM:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   _aimAssistDir: 50
   _aimAssistSpeed: 1
   _AimAssitTimeLockOn: 0
@@ -1068,7 +1068,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127943017131814319}
-  m_LocalRotation: {x: 0.09463041, y: 0.18325011, z: -0.017724946, w: 0.9783406}
+  m_LocalRotation: {x: 0.09463043, y: 0.18325013, z: -0.017724948, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -3620,7 +3620,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5840255186920816596}
-  m_LocalRotation: {x: 0.09463041, y: 0.18325011, z: -0.017724946, w: 0.9783406}
+  m_LocalRotation: {x: 0.09463043, y: 0.18325013, z: -0.017724948, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
