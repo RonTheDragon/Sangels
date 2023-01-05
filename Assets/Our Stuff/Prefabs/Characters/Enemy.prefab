@@ -1071,9 +1071,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb99f77f9504aa48ad71698642d009d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Attackable:
-    serializedVersion: 2
-    m_Bits: 0
   GetDamageCD: 0.2
 --- !u!114 &8717874134807624218
 MonoBehaviour:
@@ -2563,25 +2560,25 @@ MonoBehaviour:
   Speed: 10
   NormalSpeed: 10
   RegularAnimationSpeed: 10
-  LookingAt: {fileID: 3019735477120511849}
-  rig: {fileID: 4643502931346221247}
+  _lookingAt: {fileID: 3019735477120511849}
+  _rig: {fileID: 4643502931346221247}
   _lookingSpeed: 10
-  GlubCurrentEffect: 0
-  GlubRemovedPS: 30
-  GlubMax: 100
+  _glubCurrentEffect: 0
+  _glubRemovedPS: 30
+  _glubMax: 100
   _roamCooldown: {x: 1, y: 3}
   _roamCD: 0
   _patrolRange: 20
   _scanRadius: 10
   _angleOfVision: 90
   _sensingRadius: 3
-  ScanFrequent: 1
+  _scanFrequent: 1
   _scanCD: 0
-  Target: {fileID: 0}
-  AlertRadius: 15
-  CurrentAlert: 0
-  AttackAlert: 0.5
-  MaxAlert: 3
+  _target: {fileID: 0}
+  _alertRadius: 10
+  _currentAlert: 0
+  _attackAlert: 0.5
+  _maxAlert: 3
 --- !u!195 &6394502825093494616
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2619,12 +2616,13 @@ MonoBehaviour:
   MaxHealth: 100
   CurrentHealth: 0
   StaggerResistance: 5
+  IsStaggered: 0
   MaxHurtAnimationDamage: 15
   _fireCurrently: 0
   _fireDamage: 10
   _fireExtinguishing: 25
   FireParticle: {fileID: 9037062429920742491}
-  HealthBar: {fileID: 0}
+  _healthBar: {fileID: 0}
 --- !u!136 &5711285248897493981
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -180,5 +180,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   Shooter: {fileID: 0}
-  Explosion: FireExplosion
-  Radius: 10
+  _explosion: FireExplosion
+  _radius: 10

@@ -9908,9 +9908,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   Shooter: {fileID: 0}
-  Explosion: 
   Radius: 0
-  ExplosionParticles:
+  _explosionParticles:
   - {fileID: 6444842921347237315}
   - {fileID: 1595801769671791020}
   _timeTillTurnOff: 0.6

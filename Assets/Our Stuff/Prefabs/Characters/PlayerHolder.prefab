@@ -202,25 +202,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27da14a744ac0cb46a0a9b759ff21eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProjectileSpawnLocation: {fileID: 2614702472748530955}
-  AimingSpeed: 6
-  CurrentFOV: 0
-  AimingFOV: 1
-  isAiming: 0
+  _projectileSpawnLocation: {fileID: 2614702472748530955}
+  _aimingSpeed: 0
+  _currentFOV: 0
+  _aimingFOV: 1
+  IsAiming: 0
   _linePoints: 25
   _timeBetweenPoints: 0.01
-  MaxCharge: 40
-  StartCharge: 2
-  ChargingSpeed: 38
-  CurrentCharge: 0
-  TargetAim: {fileID: 0}
-  AimTriggerLM:
+  _maxCharge: 2000
+  _startCharge: 100
+  _chargingSpeed: 1900
+  _currentCharge: 0
+  _targetAim: {fileID: 0}
+  _aimAssistRange: 30
+  _aimTriggerLM:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 0
   _aimAssistDir: 50
   _aimAssistSpeed: 1
-  _AimAssitTimeLcokOn: 0
-  cfl: {fileID: 5726065353114077419}
+  _AimAssitTimeLockOn: 0
+  _cfl: {fileID: 5726065353114077419}
 --- !u!114 &670301637293329066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,21 +340,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0c82b979a6457a4aa53444ac82cbcc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GutMaxCapacity: 100
-  GutCurrert: 0
-  GutDrainSpeed: 3
-  GutFill: {fileID: 147683843849375430}
-  LuberPassive: 0.5
-  LuberWeakness: 2
-  LuberMelee: 2
-  ScrumbulkPassive: 10
-  ScrumbulkWeakness: 1
-  ScrumbulkMelee: 10
-  GlubPassive: 0.8
-  GlubWeakness: 0.5
-  GlubMelee: 50
-  FeplerWeakness: 50
-  FeplerMelee: 50
+  _gutMaxCapacity: 100
+  _gutCurrert: 0
+  _gutDrainSpeed: 3
+  _gutFill: {fileID: 147683843849375430}
+  _luberPassive: 0.5
+  _luberWeakness: 2
+  _luberMelee: 2
+  _scrumbulkPassive: 10
+  _scrumbulkWeakness: 1
+  _scrumbulkMelee: 10
+  _glubPassive: 0.8
+  _glubWeakness: 0.5
+  _glubMelee: 50
+  _feplerWeakness: 50
+  _feplerMelee: 50
 --- !u!114 &2374607002002561565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1067,7 +1068,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127943017131814319}
-  m_LocalRotation: {x: 0.09376745, y: 0.2257391, z: -0.021834707, w: 0.9694188}
+  m_LocalRotation: {x: 0.09463041, y: 0.18325011, z: -0.017724946, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -2110,7 +2111,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3497720927849900763}
-  m_LocalRotation: {x: 0.09376745, y: 0.2257391, z: -0.021834707, w: 0.9694188}
+  m_LocalRotation: {x: 0.09463043, y: 0.18325013, z: -0.017724948, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -2878,25 +2879,25 @@ MonoBehaviour:
   Speed: 10
   NormalSpeed: 10
   RegularAnimationSpeed: 10
-  LookingAt: {fileID: 400005232067196757}
-  rig: {fileID: 3411079627600858810}
+  _lookingAt: {fileID: 400005232067196757}
+  _rig: {fileID: 3411079627600858810}
   _lookingSpeed: 10
-  GlubCurrentEffect: 0
-  GlubRemovedPS: 30
-  GlubMax: 100
-  PlayerNumber: 0
+  _glubCurrentEffect: 0
+  _glubRemovedPS: 30
+  _glubMax: 100
+  _playerNumber: 0
   _jump: 15
   _gravity: 20
-  slopeLimit: 45
-  SlideSpeed: 5
-  isSliding: 0
-  hitNormal: {x: 0, y: 0, z: 0}
-  Y: -1
-  Wide: -0.1
-  Height: 0.04
-  isGrounded: 0
-  cam: {fileID: 5726065353198074107}
-  cfl: {fileID: 5726065353114077419}
+  _slopeLimit: 45
+  _slideSpeed: 5
+  _isSliding: 0
+  _hitNormal: {x: 0, y: 0, z: 0}
+  _checkboxY: -1.2
+  _wide: 0
+  _height: 0.05
+  _isGrounded: 0
+  _camTransform: {fileID: 5726065353198074107}
+  _cfl: {fileID: 5726065353114077419}
   FruitSpeedEffect: 0
   FruitJumpEffect: 1
 --- !u!114 &5726065353308739104
@@ -3109,12 +3110,13 @@ MonoBehaviour:
   MaxHealth: 100
   CurrentHealth: 0
   StaggerResistance: 5
+  IsStaggered: 0
   MaxHurtAnimationDamage: 100
   _fireCurrently: 0
   _fireDamage: 10
   _fireExtinguishing: 25
   FireParticle: {fileID: 3511390563526793401}
-  HealthBar: {fileID: 1827830444938278312}
+  _healthBar: {fileID: 1827830444938278312}
   FruitFireEffect: 0
   FruitKnockEffect: 1
   FruitArmorEffect: 1
@@ -3476,7 +3478,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5726065353198074110}
-  m_LocalRotation: {x: 0.09376745, y: 0.2257391, z: -0.021834707, w: 0.9694188}
+  m_LocalRotation: {x: 0.09463043, y: 0.18325013, z: -0.017724948, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 2, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3618,7 +3620,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5840255186920816596}
-  m_LocalRotation: {x: 0.09376746, y: 0.22573912, z: -0.021834714, w: 0.9694188}
+  m_LocalRotation: {x: 0.09463041, y: 0.18325011, z: -0.017724946, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0

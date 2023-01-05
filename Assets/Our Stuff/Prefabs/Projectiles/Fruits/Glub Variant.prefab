@@ -87,5 +87,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   Shooter: {fileID: 0}
-  Explosion: Goop
-  Radius: 3
+  _explosion: Goop
+  _radius: 10

@@ -98,7 +98,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   Shooter: {fileID: 0}
-  DamageBySpeed: {x: 1, y: 10}
+  EffectBySpeed: {x: 0, y: 0}
 --- !u!1 &8097269631521255925
 GameObject:
   m_ObjectHideFlags: 0

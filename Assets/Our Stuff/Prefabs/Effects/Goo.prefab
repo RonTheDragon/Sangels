@@ -4923,10 +4923,10 @@ MonoBehaviour:
     m_Bits: 0
   Shooter: {fileID: 0}
   Radius: 10
-  ExplosionParticles:
+  _explosionParticles:
   - {fileID: 3945015107239209645}
   _timeTillTurnOff: 0
-  Goop: {fileID: 5754319364413316171}
+  _goop: {fileID: 5754319364413316171}
   _effectCooldown: 0.5
 --- !u!54 &5991906920068928131
 Rigidbody:

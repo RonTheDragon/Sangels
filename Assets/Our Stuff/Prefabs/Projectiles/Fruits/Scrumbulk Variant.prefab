@@ -139,4 +139,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   Shooter: {fileID: 0}
-  DamageBySpeed: {x: 0.5, y: 3}
+  EffectBySpeed: {x: 3, y: 10}

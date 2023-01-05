@@ -308,7 +308,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7496249178957846750, guid: a999e6e3524107947b4568e1825f4447, type: 3}
       propertyPath: m_Name
-      value: Collectable Luber
+      value: Collectable Luber Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a999e6e3524107947b4568e1825f4447, type: 3}

@@ -185,6 +185,10 @@ PrefabInstance:
       propertyPath: DamageAmount
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 2441146663687166969, guid: db40b787fba5ab745be673b539756769, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4839533831422456348, guid: db40b787fba5ab745be673b539756769, type: 3}
       propertyPath: m_Material
       value: 
@@ -274,10 +278,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   Shooter: {fileID: 0}
-  DamageBySpeed: {x: 1, y: 10}
-  _maxBouncing: 20
+  EffectBySpeed: {x: 3, y: 10}
   BouncingCounter: 0
+  AlreadyHit: []
+  _maxBouncing: 20
   _maxBouncingDistance: 1
   _bouncePower: 1
-  AlreadyHit: []
   _minimumVel: 1
