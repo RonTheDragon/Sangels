@@ -85,7 +85,7 @@ public class PlayerCombatManager : CombatManager
         if (IsMelee && _usingAttackTimeLeft == 0)
         {
             Anim.SetTrigger(SOMeleeAttack.AnimationName);
-            _pc.SetSpeed(SOMeleeAttack.speedWhileUsing);
+            _pc.SetSpeed(SOMeleeAttack.SpeedWhileUsing);
             _usingAttackTimeLeft = SOMeleeAttack.UsingTime;
         }
     }
@@ -96,7 +96,7 @@ public class PlayerCombatManager : CombatManager
         if (_eat && _usingAttackTimeLeft == 0 && ConsumeAmmo())
         {
             Eat?.Invoke();
-            _pc.SetSpeed(SOMeleeAttack.speedWhileUsing);
+            _pc.SetSpeed(SOMeleeAttack.SpeedWhileUsing);
             _usingAttackTimeLeft = 0.5f;
         }
     }
@@ -171,7 +171,7 @@ public class PlayerCombatManager : CombatManager
 
     public bool CollectFruit(SOFruit.Fruit f, int Amount =1)
     {
-        SOFruit Fruit= AmmoTypes.Find(x => x.fruit == f); // look for fruit
+        SOFruit Fruit= AmmoTypes.Find(x => x.FruitType == f); // look for fruit
         if (Fruit == null) return false; // if the fruit doesnt exist we cant pick it up
         if (Fruit.CurrentAmount < Fruit.MaxAmount) // are we full on that fruit?
         {

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6137975d86eb0f24ba755c2e7f5bcae5, type: 3}
   m_Name: Luber
   m_EditorClassIdentifier: 
-  Fruits: {fileID: 21300000, guid: f8c9467a892580344bb697526dac0d13, type: 3}
-  fruit: 2
+  Icon: {fileID: 0}
+  FruitType: 0
   MaxAmount: 5
   CurrentAmount: 20

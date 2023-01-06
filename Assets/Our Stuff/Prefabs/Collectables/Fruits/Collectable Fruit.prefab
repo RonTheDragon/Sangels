@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c164109486a81634d9e2a9484dc4f8e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rotating: {x: 360, y: 360, z: 360}
+  _rotating: {x: 90, y: 90, z: 90}
 --- !u!54 &1374024743123163261
 Rigidbody:
   m_ObjectHideFlags: 0

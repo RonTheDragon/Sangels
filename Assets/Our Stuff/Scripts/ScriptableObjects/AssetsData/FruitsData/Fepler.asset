@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6137975d86eb0f24ba755c2e7f5bcae5, type: 3}
   m_Name: Fepler
   m_EditorClassIdentifier: 
-  Fruits: {fileID: 21300000, guid: dc36dbe72dd89254180ffdf6d76db218, type: 3}
-  fruit: 1
+  Icon: {fileID: 0}
+  FruitType: 3
   MaxAmount: 5
   CurrentAmount: 20

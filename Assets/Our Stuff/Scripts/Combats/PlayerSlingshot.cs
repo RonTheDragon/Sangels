@@ -157,9 +157,9 @@ public class PlayerSlingshot : Combat
     public void OnStartShooting()
     {
         IsAiming = true;
-        if (!_fruit && !string.IsNullOrEmpty(_playerAttackManager.CurrentAmmo.fruit.ToString()))
+        if (!_fruit && !string.IsNullOrEmpty(_playerAttackManager.CurrentAmmo.FruitType.ToString()))
         {
-            _fruit = ObjectPooler.Instance.SpawnFromPool(_playerAttackManager.CurrentAmmo.fruit.ToString(), _projectileSpawnLocation.position, _projectileSpawnLocation.rotation).GetComponent<Projectile>();
+            _fruit = ObjectPooler.Instance.SpawnFromPool(_playerAttackManager.CurrentAmmo.FruitType.ToString(), _projectileSpawnLocation.position, _projectileSpawnLocation.rotation).GetComponent<Projectile>();
             _fruit.SpawnOnSlingshot(_projectileSpawnLocation);
             _currentCharge = _startCharge;
             _charging = true;

@@ -52,7 +52,7 @@ public class PlayerEatFruits : Combat
 
     private void Eat()
     {
-            Digest(_playerAttackManager.CurrentAmmo.fruit);
+            Digest(_playerAttackManager.CurrentAmmo.FruitType);
     }
 
     private void Digest(Fruit fruit)

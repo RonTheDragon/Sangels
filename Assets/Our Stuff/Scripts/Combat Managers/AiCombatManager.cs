@@ -22,7 +22,7 @@ public class AiCombatManager : CombatManager
         if (SOMeleeAttack.MinDist < Vector3.Distance(transform.position, Target.position) && Vector3.Distance(transform.position, Target.position) < SOMeleeAttack.MaxDist)
         {
             Anim.SetTrigger(SOMeleeAttack.AnimationName);
-            _aiController.SetSpeed(SOMeleeAttack.speedWhileUsing);
+            _aiController.SetSpeed(SOMeleeAttack.SpeedWhileUsing);
             _usingAttackTimeLeft = SOMeleeAttack.UsingTime;
         }
     }

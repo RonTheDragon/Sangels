@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Interaction : MonoBehaviour
 {
-    [SerializeField] PlayerCombatManager playerCombatManager;
+    [SerializeField] private PlayerCombatManager _playerCombatManager;
     private void OnTriggerEnter(Collider other)
     {
         Icollectable Collectable = other.gameObject.GetComponent<Icollectable>();
@@ -14,7 +14,7 @@ public class Interaction : MonoBehaviour
         if (Collectable is FruitCollectable)
         {
             FruitCollectable fruit = Collectable as FruitCollectable;
-            if (playerCombatManager.CollectFruit(fruit.Fruit, fruit.Amount))
+            if (_playerCombatManager.CollectFruit(fruit.Fruit, fruit.Amount))
             {
                 Collectable.PickUp();
             }

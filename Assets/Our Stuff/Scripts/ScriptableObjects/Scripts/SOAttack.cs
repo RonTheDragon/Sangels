@@ -15,5 +15,5 @@ public abstract class SOAttack : ScriptableObject
     public float MaxDist = 3;
     public string AnimationName;
     public float UsingTime;
-    public float speedWhileUsing;
+    public float SpeedWhileUsing;
 }

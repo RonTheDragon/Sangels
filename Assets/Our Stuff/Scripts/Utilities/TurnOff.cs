@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class TurnOff : MonoBehaviour
 {
-    float _time;
+    private float _time;
  
     public void Use(float time = 0)
     {
         _time = time;
-        StartCoroutine("remove");
+        StartCoroutine("Remove");
     }
 
-    IEnumerator remove()
+    private IEnumerator Remove()
     {
         yield return new WaitForSeconds(_time);
         gameObject.SetActive(false);

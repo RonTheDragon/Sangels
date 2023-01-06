@@ -7,18 +7,18 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Fruit", menuName = "Fruit Data", order = 51)]
 public class SOFruit : ScriptableObject
 {
-    public Sprite Fruits;
+    public Sprite Icon;
 
     public enum Fruit 
     {
+        Luber,
+        Scrumbulk,
         Glub,
         Fepler,
-        Luber,
         Velo,
-        Vitaliv,
-        Scrumbulk
+        Vitaliv
     }
-    public Fruit fruit;
+    public Fruit FruitType;
 
     public int MaxAmount;
     public int CurrentAmount;

@@ -1105,7 +1105,7 @@ MonoBehaviour:
   drawTripods: 0
   boneSize: 1
   tripodSize: 1
-  boneColor: {r: 0, g: 0, b: 1, a: 0.5}
+  boneColor: {r: 1, g: 0.9048885, b: 0, a: 0.5}
   m_Transforms:
   - {fileID: 155868323667642147}
   - {fileID: 4797190150741729277}
@@ -1178,8 +1178,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb6a33f83c1c0a43be759e6d8e577ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _melee: 0
-  StaggeredTime: 1.6
+  IsMelee: 0
+  _staggeredTime: 2
   Attackable:
     serializedVersion: 2
     m_Bits: 0

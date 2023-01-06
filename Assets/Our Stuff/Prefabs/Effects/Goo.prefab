@@ -4922,7 +4922,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   Shooter: {fileID: 0}
-  Radius: 10
+  Radius: 0
   _explosionParticles:
   - {fileID: 3945015107239209645}
   _timeTillTurnOff: 0

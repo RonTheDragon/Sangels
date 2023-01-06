@@ -20,4 +20,4 @@ MonoBehaviour:
   MaxDist: 3
   AnimationName: PunchCombo
   UsingTime: 2.03
-  speedWhileUsing: 3
+  SpeedWhileUsing: 3

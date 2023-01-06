@@ -5,13 +5,13 @@ using UnityEngine;
 public class RespawmIfFallsOffMap : MonoBehaviour
 {
     [HideInInspector]
-    public Vector3 startPos;
-    void Start()
+    public Vector3 StartPos;
+    private void Start()
     {
-        startPos = transform.position;
+        StartPos = transform.position;
     }
 
-    void Update()
+    private void Update()
     {
         if (transform.position.y < -10)
         {
@@ -25,10 +25,10 @@ public class RespawmIfFallsOffMap : MonoBehaviour
             if (CC != null)
             {
                 CC.enabled = false;
-                transform.position = startPos;
+                transform.position = StartPos;
                 CC.enabled = true;
             }
-            else transform.position = startPos;
+            else transform.position = StartPos;
 
         }
     }

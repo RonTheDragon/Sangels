@@ -9,8 +9,8 @@ public class FruitCollectable : MonoBehaviour, Icollectable
     public int Amount = 1;
     [HideInInspector] public bool Falling;
 
-    Collider C => GetComponent<Collider>();
-    Rigidbody RB => GetComponent<Rigidbody>();
+    private Collider _collider => GetComponent<Collider>();
+    private Rigidbody _rigidBody => GetComponent<Rigidbody>();
 
     public void PickUp()
     {
@@ -21,17 +21,17 @@ public class FruitCollectable : MonoBehaviour, Icollectable
     {
         if (Falling)
         {
-            C.isTrigger= false;
-            RB.isKinematic = false;
-            RB.useGravity = true;
+            _collider.isTrigger= false;
+            _rigidBody.isKinematic = false;
+            _rigidBody.useGravity = true;
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         Falling = false;
-        C.isTrigger = true;
-        RB.isKinematic = true;
-        RB.useGravity = false;
+        _collider.isTrigger = true;
+        _rigidBody.isKinematic = true;
+        _rigidBody.useGravity = false;
     }
 }

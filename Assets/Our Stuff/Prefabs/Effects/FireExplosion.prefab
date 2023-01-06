@@ -128,9 +128,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac5e6e50a4e43cb48965369d00b75dce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particle: {fileID: 6444842921347237315}
-  speedMultiplier: 10
-  LightMultiplier: 1000
+  _particle: {fileID: 6444842921347237315}
+  _speedMultiplier: 10
+  _lightMultiplier: 100
 --- !u!1 &3214800993714540142
 GameObject:
   m_ObjectHideFlags: 0

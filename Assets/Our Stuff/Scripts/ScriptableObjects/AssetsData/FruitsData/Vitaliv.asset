@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6137975d86eb0f24ba755c2e7f5bcae5, type: 3}
-  m_Name: Velo
+  m_Name: Vitaliv
   m_EditorClassIdentifier: 
   Icon: {fileID: 0}
-  FruitType: 4
+  FruitType: 5
   MaxAmount: 5
   CurrentAmount: 20

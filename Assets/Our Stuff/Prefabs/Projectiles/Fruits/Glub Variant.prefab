@@ -88,4 +88,4 @@ MonoBehaviour:
     m_Bits: 0
   Shooter: {fileID: 0}
   _explosion: Goop
-  _radius: 10
+  _radius: 3
