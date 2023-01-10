@@ -375,7 +375,7 @@ MonoBehaviour:
     - Tag: Luber
       Prefab: {fileID: 8328853403786945772, guid: 13ca0b5215f497c4ca69fe5b9418f2b5, type: 3}
       Size: 20
-    - Tag: Scrumbulk
+    - Tag: Shbulk
       Prefab: {fileID: 1417715162589546882, guid: f2eece5782c09d24ca43281d4207bfd4, type: 3}
       Size: 20
     - Tag: Glub
@@ -397,7 +397,7 @@ MonoBehaviour:
     - Tag: LuberC
       Prefab: {fileID: 4086633904681325726, guid: 31587be5a584d384997da74f6b098970, type: 3}
       Size: 30
-    - Tag: ScrumbulkC
+    - Tag: ShbulkC
       Prefab: {fileID: 4362036618209853045, guid: 4f9dae4893e942f43a2fe330a9e1d739, type: 3}
       Size: 30
     - Tag: GlubC

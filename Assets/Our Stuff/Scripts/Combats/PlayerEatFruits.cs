@@ -102,7 +102,7 @@ public class PlayerEatFruits : Combat
         switch (_currentFruitDigested)
         {
             case Fruit.Fepler: DigestingFepler(); _gutFill.color = Color.red; break;
-            case Fruit.Scrumbulk: DigestingScrumbulk(); _gutFill.color = _brown; break; 
+            case Fruit.Shbulk: DigestingScrumbulk(); _gutFill.color = _brown; break; 
             case Fruit.Luber: DigestingLuber(); _gutFill.color = Color.cyan; break;
             case Fruit.Glub: DigestingGlub(); _gutFill.color = Color.black; break;
             default: break;
