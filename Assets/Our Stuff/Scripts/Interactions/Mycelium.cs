@@ -24,7 +24,7 @@ public class Mycelium : MonoBehaviour
             bool allAwake = true;
             foreach (Mushroom m in _mushrooms)
             {
-                if (!m.Awoken) 
+                if (!m.Awakened) 
                 {
                     allAwake = false;
                     break; 

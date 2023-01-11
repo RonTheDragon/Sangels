@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Glub
   m_EditorClassIdentifier: 
   Icon: {fileID: 0}
-  FruitType: 2
+  FruitType: 1
   MaxAmount: 5
-  CurrentAmount: 20
+  CurrentAmount: 0

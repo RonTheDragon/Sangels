@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Fepler
   m_EditorClassIdentifier: 
   Icon: {fileID: 0}
-  FruitType: 3
+  FruitType: 2
   MaxAmount: 5
-  CurrentAmount: 20
+  CurrentAmount: 0

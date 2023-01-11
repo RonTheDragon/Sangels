@@ -91,6 +91,15 @@ namespace UnityEngine.InputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""71f3573f-f471-4518-a94a-d5e7e6e684da"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -443,6 +452,28 @@ namespace UnityEngine.InputSystem
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Eat"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3a29e331-d579-4395-bcd9-985f6091141d"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e3c46d90-f1ac-4124-9534-a6faf7dc7e9a"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1037,6 +1068,7 @@ namespace UnityEngine.InputSystem
             m_Sangel_Shoot = m_Sangel.FindAction("Shoot", throwIfNotFound: true);
             m_Sangel_Jump = m_Sangel.FindAction("Jump", throwIfNotFound: true);
             m_Sangel_Scroll = m_Sangel.FindAction("Scroll", throwIfNotFound: true);
+            m_Sangel_Interact = m_Sangel.FindAction("Interact", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1115,6 +1147,7 @@ namespace UnityEngine.InputSystem
         private readonly InputAction m_Sangel_Shoot;
         private readonly InputAction m_Sangel_Jump;
         private readonly InputAction m_Sangel_Scroll;
+        private readonly InputAction m_Sangel_Interact;
         public struct SangelActions
         {
             private @SangelInputManager m_Wrapper;
@@ -1126,6 +1159,7 @@ namespace UnityEngine.InputSystem
             public InputAction @Shoot => m_Wrapper.m_Sangel_Shoot;
             public InputAction @Jump => m_Wrapper.m_Sangel_Jump;
             public InputAction @Scroll => m_Wrapper.m_Sangel_Scroll;
+            public InputAction @Interact => m_Wrapper.m_Sangel_Interact;
             public InputActionMap Get() { return m_Wrapper.m_Sangel; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1156,6 +1190,9 @@ namespace UnityEngine.InputSystem
                     @Scroll.started -= m_Wrapper.m_SangelActionsCallbackInterface.OnScroll;
                     @Scroll.performed -= m_Wrapper.m_SangelActionsCallbackInterface.OnScroll;
                     @Scroll.canceled -= m_Wrapper.m_SangelActionsCallbackInterface.OnScroll;
+                    @Interact.started -= m_Wrapper.m_SangelActionsCallbackInterface.OnInteract;
+                    @Interact.performed -= m_Wrapper.m_SangelActionsCallbackInterface.OnInteract;
+                    @Interact.canceled -= m_Wrapper.m_SangelActionsCallbackInterface.OnInteract;
                 }
                 m_Wrapper.m_SangelActionsCallbackInterface = instance;
                 if (instance != null)
@@ -1181,6 +1218,9 @@ namespace UnityEngine.InputSystem
                     @Scroll.started += instance.OnScroll;
                     @Scroll.performed += instance.OnScroll;
                     @Scroll.canceled += instance.OnScroll;
+                    @Interact.started += instance.OnInteract;
+                    @Interact.performed += instance.OnInteract;
+                    @Interact.canceled += instance.OnInteract;
                 }
             }
         }
@@ -1344,6 +1384,7 @@ namespace UnityEngine.InputSystem
             void OnShoot(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
             void OnScroll(InputAction.CallbackContext context);
+            void OnInteract(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Vitaliv
   m_EditorClassIdentifier: 
   Icon: {fileID: 0}
-  FruitType: 5
+  FruitType: 3
   MaxAmount: 5
   CurrentAmount: 20
