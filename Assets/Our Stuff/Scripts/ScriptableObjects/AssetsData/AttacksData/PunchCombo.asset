@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DamageAmount: 10
   Knockback: 3
-  Stagger: {x: 1000, y: 10000}
+  Stagger: {x: 2, y: 7}
   Fire: 0
   MinDist: 0
   MaxDist: 3

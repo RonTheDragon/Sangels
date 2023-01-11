@@ -21,7 +21,7 @@ public class PlayerHealth : CharacterHealth
 
         string AttackerName = Attacker != null ? Attacker.name : "No One";
         _playerController.Hurt(damage / MaxHurtAnimationDamage,Attacker, Staggered);
-        Debug.Log($"{gameObject.name} took {damage} damage and {knockback} Knockback from {AttackerName}");
+      //  Debug.Log($"{gameObject.name} took {damage} damage and {knockback} Knockback from {AttackerName}");
     }
 
     new private void Update()
