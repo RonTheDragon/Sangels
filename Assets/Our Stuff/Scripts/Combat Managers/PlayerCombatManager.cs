@@ -11,7 +11,8 @@ public class PlayerCombatManager : CombatManager
     [ReadOnly] public SOFruit CurrentAmmo;
     public List<SOFruit> AmmoTypes;
     [ReadOnly] public int CurrentAmmoSlot;
-    public bool RefillAmmoOnStart;
+    [SerializeField] private bool _refillAmmoOnStart, _resetLeavesOnStart;
+    [SerializeField] private int _maxAmountOnStart = 3;
 
     [Header("Refrences")]
     public Camera Cam;
@@ -33,9 +34,13 @@ public class PlayerCombatManager : CombatManager
 
     private void Start()
     {
-        if (RefillAmmoOnStart)
+        if (_refillAmmoOnStart)
         {
             RefillAllAmmo();
+        }
+        if (_resetLeavesOnStart)
+        {
+            ResetMaxAmmo();
         }
 
         Attackable = _gm.PlayersCanAttack;
@@ -176,6 +181,13 @@ public class PlayerCombatManager : CombatManager
         }
         if (CurrentAmmo == null) { UseScroll = 1; }
     }
+    public void ResetMaxAmmo()
+    {
+        foreach (SOFruit f in AmmoTypes)
+        {
+            f.MaxAmount = _maxAmountOnStart;
+        }
+    }
 
     public bool CollectFruit(SOFruit.Fruit f, int Amount =1)
     {
@@ -189,5 +201,11 @@ public class PlayerCombatManager : CombatManager
         }
         if (CurrentAmmo == null) { UseScroll = 1; }
         return false; // we full, we cant pick up any more
+    }
+
+    public void CollectLeaf(SOFruit.Fruit f)
+    {
+        SOFruit Fruit = AmmoTypes.Find(x => x.FruitType == f); // look for fruit
+        Fruit.MaxAmount++;
     }
 }

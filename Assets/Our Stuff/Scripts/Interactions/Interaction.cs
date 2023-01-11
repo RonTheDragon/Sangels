@@ -100,6 +100,14 @@ public class Interaction : MonoBehaviour
             {
                 Collectable.PickUp();
             }
+            return;
+        }
+        if (Collectable is LeafCollectable)
+        {
+            LeafCollectable leaf = Collectable as LeafCollectable;
+            _playerCombatManager.CollectLeaf(leaf.Fruit);
+            Collectable.PickUp();
+            return;
         }
     }
 }
