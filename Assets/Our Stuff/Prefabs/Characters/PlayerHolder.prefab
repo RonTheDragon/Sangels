@@ -165,7 +165,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 27c7bfcb798d38441902a2f7a687f0f8, type: 2}
   - {fileID: 11400000, guid: bb64bf3f5a4e93c42802c4ae1675b93e, type: 2}
   CurrentAmmoSlot: 0
-  RefillAmmoOnStart: 1
+  _refillAmmoOnStart: 1
+  _resetLeavesOnStart: 1
+  _maxAmountOnStart: 3
   Cam: {fileID: 5726065353198074104}
   Cinemachine: {fileID: 5726065353114077419}
   UseShoot: 0
