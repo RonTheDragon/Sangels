@@ -12,11 +12,11 @@ public class SOFruit : ScriptableObject
     public enum Fruit 
     {
         Luber,
-        Scrumbulk,
         Glub,
         Fepler,
-        Velo,
-        Vitaliv
+        Vitaliv,
+        Shbulk,
+        Lipachu,
     }
     public Fruit FruitType;
 

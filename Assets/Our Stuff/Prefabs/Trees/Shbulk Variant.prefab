@@ -17,7 +17,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1984400893372709615, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
       propertyPath: _fruit
-      value: ScrumbulkC
+      value: ShbulkC
       objectReference: {fileID: 0}
     - target: {fileID: 1984400893372709615, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
       propertyPath: GizmoColor.g
@@ -45,15 +45,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5060424128699796761, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 54.08
+      value: -31.693172
       objectReference: {fileID: 0}
     - target: {fileID: 5060424128699796761, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.39386272
       objectReference: {fileID: 0}
     - target: {fileID: 5060424128699796761, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 60.34
+      value: 14.998604
       objectReference: {fileID: 0}
     - target: {fileID: 5060424128699796761, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
       propertyPath: m_LocalRotation.w
@@ -61,15 +61,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5060424128699796761, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5060424128699796761, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5060424128699796761, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5060424128699796761, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -85,7 +85,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8390456268749154444, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
       propertyPath: m_Name
-      value: ScrumbulkTree Variant
+      value: ScrumbulkTree Variant (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c79e133b400a1644809364d2c045e30, type: 3}
