@@ -14,6 +14,7 @@ public class AiCombatManager : CombatManager
     {
         _aiController.OnStagger += Staggered;
         Attackable = _gm.EnemiesCanAttack;
+        Loop += EndStaggerAnimationBool;
     }
 
     public void AttackTarget()
@@ -37,6 +38,14 @@ public class AiCombatManager : CombatManager
     {
         base.Staggered();
         _aiController.SetSpeed(0);
+    }
+    void EndStaggerAnimationBool()
+    {
+        if (_usingAttackTimeLeft == 0)
+        {
+            _aiController._characterHealth.IsStaggered = false;
+            GetComponent<Animator>().SetBool("Stagger", _aiController._characterHealth.IsStaggered);
+        }
     }
 }
 

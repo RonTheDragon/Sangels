@@ -47,11 +47,7 @@ public class PlayerCombatManager : CombatManager
     }
 
     // Update is called once per frame
-    new private void Update()
-    {
-        base.Update();
-        Loop?.Invoke();
-    }
+
 
 
 

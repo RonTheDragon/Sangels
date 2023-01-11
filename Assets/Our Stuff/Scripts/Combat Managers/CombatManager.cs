@@ -36,6 +36,7 @@ public abstract class CombatManager : MonoBehaviour
             AttackEnded();
             
         }
+        Loop?.Invoke();
     }
 
     protected abstract void AttackEnded();
