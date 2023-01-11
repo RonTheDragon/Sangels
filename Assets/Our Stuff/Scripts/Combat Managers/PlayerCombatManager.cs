@@ -1,5 +1,6 @@
 using Cinemachine;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -44,7 +45,13 @@ public class PlayerCombatManager : CombatManager
         Loop += Eating;
         _pc.OnStagger += Staggered;
     }
-
+    IEnumerator EndStaggerAnimationBool()
+    {
+        yield return new WaitForSeconds(1.633f);
+        _pc._characterHealth.IsStaggered = false;
+        AttackEnded();
+        Debug.Log("last" + _pc._characterHealth.IsStaggered);
+    }
     // Update is called once per frame
     new private void Update()
     {
@@ -135,6 +142,8 @@ public class PlayerCombatManager : CombatManager
         OnStopHoldShoot?.Invoke();
         _holdingFire = false;
         _pc.SetSpeed(0);
+        Debug.Log("first"+ _pc._characterHealth.IsStaggered);
+        StartCoroutine(EndStaggerAnimationBool());
     }
 
     public bool ConsumeAmmo()
