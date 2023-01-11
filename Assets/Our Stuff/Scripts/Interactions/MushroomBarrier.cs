@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class MushroomBarrier : MonoBehaviour , Interactable
 {
-    [SerializeField] private string _info;
+    [SerializeField] private string _info = "Wake up the Master Mushroom";
     string Interactable._information { get { return _info; } set { _info = value; } }
 
-    [SerializeField] private Color _textColor;
+    [SerializeField] private Color _textColor = Color.white;
     Color Interactable._color { get { return _textColor; } set { _textColor = value; } }
+
+    [SerializeField] private GameObject _barrier;
 
     public bool CanUse()
     {
-        throw new System.NotImplementedException();
+        return false;
     }
 
     public void Use()
@@ -22,6 +24,6 @@ public class MushroomBarrier : MonoBehaviour , Interactable
 
     public void Open()
     {
-        
+        _barrier.SetActive(false);
     }
 }

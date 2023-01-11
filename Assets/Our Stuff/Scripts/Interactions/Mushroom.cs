@@ -4,24 +4,33 @@ using UnityEngine;
 
 public class Mushroom : MonoBehaviour, Interactable
 {
-    [SerializeField] private string _info;
+    [SerializeField] private string _info = "Press E to Wake Up Mushroom";
     string Interactable._information { get { return _info; } set { _info = value; } }
 
-    [SerializeField] private Color _textColor;
+    [SerializeField] private Color _textColor = Color.white;
     Color Interactable._color { get{ return _textColor; } set { _textColor = value; } }
 
-    public bool CanUse()
+    private Mycelium _mycelium1;
+
+    [ReadOnly] public bool Awoken;
+
+    public virtual bool CanUse()
     {
-        throw new System.NotImplementedException();
+        return true;
     }
 
-    public void Use()
+    public virtual void Use()
     {
-        throw new System.NotImplementedException();
+        WakeUp();
     }
 
     public void WakeUp()
     {
+        Awoken= true;
+    }
 
+    public void SetupMushroom(Mycelium mycelium)
+    {
+        _mycelium1 = mycelium;
     }
 }

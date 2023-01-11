@@ -25,10 +25,23 @@ public class Interaction : MonoBehaviour
 
     private void InteractableCheck()
     {
+        if (radiusCD > 0) { radiusCD -= Time.deltaTime; }
+
+        Interactable interacted;
+        bool found = false;
         RaycastHit hit;
         if (Physics.Raycast(_cam.position, _cam.forward,out hit,_range, _interactionMask, QueryTriggerInteraction.Ignore)) 
         {
-            
+            interacted = hit.transform.GetComponent<Interactable>();
+            if (interacted != null) found = true;
+        }
+        if (!found && radiusCD <= 0)
+        {
+            radiusCD = _radiusCooldown;
+            Collider[] colliders = Physics.OverlapSphere(transform.position, _radius);
+            float dist = _radius + 1;
+            //GameObject
+           // for
         }
     }
 
