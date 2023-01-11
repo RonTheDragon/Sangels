@@ -5,7 +5,7 @@ public class Interaction : MonoBehaviour
 {
     public Action<string, Color, bool> OnInteracting;
     public Action OnStopInteracting;
-    [ReadOnly] public Interactable CurrentlyInteractingWith;
+    public Iinteractable CurrentlyInteractingWith;
 
     [SerializeField] private PlayerCombatManager _playerCombatManager;
     [SerializeField] private Transform _cam;
@@ -28,12 +28,12 @@ public class Interaction : MonoBehaviour
     {
         if (radiusCD > 0) { radiusCD -= Time.deltaTime; }
 
-        Interactable interacted = null;
+        Iinteractable interacted = null;
         bool found = false;
         RaycastHit hit;
         if (Physics.Raycast(_cam.position, _cam.forward,out hit,_range, _interactionMask, QueryTriggerInteraction.Ignore)) 
         {
-            interacted = hit.transform.GetComponent<Interactable>();
+            interacted = hit.transform.GetComponent<Iinteractable>();
             if (interacted != null) found = true;
         }
         if (!found && radiusCD <= 0)
@@ -47,7 +47,7 @@ public class Interaction : MonoBehaviour
                 float dist = Vector3.Distance(transform.position, c.bounds.ClosestPoint(transform.position));                 
                 if (closestDist > dist)
                 {
-                    interacted = c.GetComponent<Interactable>();
+                    interacted = c.GetComponent<Iinteractable>();
                     if (interacted != null)
                     {
                         closestCollider = c;
@@ -82,5 +82,4 @@ public class Interaction : MonoBehaviour
             }
         }
     }
-
 }

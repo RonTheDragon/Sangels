@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface Interactable
+public interface Iinteractable
 {
     public string Information { get; set; }
     public Color TextColor { get; set; }

@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MushroomBarrier : MonoBehaviour , Interactable
+public class MushroomBarrier : MonoBehaviour , Iinteractable
 {
     [SerializeField] protected string _info = "Wake up the Master Mushroom";
-    string Interactable.Information { get { return _info; } set { _info = value; } }
+    string Iinteractable.Information { get { return _info; } set { _info = value; } }
 
     [SerializeField] protected Color _textColor = Color.white;
-    Color Interactable.TextColor { get { return _textColor; } set { _textColor = value; } }
+    Color Iinteractable.TextColor { get { return _textColor; } set { _textColor = value; } }
 
     [SerializeField] protected GameObject _barrier;
 
