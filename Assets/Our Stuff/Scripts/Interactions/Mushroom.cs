@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Mushroom : MonoBehaviour, Interactable
 {
-    [SerializeField] private string _info = "Press E to Wake Up Mushroom";
-    string Interactable._information { get { return _info; } set { _info = value; } }
+    [SerializeField] protected string _info = "Press E to Wake Up Mushroom";
+    string Interactable.Information { get { return _info; } set { _info = value; } }
 
-    [SerializeField] private Color _textColor = Color.white;
-    Color Interactable._color { get{ return _textColor; } set { _textColor = value; } }
+    [SerializeField] protected Color _textColor = Color.white;
+    Color Interactable.TextColor { get{ return _textColor; } set { _textColor = value; } }
 
-    private Mycelium _mycelium1;
+    protected Mycelium _mycelium;
 
     [ReadOnly] public bool Awoken;
 
@@ -22,6 +22,7 @@ public class Mushroom : MonoBehaviour, Interactable
     public virtual void Use()
     {
         WakeUp();
+        _mycelium.TryOpen();
     }
 
     public void WakeUp()
@@ -31,6 +32,6 @@ public class Mushroom : MonoBehaviour, Interactable
 
     public void SetupMushroom(Mycelium mycelium)
     {
-        _mycelium1 = mycelium;
+        _mycelium = mycelium;
     }
 }

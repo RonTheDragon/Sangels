@@ -1,11 +1,12 @@
-using JetBrains.Annotations;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Interaction : MonoBehaviour
 {
+    public Action<string, Color, bool> OnInteracting;
+    public Action OnStopInteracting;
+    [ReadOnly] public Interactable CurrentlyInteractingWith;
+
     [SerializeField] private PlayerCombatManager _playerCombatManager;
     [SerializeField] private Transform _cam;
     private GameManager _gm => GameManager.Instance;
@@ -57,11 +58,13 @@ public class Interaction : MonoBehaviour
         }
         if (interacted!=null) 
         {
-
+            OnInteracting?.Invoke(interacted.Information, interacted.TextColor, interacted.CanUse());
+            CurrentlyInteractingWith = interacted;
         }
         else
         {
-
+            OnStopInteracting?.Invoke();
+            CurrentlyInteractingWith = null;
         }
     }
 

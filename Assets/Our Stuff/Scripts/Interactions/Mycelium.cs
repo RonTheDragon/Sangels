@@ -6,6 +6,8 @@ public class Mycelium : MonoBehaviour
 {
     [SerializeField] private List<Mushroom> _mushrooms;
     [SerializeField] private List<MushroomBarrier> _barriers;
+    [SerializeField] private Camera _videoCamera;
+    private GameManager _gm => GameManager.Instance;
     private bool _open;
 
     private void Start()
@@ -30,11 +32,17 @@ public class Mycelium : MonoBehaviour
             }
             if (allAwake)
             {
-                foreach(MushroomBarrier b in _barriers)
-                {
-                    b.Open();
-                }
+                Open();
             }
+        }
+    }
+
+    private void Open()
+    {
+        _open= true;
+        foreach (MushroomBarrier b in _barriers)
+        {
+            b.Open();
         }
     }
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public interface Interactable
 {
-    protected string _information { get; set; }
-    protected Color _color { get; set; }
+    public string Information { get; set; }
+    public Color TextColor { get; set; }
 
     public void Use();
 

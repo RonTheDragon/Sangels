@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class MushroomBarrier : MonoBehaviour , Interactable
 {
-    [SerializeField] private string _info = "Wake up the Master Mushroom";
-    string Interactable._information { get { return _info; } set { _info = value; } }
+    [SerializeField] protected string _info = "Wake up the Master Mushroom";
+    string Interactable.Information { get { return _info; } set { _info = value; } }
 
-    [SerializeField] private Color _textColor = Color.white;
-    Color Interactable._color { get { return _textColor; } set { _textColor = value; } }
+    [SerializeField] protected Color _textColor = Color.white;
+    Color Interactable.TextColor { get { return _textColor; } set { _textColor = value; } }
 
-    [SerializeField] private GameObject _barrier;
+    [SerializeField] protected GameObject _barrier;
 
     public bool CanUse()
     {
