@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XR;
 
 public class PlayerCombatManager : CombatManager
 {
@@ -43,15 +42,10 @@ public class PlayerCombatManager : CombatManager
         Loop += Melee;
         Loop += Shooting;
         Loop += Eating;
+        Loop += EndStaggerAnimationBool;
         _pc.OnStagger += Staggered;
     }
-    IEnumerator EndStaggerAnimationBool()
-    {
-        yield return new WaitForSeconds(1.633f);
-        _pc._characterHealth.IsStaggered = false;
-        AttackEnded();
-        Debug.Log("last" + _pc._characterHealth.IsStaggered);
-    }
+
     // Update is called once per frame
     new private void Update()
     {
@@ -143,8 +137,17 @@ public class PlayerCombatManager : CombatManager
         _holdingFire = false;
         _pc.SetSpeed(0);
         Debug.Log("first"+ _pc._characterHealth.IsStaggered);
-        StartCoroutine(EndStaggerAnimationBool());
     }
+    void EndStaggerAnimationBool()
+    {
+        if (_usingAttackTimeLeft == 0)
+        {
+            _pc._characterHealth.IsStaggered = false;
+            GetComponent<Animator>().SetBool("Stagger", _pc._characterHealth.IsStaggered);
+        }
+        // Debug.Log("end of stagger animation: " + _pc._characterHealth.IsStaggered);
+    }
+
 
     public bool ConsumeAmmo()
     {

@@ -99,9 +99,9 @@ abstract public class Controller : MonoBehaviour
     {
         if (Staggered && !_characterHealth.IsStaggered) 
         {
-            _anim.SetTrigger("Stagger");
             Debug.Log("Stagger: " + Staggered);
             OnStagger?.Invoke();
+            _anim.SetBool("Stagger",_characterHealth.IsStaggered);
         }
         else
         {
@@ -109,5 +109,9 @@ abstract public class Controller : MonoBehaviour
             Debug.Log("pain:"+ Pain);
         }
     }
+
+
+
+
     
 }
