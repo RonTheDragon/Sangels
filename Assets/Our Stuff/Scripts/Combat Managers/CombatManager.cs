@@ -8,7 +8,7 @@ public abstract class CombatManager : MonoBehaviour
     [HideInInspector]
     public bool IsMelee;
 
-    [SerializeField] protected float _staggeredTime = 2;
+    [SerializeField] protected float _staggeredTime = 1.3f;
 
     [HideInInspector]
     public Action Loop;
