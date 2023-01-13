@@ -73,7 +73,7 @@ MonoBehaviour:
     m_Bits: 18423
   ProjectileBounceCanSee:
     serializedVersion: 2
-    m_Bits: 18431
+    m_Bits: 2047
   GoopStick:
     serializedVersion: 2
     m_Bits: 1
@@ -92,6 +92,7 @@ MonoBehaviour:
     m_Bits: 30015
   - serializedVersion: 2
     m_Bits: 30271
+  TheLevelManager: {fileID: 0}
 --- !u!114 &285133754880836020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,7 +198,7 @@ GameObject:
   - component: {fileID: 285133756106852882}
   - component: {fileID: 285133756106852880}
   m_Layer: 0
-  m_Name: StartingCamera
+  m_Name: NoPlayersCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -318,7 +319,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2863271054869468281}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.152, z: 4.5}
+  m_LocalPosition: {x: 1.9, y: -6.19, z: 5.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -483,13 +484,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2525839416962163670}
+  - component: {fileID: 1409523588903039737}
   m_Layer: 0
-  m_Name: PlayerSpawning
+  m_Name: Level Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2525839416962163670
 Transform:
   m_ObjectHideFlags: 0
@@ -498,7 +500,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7989134047071037248}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 48.1, y: 2.7, z: 45.2}
+  m_LocalPosition: {x: 124.7, y: 107.7, z: 12.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -507,3 +509,18 @@ Transform:
   m_Father: {fileID: 285133754880836023}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1409523588903039737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7989134047071037248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4adddef7cd23ca74b819e591eb8e6c60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NoPlayersCamera: {fileID: 285133756106852894}
+  PlayerSpawnPoint: {fileID: 8932513104966428826}
+  RespawnIfFallBelowY: 90

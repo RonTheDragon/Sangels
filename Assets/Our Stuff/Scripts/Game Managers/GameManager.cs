@@ -35,9 +35,10 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public static GameManager Instance;
     private bool _turnedOffStartingCam;
 
-    private GameObject _playerSpawner => transform.GetChild(0).gameObject;
-    private GameObject _noPlayersCamera => _playerSpawner.transform.GetChild(0).gameObject;
-    private Transform _playerSpawnPoint => _playerSpawner.transform.GetChild(1);
+    [Tooltip("Make sure that the level manager isnt a child of a game manager")]
+    public LevelManager TheLevelManager;
+    private GameObject _noPlayersCamera => TheLevelManager.NoPlayersCamera;
+    private Transform _playerSpawnPoint => TheLevelManager.PlayerSpawnPoint;
 
     // Starts Before The Game Starts
     private void Awake()

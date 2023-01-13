@@ -6,14 +6,18 @@ public class RespawmIfFallsOffMap : MonoBehaviour
 {
     [HideInInspector]
     public Vector3 StartPos;
+    private GameManager _gm => GameManager.Instance;
+    private float _limit;
+
     private void Start()
     {
         StartPos = transform.position;
+        _limit = _gm.TheLevelManager.RespawnIfFallBelowY;
     }
 
     private void Update()
     {
-        if (transform.position.y < -10)
+        if (transform.position.y < _limit)
         {
             CharacterController CC = transform.GetComponent<CharacterController>();
             Rigidbody rb = transform.GetComponent<Rigidbody>();
