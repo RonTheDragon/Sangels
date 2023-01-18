@@ -17,13 +17,13 @@ public class TreeHealth : Health
 
     private void Update()
     {
-        if (_isDead)
+        if (IsDead)
         {
             CurrentHealth += Time.deltaTime / tree.CurrentRegrowTime * MaxHealth;
         }
         if (CurrentHealth > MaxHealth)
         {
-            _isDead = false;
+            IsDead = false;
             CurrentHealth = MaxHealth;
             tree.GrowFruits();
         }
@@ -31,7 +31,7 @@ public class TreeHealth : Health
 
     public override void TakeDamage(float damage, float knockback, Vector3 pushFrom, Vector2 Stagger, GameObject Attacker = null)
     {
-        if (!_isDead)
+        if (!IsDead)
         {
             CurrentHealth -= damage;
             if (CurrentHealth < 0) { Die(); }
@@ -42,7 +42,7 @@ public class TreeHealth : Health
     {
         tree.DropFruits();
         tree.RandomizeGrowTime();
-        _isDead = true;
+        IsDead = true;
     }
 
 

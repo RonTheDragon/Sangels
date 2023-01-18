@@ -10,7 +10,7 @@ public class AiHealth : CharacterHealth
 
     public override void TakeDamage(float damage, float knockback, Vector3 pushFrom, Vector2 Stagger, GameObject Attacker = null)
     {
-        if (_isDead) return;
+        if (IsDead) return;
         CurrentHealth -= damage;
         bool Staggered = TryStagger(Stagger);
         if (!Staggered) knockback *= 0.1f;
@@ -30,7 +30,7 @@ public class AiHealth : CharacterHealth
         if (CurrentHealth > 0) return;
         CurrentHealth = 0;
         gameObject.SetActive(false);
-        _isDead = true;
+        IsDead = true;
     }
 
 }

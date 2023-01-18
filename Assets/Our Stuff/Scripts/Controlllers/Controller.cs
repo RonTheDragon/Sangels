@@ -99,14 +99,15 @@ abstract public class Controller : MonoBehaviour
     {
         if (Staggered && !_characterHealth.IsStaggered) 
         {
-            Debug.Log("Stagger: " + Staggered);
+            //Debug.Log("Stagger: " + Staggered);
             OnStagger?.Invoke();
             _anim.SetBool("Stagger",_characterHealth.IsStaggered);
+            Debug.Log("testing");
         }
         else
         {
             _anim.SetTrigger("Hurt"); _anim.SetFloat("Pain", Pain);
-            Debug.Log("pain:"+ Pain);
+            //Debug.Log("pain:"+ Pain);
         }
     }
 

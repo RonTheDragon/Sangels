@@ -237,6 +237,11 @@ public class AIController : Controller
 
     private void SetTarget(Transform target)
     {
+        if(target.GetComponent<PlayerHealth>().IsDead)
+        {
+            target = null;
+            return;
+        }
         _target = target;
         AiAtackManager.Target = target;
     }

@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 
@@ -12,7 +14,8 @@ public class PlayerHealth : CharacterHealth
     private PlayerController _playerController => (PlayerController)controller;
     public override void TakeDamage(float damage, float knockback, Vector3 pushFrom, Vector2 Stagger, GameObject Attacker = null)
     {
-        if (_isDead) return;
+        Die();
+        if (IsDead) return;
         CurrentHealth -= damage / FruitArmorEffect;
         bool Staggered = TryStagger(Stagger);
         knockback *= FruitKnockEffect;
@@ -44,15 +47,27 @@ public class PlayerHealth : CharacterHealth
         if (CurrentHealth > 0) return;
         CurrentHealth = 0;
         //gameObject.SetActive(false);
-        Debug.Log("you fucking loser");
-        _isDead = true;
-        
+        IsDead = true;
+        _playerController.
+        GetComponentInChildren<Animator>().SetBool("Stagger", false);//make the ai not seeing dead player
+        GetComponentInChildren<Animator>().SetBool("Fall", IsDead);
+        gameObject.AddComponent<DeadPlayer>();
+        _playerController.enabled = false;
     }
 
-    [ContextMenu("Heal Me")]
-    private void HealPlayerMaxHealth()
+    [ContextMenu("Heal Player to full hp")]
+    public void HealPlayerMaxHealth()
     {
         CurrentHealth = MaxHealth;
+    }
+
+    [ContextMenu("Revive Player to X hp")]
+    public void RevivePlayer(int healthToRevive)
+    {
+        CurrentHealth = healthToRevive;
+        IsDead=false;
+        GetComponentInChildren<Animator>().SetBool("Fall", IsDead);
+        _playerController.enabled = true;
     }
 
 }

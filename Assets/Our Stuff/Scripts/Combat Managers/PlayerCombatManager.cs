@@ -44,11 +44,13 @@ public class PlayerCombatManager : CombatManager
         }
 
         Attackable = _gm.PlayersCanAttack;
-        Loop += Melee;
-        Loop += Shooting;
-        Loop += Eating;
-        Loop += EndStaggerAnimationBool;
-        _pc.OnStagger += Staggered;
+        
+        
+            Loop += Melee;
+            Loop += Shooting;
+            Loop += Eating;
+            Loop += EndStaggerAnimationBool;
+            _pc.OnStagger += Staggered;
     }
 
     // Update is called once per frame
@@ -59,22 +61,26 @@ public class PlayerCombatManager : CombatManager
     //Inputs
     public void OnShoot(InputAction.CallbackContext context)
     {
-        UseShoot = context.action.triggered;
+        if (!transform.parent.GetComponent<PlayerHealth>().IsDead)
+            UseShoot = context.action.triggered;
     }
 
     public void OnMelee(InputAction.CallbackContext context)
     {
-        base.IsMelee = context.action.triggered;
+        if (!transform.parent.GetComponent<PlayerHealth>().IsDead)
+            base.IsMelee = context.action.triggered;
     }
 
     public void OnEat(InputAction.CallbackContext context)
     {
-        _eat = context.action.triggered;
+        if (!transform.parent.GetComponent<PlayerHealth>().IsDead)
+            _eat = context.action.triggered;
     }
 
     public void OnScroll(InputAction.CallbackContext context)
     {
-        UseScroll = context.action.ReadValue<float>();
+        if (!transform.parent.GetComponent<PlayerHealth>().IsDead)
+            UseScroll = context.action.ReadValue<float>();
     }
 
     protected override void AttackEnded()
@@ -137,7 +143,7 @@ public class PlayerCombatManager : CombatManager
         OnStopHoldShoot?.Invoke();
         _holdingFire = false;
         _pc.SetSpeed(0);
-        Debug.Log("first"+ _pc._characterHealth.IsStaggered);
+        //Debug.Log("first"+ _pc._characterHealth.IsStaggered);
     }
     void EndStaggerAnimationBool()
     {

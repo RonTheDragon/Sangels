@@ -28,7 +28,7 @@ public class RoamState : State
         else
         { 
             StateManager.ChangeState(new AttackState(StateManager, AiController));
-            Debug.Log("change into attack state");
+           // Debug.Log("change into attack state");
         }
     }
 }

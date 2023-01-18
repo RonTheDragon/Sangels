@@ -6,7 +6,7 @@ public abstract class Health : MonoBehaviour
 
     public float MaxHealth;
     [ReadOnly][SerializeField] protected float CurrentHealth;
-    protected bool _isDead;
+    public bool IsDead { get; protected set; }
 
     protected void Start()
     {
