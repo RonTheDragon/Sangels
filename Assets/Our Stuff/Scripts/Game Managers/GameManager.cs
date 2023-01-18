@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public LayerMask TrajectoryHits;
     public LayerMask ProjectileBounceCanSee;
     public LayerMask GoopStick;
+    public LayerMask PlayersOnly;
     public LayerMask Everything;
     public LayerMask Nothing;
 
@@ -39,6 +40,10 @@ public class GameManager : MonoBehaviour
     public LevelManager TheLevelManager;
     private GameObject _noPlayersCamera => TheLevelManager.NoPlayersCamera;
     private Transform _playerSpawnPoint => TheLevelManager.PlayerSpawnPoint;
+
+    private List<Geyser> geysers = new List<Geyser>();
+
+    public Geyser SpawnpointGeyser;
 
     // Starts Before The Game Starts
     private void Awake()
@@ -152,6 +157,17 @@ public class GameManager : MonoBehaviour
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawCube(_playerSpawnPoint.position, Vector3.one);
+    }
+
+    public void AddGeyser(Geyser geyser)
+    {
+        geysers.Add(geyser);
+    }
+
+    public void SwitchGeyser(Geyser geyser)
+    {
+        geysers.Find(x => x.GeyserCurrentState == Geyser.GeyserState.GeyserActive)?.Rest();
+        SpawnpointGeyser = geyser;
     }
 }
 
