@@ -13,7 +13,7 @@ public class RoamState : State
 
     public override void Exit()
     {
-        Debug.Log("exit Roam State");
+        //Debug.Log("exit Roam State");
     }
 
     public override void Update()

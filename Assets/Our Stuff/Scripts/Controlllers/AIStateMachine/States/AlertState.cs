@@ -12,7 +12,7 @@ public class AlertState : State
 
     public override void Exit()
     {
-        Debug.Log("Exit Alert State");
+       // Debug.Log("Exit Alert State");
     }
 
     public override void Update()

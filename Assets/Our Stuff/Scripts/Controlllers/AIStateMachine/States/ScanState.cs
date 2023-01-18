@@ -13,7 +13,7 @@ public class ScanState : State
 
     public override void Exit()
     {
-        Debug.Log("exit Scan State");
+       // Debug.Log("exit Scan State");
     }
 
     public override void Update()

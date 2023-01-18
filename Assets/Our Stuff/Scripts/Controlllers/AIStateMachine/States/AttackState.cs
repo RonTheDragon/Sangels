@@ -13,7 +13,7 @@ public class AttackState : State
 
     public override void Exit()
     {
-        Debug.Log("Exit Attack State");
+       // Debug.Log("Exit Attack State");
     }
 
     public override void Update()
