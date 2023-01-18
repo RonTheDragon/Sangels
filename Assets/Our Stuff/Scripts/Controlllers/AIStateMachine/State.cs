@@ -14,9 +14,9 @@ public abstract class State
     }
 
 
-    public abstract void Enter();
-    public abstract void Exit();
-    public abstract void Update();
+    public abstract void Enter(); // does the first things when entering the state like setting bool of animator to true
+    public abstract void Exit(); // set things at the end of the state like setting bool of animator to false
+    public abstract void Update(); // called in the update event of the state machine and does what should be in update
 
 
 
