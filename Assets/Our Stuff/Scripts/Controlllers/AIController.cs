@@ -38,8 +38,8 @@ public class AIController : Controller
 
 
     // Refrences
+    public AiCombatManager AiAtackManager => GetComponentInChildren<AiCombatManager>();
     private GameManager _gm => GameManager.Instance;
-    private AiCombatManager _aiAtackManager => GetComponentInChildren<AiCombatManager>();
     private Vector3 _spawnPoint => transform.position;
     private NavMeshAgent _agent => GetComponent<NavMeshAgent>();
 
@@ -49,45 +49,35 @@ public class AIController : Controller
         base.Start();
         _canSee = _gm.EnemiesCanSee;
         _attackable = _gm.EnemiesCanAttack;
-
         _anim.SetBool("Walking", true);
     }
 
     new private void Update()
     {
         base.Update();
-        AIbrain();
-    }
-
-    private void AIbrain()
-    {
-
-        if (_target != null)
-        {
+        if(_target!=null)
             LookAt(_target.position);
-            AlertSystem();
-        }
-        else
-        {
-            LookAtReset();
-            DetectionRay();
-            ScanCooldown();
-        }
-
-        if (_currentAlert > _attackAlert && _target != null)
-        {
-            FollowTarget();
-            _aiAtackManager.AttackTarget();
-        }
-        else
-        {
-            RoamCooldown();
-        }
-
     }
 
 
-    private void RoamCooldown()
+
+    public bool IsAlertAttack() 
+    {
+        AlertSystem();
+        if (_currentAlert > _attackAlert)
+            return true;
+        else
+            return false;
+    }
+    public bool HasTarget() 
+    {
+        if (_target == null)
+            return false;
+        else
+            return true;
+    }
+
+    public void RoamCooldown()//done
     {
             if (_roamCD <= 0)
             {
@@ -100,7 +90,7 @@ public class AIController : Controller
             }
     }
 
-    private void ScanCooldown()
+    public void ScanCooldown()//done
     {
 
         if (_scanCD <= 0)
@@ -117,7 +107,7 @@ public class AIController : Controller
 
 
 
-    private void WalkAround()
+    public void WalkAround()//done
     {
         if (Vector3.Distance(_spawnPoint, transform.position) < _patrolRange)
         {
@@ -136,7 +126,7 @@ public class AIController : Controller
             _agent.SetDestination(_spawnPoint);
     }
 
-    private void ScanForTarget()
+    public void ScanForTarget()//done
     {
         List<Collider> colliders = Physics.OverlapSphere(transform.position, _scanRadius, _attackable).ToList();
         if (colliders == null)
@@ -174,7 +164,7 @@ public class AIController : Controller
         }
     }
 
-    private void FollowTarget()
+    public void FollowTarget()//done
     {
         if (_agent.isActiveAndEnabled)
         _agent.SetDestination(_target.position);
@@ -193,7 +183,7 @@ public class AIController : Controller
             return false;
     }
 
-    private void AlertSystem() 
+    public void AlertSystem() 
     {
 
         RaycastHit hit;
@@ -216,7 +206,7 @@ public class AIController : Controller
     {
         Debug.DrawRay(transform.position, _target.position - transform.position, c);
     }
-    private void DetectionRay()
+    public void DetectionRay()
     {
         Vector3 RightEye = new Vector3(Mathf.Sin(Mathf.Deg2Rad * _angleOfVision / 2), 0, Mathf.Cos(Mathf.Deg2Rad * _angleOfVision / 2));
         Vector3 LeftEye = new Vector3(Mathf.Sin(Mathf.Deg2Rad * -_angleOfVision / 2), 0, Mathf.Cos(Mathf.Deg2Rad * -_angleOfVision / 2));
@@ -248,7 +238,7 @@ public class AIController : Controller
     private void SetTarget(Transform target)
     {
         _target = target;
-        _aiAtackManager.Target = target;
+        AiAtackManager.Target = target;
     }
     public override float GetSpeed()
     {

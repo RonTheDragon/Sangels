@@ -2516,6 +2516,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6943562051778835618}
+  - component: {fileID: 6912960458409921056}
   - component: {fileID: 4696598385839619957}
   - component: {fileID: 6394502825093494616}
   - component: {fileID: 6631142739324611383}
@@ -2545,6 +2546,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6912960458409921056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6943562051778835617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dc4497a191c8947a0f5cd609f713f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4696598385839619957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2566,6 +2579,7 @@ MonoBehaviour:
   _glubCurrentEffect: 0
   _glubRemovedPS: 30
   _glubMax: 100
+  Target: {fileID: 0}
   _roamCooldown: {x: 1, y: 3}
   _roamCD: 0
   _patrolRange: 20
@@ -2574,7 +2588,6 @@ MonoBehaviour:
   _sensingRadius: 3
   _scanFrequent: 1
   _scanCD: 0
-  _target: {fileID: 0}
   _alertRadius: 10
   _currentAlert: 0
   _attackAlert: 0.5
