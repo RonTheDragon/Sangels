@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 8008387830034597004}
   - component: {fileID: 8008387830034597005}
   - component: {fileID: 8008387830034596994}
-  - component: {fileID: 8008387830034596995}
   m_Layer: 0
   m_Name: Torus
   m_TagString: Untagged
@@ -21879,7 +21878,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6559
+  m_VersionIndex: 6565
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -21968,20 +21967,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8008387830034596993}
   m_Mesh: {fileID: 0}
---- !u!64 &8008387830034596995
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8008387830034596993}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &8008387830144750246
 GameObject:
   m_ObjectHideFlags: 0
@@ -22024,8 +22009,8 @@ VisualEffect:
   m_GameObject: {fileID: 8008387830144750246}
   m_Enabled: 1
   m_Asset: {fileID: 8926484042661614526, guid: 03d8edef257e8604ab0ce9361369cfa8, type: 3}
-  m_InitialEventName: OnPlay
-  m_InitialEventNameOverriden: 0
+  m_InitialEventName: OnStop
+  m_InitialEventNameOverriden: 1
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
   m_ResourceVersion: 1
@@ -22102,6 +22087,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8008387831227491587}
   - component: {fileID: 8008387831227491586}
+  - component: {fileID: 1615252774}
   m_Layer: 0
   m_Name: Geyser
   m_TagString: Untagged
@@ -22145,3 +22131,16 @@ MonoBehaviour:
   GeyserCurrentState: 2
   SplashTime: 3
   GeyserEffect: {fileID: 8008387830144750243}
+--- !u!65 &1615252774
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8008387831227491584}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3, y: 0.2, z: 3}
+  m_Center: {x: 0, y: -0.1, z: 0}

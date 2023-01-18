@@ -32,18 +32,22 @@ public class Geyser : MonoBehaviour , Iinteractable
 
     public bool CanUse()
     {
-        return true;
+        if (GeyserCurrentState == GeyserState.GeyserResting)
+        {
+            return true;
+        }
+            return false;
     }
 
     public void Use()
     {
-        
+        WakeUpFromRest();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        GeyserEffect.SendEvent("OnStop");
+        _gm.AddGeyser(this);
     }
 
     // Update is called once per frame
@@ -57,9 +61,15 @@ public class Geyser : MonoBehaviour , Iinteractable
 
     private void SleepingGeyser()
     {
-        if (Physics.CheckSphere(transform.position, CheckForPlayersRange, OnlyPlayersMask))
+        if (CheckForPlayersCD > 0) { CheckForPlayersCD -= Time.deltaTime; }
+        else
         {
-            WakeUpFromSleep();
+            CheckForPlayersCD = CheckForPlayersCooldown;
+
+            if (Physics.CheckSphere(transform.position, CheckForPlayersRange, OnlyPlayersMask))
+            {
+                WakeUpFromSleep();
+            }
         }
     }
 
@@ -75,13 +85,16 @@ public class Geyser : MonoBehaviour , Iinteractable
 
     private void WakeUp()
     {
+        _info = "Your Gayser";
+        _gm.SwitchGeyser(this);
         GeyserCurrentState = GeyserState.GeyserActive;
         StartCoroutine("Splash");
     }
 
-    private void Rest()
+    public void Rest()
     {
-
+        GeyserCurrentState = GeyserState.GeyserResting;
+        _info = "Activate To Set Spawnpoint";
     }
 
     private IEnumerator Splash()
