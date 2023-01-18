@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public LayerMask TrajectoryHits;
     public LayerMask ProjectileBounceCanSee;
     public LayerMask GoopStick;
+    public LayerMask PlayersOnly;
     public LayerMask Everything;
     public LayerMask Nothing;
 
