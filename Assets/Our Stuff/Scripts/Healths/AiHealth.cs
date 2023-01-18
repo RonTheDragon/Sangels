@@ -12,12 +12,12 @@ public class AiHealth : CharacterHealth
     {
         if (IsDead) return;
         CurrentHealth -= damage;
-        bool Staggered = TryStagger(Stagger);
-        if (!Staggered) knockback *= 0.1f;
+        float Staggered = TryStagger(Stagger);
+        //if (!Staggered) knockback *= 0.1f;
         _aiController.AddForce(pushFrom, knockback);
         string AttackerName = Attacker != null ? Attacker.name : "No One";
         Debug.Log($"{gameObject.name} took {damage} damage and {knockback} Knockback from {AttackerName}");
-        _aiController.Hurt(damage/ MaxHurtAnimationDamage,Attacker, Staggered);
+        //_aiController.Hurt(damage/ MaxHurtAnimationDamage,Attacker, Staggered);
         Die();
     }
     public override void TakeStun()

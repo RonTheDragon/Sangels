@@ -225,10 +225,10 @@ public class AIController : Controller
         }
     }
 
-    public override void Hurt(float Pain, GameObject Attacker = null, bool Staggered = false)
+    public override void Hurt(GameObject Attacker = null, float Staggered = 1)
     {
-        base.Hurt(Pain, Attacker,Staggered);
-        if (_target == null && Attacker != null || Staggered && Attacker != null)
+        base.Hurt(Attacker,Staggered);
+        if (_target == null && Attacker != null) //|| Staggered && Attacker != null)
         {
             SetTarget(Attacker.transform);
             _currentAlert = _maxAlert;

@@ -17,13 +17,14 @@ public class PlayerHealth : CharacterHealth
         Die();
         if (IsDead) return;
         CurrentHealth -= damage / FruitArmorEffect;
-        bool Staggered = TryStagger(Stagger);
+        float Staggered = TryStagger(Stagger);
         knockback *= FruitKnockEffect;
-        if (!Staggered) knockback *= 0.4f;
+        if (Staggered <= 2 &&Staggered >1)
+            knockback *= 0.4f * Staggered;
         _playerController.AddForce(-pushFrom, knockback);
 
         string AttackerName = Attacker != null ? Attacker.name : "No One";
-        _playerController.Hurt(damage / MaxHurtAnimationDamage,Attacker, Staggered);
+        _playerController.Hurt(Attacker, Staggered);
       //  Debug.Log($"{gameObject.name} took {damage} damage and {knockback} Knockback from {AttackerName}");
     }
 

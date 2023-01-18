@@ -51,10 +51,22 @@ public abstract class CharacterHealth : Health
         controller.AddGlub(glub);
     }
 
-    protected bool TryStagger(Vector2 stagger)
-    {
-        if (StaggerResistance >= UnityEngine.Random.Range(stagger.x, stagger.y)) return false;
-        return true;
+    protected float TryStagger(Vector2 stagger)//1 till 2 is stagger, 1 till 0 is hurt(pain), stan is above 2
+   {
+        float staggerValue = UnityEngine.Random.Range(stagger.x, stagger.y);
+        if (staggerValue <= 0)
+        { 
+        Debug.LogWarning("staggerValue staggerValue <= 0 and its not ok!!!");
+            staggerValue = 1;
+        }
+        
+        //stagger you got hit
+        //if (staggerValue < 10)//could be a bug, do a propotion to be safe
+        //{
+        //    Debug.LogWarning($"watch out dumbmy. look out for staggerValue: {staggerValue}");
+        //    staggerValue = 10;
+        //}
+        return StaggerResistance / staggerValue;
     }
 
     void OnFire()

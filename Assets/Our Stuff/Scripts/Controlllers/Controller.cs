@@ -95,20 +95,25 @@ abstract public class Controller : MonoBehaviour
     public abstract void SetSpeed(float speed = -1);
 
 
-    public virtual void Hurt(float Pain, GameObject Attacker = null, bool Staggered = false)
+    public virtual void Hurt(GameObject Attacker = null, float Staggered=1)
     {
-        if (Staggered && !_characterHealth.IsStaggered) 
+        if (Staggered > 1 && Staggered < 2 && !_characterHealth.IsStaggered)
         {
             //Debug.Log("Stagger: " + Staggered);
             OnStagger?.Invoke();
-            _anim.SetBool("Stagger",_characterHealth.IsStaggered);
+            _anim.SetBool("Stagger", _characterHealth.IsStaggered);
             Debug.Log("testing");
+        }
+        else if (Staggered <= 1)
+        {
+            _anim.SetTrigger("Hurt"); _anim.SetFloat("Pain", Staggered);
+            //Debug.Log("pain:"+ Pain);
         }
         else
         {
-            _anim.SetTrigger("Hurt"); _anim.SetFloat("Pain", Pain);
-            //Debug.Log("pain:"+ Pain);
+            _anim.SetTrigger("Stun");
         }
+
     }
 
 
