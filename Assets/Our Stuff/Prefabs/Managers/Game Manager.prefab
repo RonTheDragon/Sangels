@@ -77,6 +77,9 @@ MonoBehaviour:
   GoopStick:
     serializedVersion: 2
     m_Bits: 1
+  PlayersOnly:
+    serializedVersion: 2
+    m_Bits: 8
   Everything:
     serializedVersion: 2
     m_Bits: 2147483647
@@ -93,6 +96,7 @@ MonoBehaviour:
   - serializedVersion: 2
     m_Bits: 30271
   TheLevelManager: {fileID: 0}
+  SpawnpointGeyser: {fileID: 0}
 --- !u!114 &285133754880836020
 MonoBehaviour:
   m_ObjectHideFlags: 0

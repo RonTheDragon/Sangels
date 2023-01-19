@@ -89,12 +89,14 @@ public class Geyser : MonoBehaviour , Iinteractable
         _gm.SwitchGeyser(this);
         GeyserCurrentState = GeyserState.GeyserActive;
         StartCoroutine("Splash");
+        GeyserEffect.SendEvent("OnPlaySmoke");
     }
 
     public void Rest()
     {
         GeyserCurrentState = GeyserState.GeyserResting;
         _info = "Activate To Set Spawnpoint";
+        GeyserEffect.SendEvent("OnStopSmoke");
     }
 
     private IEnumerator Splash()
