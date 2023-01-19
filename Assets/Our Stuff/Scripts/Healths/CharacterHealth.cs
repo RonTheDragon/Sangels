@@ -15,7 +15,7 @@ public abstract class CharacterHealth : Health
 
     [Header("Fire")]
     [ReadOnly][SerializeField] protected float _fireCurrently;
-    [Tooltip("X = Minium Fire (the lowest you can get, if 0 then not on fire)\nY = Maximum Fire (how much on fire you can become)")]
+    [Tooltip("X = Minimum Fire (the lowest you can get, if 0 then not on fire)\nY = Maximum Fire (how much on fire you can become)")]
     protected Vector2 _onFireSpectrum = new Vector2(0,100);
     [SerializeField] protected float _fireDamage = 10;
     [SerializeField] protected float _fireExtinguishing = 25;
@@ -107,6 +107,4 @@ public abstract class CharacterHealth : Health
         }
         _peviousCurrentHealth = CurrentHealth;
     }
-
-    public abstract void TakeStun();
 }

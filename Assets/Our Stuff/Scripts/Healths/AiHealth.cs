@@ -20,10 +20,6 @@ public class AiHealth : CharacterHealth
         //_aiController.Hurt(damage/ MaxHurtAnimationDamage,Attacker, Staggered);
         Die();
     }
-    public override void TakeStun()
-    {
-        throw new NotImplementedException();
-    }
 
     public override void Die()
     {

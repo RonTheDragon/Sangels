@@ -37,10 +37,6 @@ public class PlayerHealth : CharacterHealth
         }
     }
 
-    public override void TakeStun()
-    {
-        throw new NotImplementedException();
-    }
 
 
     public override void Die()

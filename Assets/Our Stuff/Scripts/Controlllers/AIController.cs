@@ -12,6 +12,7 @@ public class AIController : Controller
     [SerializeField] private Vector2 _roamCooldown = new Vector2(1, 3);
     [ReadOnly][SerializeField] private float _roamCD;
     [SerializeField] private float _patrolRange = 20;
+    [SerializeField] private float _returningToNavMeshRange = 10;
 
     [Header("Scanning")]
     [SerializeField] private float _scanRadius;
@@ -115,12 +116,12 @@ public class AIController : Controller
                 walkTo.z = Random.Range(-10, 10);
                 if (_patrolRange > Vector3.Distance(_spawnPoint, transform.position + walkTo) && _agent.isActiveAndEnabled)//in range
                 {
-                    _agent.SetDestination(transform.position + walkTo);
+                    SetDestination(transform.position + walkTo);
                 }
             }
         }
         else if (_agent.isActiveAndEnabled)
-            _agent.SetDestination(_spawnPoint);
+            SetDestination(_spawnPoint);
     }
 
     public void ScanForTarget()//done
@@ -164,7 +165,7 @@ public class AIController : Controller
     public void FollowTarget()//done
     {
         if (_agent.isActiveAndEnabled)
-        _agent.SetDestination(_target.position);
+        SetDestination(_target.position);
     }
 
     private bool CheckIfInFront(Vector3 pos)
@@ -256,6 +257,20 @@ public class AIController : Controller
         _agent.speed = GetSpeed();
         _anim.SetFloat("Speed", GetSpeed() / RegularAnimationSpeed);
 
+    }
+
+    public void SetDestination(Vector3 pos)
+    {
+        NavMeshHit hit;
+        if (!NavMesh.SamplePosition(transform.position, out hit, 1.0f, NavMesh.AllAreas)) 
+        {
+            if (NavMesh.SamplePosition(transform.position, out hit, _returningToNavMeshRange, NavMesh.AllAreas))
+            {
+                _agent.Warp(hit.position);
+            }
+            else return;
+        }
+        _agent.SetDestination(pos);
     }
 
 }

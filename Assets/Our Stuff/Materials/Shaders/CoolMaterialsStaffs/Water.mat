@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: goop
+  m_Name: Water
   m_Shader: {fileID: -6465566751694194690, guid: f06aa8d3a8fd53643af93934071158d1, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -21,10 +21,6 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Shape:
-        m_Texture: {fileID: 2800000, guid: ed5ca614ea0d2e2439b4d9ab3983a9c7, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Texture2DAsset_120c29fec5494877b08f8170b3d54efe_Out_0:
         m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -42,18 +38,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Bubbles_Density: 2
-    - _Bubbles_Size: 10
-    - _Bubbles_Speed: 1
+    - _Bubbles_Density: 6
+    - _Bubbles_Size: 4
+    - _Bubbles_Speed: 4
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Wave_confines: 1
     - _wave_Speed: 0.2
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
+    - _BaseColor: {r: 0, g: 2.2531896, b: 2.6082377, a: 0.46666667}
     - _Bubble_Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &3761072384150055030
+--- !u!114 &1414416141364040537
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
