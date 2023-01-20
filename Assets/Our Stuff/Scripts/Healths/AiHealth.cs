@@ -11,13 +11,21 @@ public class AiHealth : CharacterHealth
     public override void TakeDamage(float damage, float knockback, Vector3 pushFrom, Vector2 Stagger, GameObject Attacker = null)
     {
         if (IsDead) return;
-        CurrentHealth -= damage;
-        float Staggered = TryStagger(Stagger);
-        //if (!Staggered) knockback *= 0.1f;
-        _aiController.AddForce(pushFrom, knockback);
+
+        CurrentHealth -= damage; // Lower Health
+
+        float recievedStagger = CalculateReceivedStagger(Stagger); // Calculate Stagger
+
+        EffectFromImpactType ImpactType = CalculateImpactType(recievedStagger); // Calculate Impact Type
+
+        float recievedKnockback = CalculateKnockback(knockback, recievedStagger, ImpactType); // Calculate Knockback
+        _aiController.AddForce(pushFrom, recievedKnockback);
+
+        _aiController.Hurt(ImpactType, recievedStagger, StaggerResistance, Attacker);
+
         string AttackerName = Attacker != null ? Attacker.name : "No One";
-        Debug.Log($"{gameObject.name} took {damage} damage and {knockback} Knockback from {AttackerName}");
-        //_aiController.Hurt(damage/ MaxHurtAnimationDamage,Attacker, Staggered);
+        //Debug.Log($"{gameObject.name} took {damage} damage and {knockback} Knockback from {AttackerName}");
+
         Die();
     }
 

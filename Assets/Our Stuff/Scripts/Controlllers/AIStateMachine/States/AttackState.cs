@@ -8,7 +8,7 @@ public class AttackState : State
 
     public override void Enter()
     {
-        AiController.AiAtackManager.AttackTarget();
+        AiController.AiAtackManager.TryAttackTarget();
     }
 
     public override void Exit()
@@ -20,8 +20,8 @@ public class AttackState : State
     {
         if (AiController.IsAlertAttack() && AiController.HasTarget())
         {
-            AiController.FollowTarget();
-            AiController.AiAtackManager.AttackTarget();
+            if (!AiController.FollowTarget()) { StateManager.ChangeState(new ScanState(StateManager, AiController)); return; }
+            AiController.AiAtackManager.TryAttackTarget();
             
         }
         else if(AiController.HasTarget())

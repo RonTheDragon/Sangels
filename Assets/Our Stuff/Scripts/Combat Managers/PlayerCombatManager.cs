@@ -19,6 +19,8 @@ public class PlayerCombatManager : CombatManager
     public CinemachineFreeLook Cinemachine;
     private PlayerController _pc => GetComponentInParent<PlayerController>();
 
+    private PlayerHealth _playerHealth => _health as PlayerHealth;
+
     [HideInInspector]
     public bool UseShoot;
     [HideInInspector]
@@ -27,13 +29,18 @@ public class PlayerCombatManager : CombatManager
     private bool _shootLastFrame;
     private bool _holdingFire;
     private bool _eat;
+    private bool _canGetUp;
 
     public Action Shoot;
     public Action OnStopHoldShoot;
     public Action Eat;
 
-    private void Start()
+    public Action<bool> UIcanGetUp;
+
+    new protected void Start()
     {
+        base.Start();
+
         if (_refillAmmoOnStart)
         {
             RefillAllAmmo();
@@ -43,69 +50,66 @@ public class PlayerCombatManager : CombatManager
             ResetMaxAmmo();
         }
 
-        Attackable = _gm.PlayersCanAttack;
-        
-        
-            Loop += Melee;
-            Loop += Shooting;
-            Loop += Eating;
-            Loop += EndStaggerAnimationBool;
-            _pc.OnStagger += Staggered;
+        Attackable = _gm.PlayersCanAttack;  
+
+        _pc.OnStagger += Staggered;
+        _pc.OnStun    += Stunned;
+        _pc.OnGetUp   += GetUp;
+        _playerHealth.OnRevive += StandingUp;
+
+        Loop += Melee;
+        Loop += Shooting;
+        Loop += Eating;
     }
 
-    // Update is called once per frame
+    protected override void BusyEnded()
+    {
+        base.BusyEnded();
+        _pc.SetSpeed(_pc.NormalSpeed);
+    }
 
-
-
-
+    #region Inputs
     //Inputs
     public void OnShoot(InputAction.CallbackContext context)
     {
-        if (!transform.parent.GetComponent<PlayerHealth>().IsDead)
             UseShoot = context.action.triggered;
     }
 
     public void OnMelee(InputAction.CallbackContext context)
     {
-        if (!transform.parent.GetComponent<PlayerHealth>().IsDead)
             base.IsMelee = context.action.triggered;
     }
 
     public void OnEat(InputAction.CallbackContext context)
     {
-        if (!transform.parent.GetComponent<PlayerHealth>().IsDead)
             _eat = context.action.triggered;
     }
 
     public void OnScroll(InputAction.CallbackContext context)
     {
-        if (!transform.parent.GetComponent<PlayerHealth>().IsDead)
             UseScroll = context.action.ReadValue<float>();
     }
+    #endregion
 
-    protected override void AttackEnded()
-    {
-        _pc.SetSpeed(_pc.NormalSpeed);
-    }
-
+    #region Activities
     private void Melee()
     {
-        if (IsMelee && _usingAttackTimeLeft == 0)
+        if (IsMelee && !CheckIfBusy())
         {
-            Anim.SetTrigger(SOMeleeAttack.AnimationName);
+            _anim.SetTrigger(SOMeleeAttack.AnimationName);
             _pc.SetSpeed(SOMeleeAttack.SpeedWhileUsing);
-            _usingAttackTimeLeft = SOMeleeAttack.UsingTime;
+            _busyTimeLeft = SOMeleeAttack.UsingTime;
         }
     }
 
     private void Eating()
     {
         if (CurrentAmmo == null) return;
-        if (_eat && _usingAttackTimeLeft == 0 && ConsumeAmmo())
+        if (_eat && !CheckIfBusy() && ConsumeAmmo())
         {
             Eat?.Invoke();
             _pc.SetSpeed(SOMeleeAttack.SpeedWhileUsing);
-            _usingAttackTimeLeft = 0.5f;
+            _busyTimeLeft = 0.5f;
         }
     }
 
@@ -113,9 +117,9 @@ public class PlayerCombatManager : CombatManager
     {
         if (CurrentAmmo != null)
         {
-            if (UseShoot && _usingAttackTimeLeft == 0 && ConsumeAmmo())
+            if (UseShoot && !CheckIfBusy() && ConsumeAmmo())
             {
-                Anim.SetTrigger("ChargeSlingshot");
+                _anim.SetTrigger("ChargeSlingshot");
                 _pc.SetSpeed(_pc.NormalSpeed / 2);
                 Shoot?.Invoke();
                 _holdingFire = true;
@@ -124,38 +128,53 @@ public class PlayerCombatManager : CombatManager
 
         if (_holdingFire)
         {
-            _usingAttackTimeLeft = 1;
+            _busyTimeLeft = 1;
 
             if (_shootLastFrame && !UseShoot)
             {
-                Anim.SetTrigger("ShootSlingshot");
+                _anim.SetTrigger("ShootSlingshot");
                 OnStopHoldShoot?.Invoke();
-                _usingAttackTimeLeft = 0.2f;
+                _busyTimeLeft = 0.2f;
                 _holdingFire = false;
             }
         }
         _shootLastFrame = UseShoot;
     }
+    #endregion
 
+    #region AttackImpacts
     protected override void Staggered()
     {
         base.Staggered();
         OnStopHoldShoot?.Invoke();
         _holdingFire = false;
-        _pc.SetSpeed(0);
-        //Debug.Log("first"+ _pc._characterHealth.IsStaggered);
     }
-    void EndStaggerAnimationBool()
+    protected override void Stunned(float StunTime)
     {
-        if (_usingAttackTimeLeft == 0)
-        {
-            _pc._characterHealth.IsStaggered = false;
-            GetComponent<Animator>().SetBool("Stagger", _pc._characterHealth.IsStaggered);
-        }
-        // Debug.Log("end of stagger animation: " + _pc._characterHealth.IsStaggered);
+        base.Stunned(StunTime);
+        OnStopHoldShoot?.Invoke();
+        _holdingFire = false;
     }
 
+    protected override void EndStunned()
+    {
+        _canGetUp = true;
+        UIcanGetUp?.Invoke(true);
+    }
 
+    private void GetUp()
+    {
+        if (_canGetUp)
+        {
+            _canGetUp = false;
+            UIcanGetUp?.Invoke(false);
+            StandingUp();
+        }
+    }
+
+    #endregion
+
+    #region Ammo
     public bool ConsumeAmmo()
     {
         if (CurrentAmmo.CurrentAmount > 0)
@@ -194,6 +213,9 @@ public class PlayerCombatManager : CombatManager
             f.MaxAmount = _maxAmountOnStart;
         }
     }
+    #endregion
+
+    #region Collect
 
     public bool CollectFruit(SOFruit.Fruit f, int Amount =1)
     {
@@ -214,4 +236,6 @@ public class PlayerCombatManager : CombatManager
         SOFruit Fruit = AmmoTypes.Find(x => x.FruitType == f); // look for fruit
         Fruit.MaxAmount++;
     }
+
+    #endregion
 }

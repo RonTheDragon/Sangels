@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -70,6 +71,7 @@ public class PlayerController : Controller
     private Vector3 _boxPosition => _cc.transform.position + (Vector3.up * _cc.bounds.extents.y) * _checkboxY;
     private Vector3 _boxSize => new Vector3(_cc.bounds.extents.x + _wide, _height * 2, _cc.bounds.extents.z + _wide);
 
+    public Action OnGetUp;
 
     // Start is called before the first frame update
     new private void Start()
@@ -97,35 +99,48 @@ public class PlayerController : Controller
     /// <summary> Allows the player to walk. </summary>
     private void PlayerMovement()
     {
-        Vector2 Movement = _movement.normalized; //Get input from player for movem
-
-        float targetAngle = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + _camTransform.eulerAngles.y; //get where player is looking
-        float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, !_slingshot.IsAiming ? targetAngle : _camTransform.eulerAngles.y, ref _f, 0.1f); //Smoothing
-        //Debug.Log($"targetAngle: {targetAngle}, Angle: {Angle}");
-        if (_slingshot.IsAiming)
-            transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
-
-
-
-        if (Movement.magnitude > 0.1f)
+        if (CheckIfCanMove())
         {
-            _anim.SetBool("Walking", true);
-            if (!_slingshot.IsAiming && Speed!=0)
+
+            Vector2 Movement = _movement.normalized; //Get input from player for movement
+
+            float targetAngle = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + _camTransform.eulerAngles.y; //get where player is looking
+            float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, !_slingshot.IsAiming ? targetAngle : _camTransform.eulerAngles.y, ref _f, 0.1f); //Smoothing
+                                                                                                                                                          //Debug.Log($"targetAngle: {targetAngle}, Angle: {Angle}");
+            if (_slingshot.IsAiming)
                 transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
-            Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
-            _cc.Move(MoveDir * GetSpeed() * Time.deltaTime);
-        }
-        else { 
-        _anim.SetBool("Walking", false);
+
+            if (Movement.magnitude > 0.1f)
+            {
+                _anim.SetBool("Walking", true);
+                if (!_slingshot.IsAiming && Speed != 0)
+                    transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
+                Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+                _cc.Move(MoveDir * GetSpeed() * Time.deltaTime);
+            }
+            else
+            {
+                _anim.SetBool("Walking", false);
+            } 
         }
     }
 
+
+    #region Jump and Slide
     /// <summary> Allows the player to jump. </summary>
     private void Jumping()
     {
-        if (_jumped && _isGrounded && !_isSliding)
+        if (CheckIfCanMove())
         {
-            AddForce(Vector3.up, _jump * FruitJumpEffect );
+            if (_jumped && _isGrounded && !_isSliding)
+            {
+                AddForce(Vector3.up, _jump * FruitJumpEffect);
+            }
+        }
+        else
+        {
+            if (_jumped)
+            OnGetUp?.Invoke();
         }
     }
 
@@ -172,7 +187,10 @@ public class PlayerController : Controller
             _cc.Move(slid*Time.deltaTime);
         }
     }
+    #endregion
 
+
+    #region Player Join/Leave Game
     /// <summary> When the Player Spawns, This takes care of him. </summary>
     private void SetUpPlayer()
     {
@@ -204,8 +222,9 @@ public class PlayerController : Controller
             Destroy(gameObject); // Remove The Player
         }
     }
+    #endregion
 
-    protected override void ApplyingForce()
+    protected override void ApplyingForce() //Force Specific for Player
     {
         if (_forceStrength > 0)
         {
@@ -214,6 +233,7 @@ public class PlayerController : Controller
         }
     }
 
+    #region Inputs
     // Inputs 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -221,16 +241,20 @@ public class PlayerController : Controller
     }
     public void OnJump(InputAction.CallbackContext context)
     {
-       _jumped  = context.action.triggered;
+        _jumped = context.action.triggered;
     }
+    #endregion
 
+    #region Gizmos
     //Gizmos
     private void OnDrawGizmosSelected()
     {
         // Draw a Box in the Editor to show whether we are touching the ground, Blue is Touching, Red is Not Touching.
         Gizmos.color = _isGrounded ? Color.blue : Color.red; Gizmos.DrawCube(_boxPosition, _boxSize * 2);
     }
+    #endregion
 
+    #region Speed Get Set
     public override float GetSpeed()
     {
         return Speed * FruitSpeedEffect * (1 - (_glubCurrentEffect / (_glubMax + (_glubMax / 10))));
@@ -243,6 +267,6 @@ public class PlayerController : Controller
         }
         _anim.SetFloat("Speed", GetSpeed() / RegularAnimationSpeed);
     }
-
+    #endregion
 }
 

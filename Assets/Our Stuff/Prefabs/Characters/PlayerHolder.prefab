@@ -153,6 +153,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsMelee: 0
   _staggeredTime: 2
+  _minimumStunTime: 1.3
+  _standUpTime: 3
   Attackable:
     serializedVersion: 2
     m_Bits: 0
@@ -1070,7 +1072,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127943017131814319}
-  m_LocalRotation: {x: 0.09463043, y: 0.18325013, z: -0.017724948, w: 0.9783406}
+  m_LocalRotation: {x: 0.09593012, y: 0.08430991, z: -0.008154911, w: 0.9917776}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -2113,7 +2115,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3497720927849900763}
-  m_LocalRotation: {x: 0.09463043, y: 0.18325013, z: -0.017724948, w: 0.9783406}
+  m_LocalRotation: {x: 0.09593012, y: 0.08430991, z: -0.008154911, w: 0.9917776}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -3127,8 +3129,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealth: 200
   CurrentHealth: 0
-  StaggerResistance: 5
+  StaggerResistance: 50
   IsStaggered: 0
+  IsStunned: 0
+  IsGettingUp: 0
   MaxHurtAnimationDamage: 100
   _fireCurrently: 0
   _fireDamage: 10
@@ -3500,7 +3504,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5726065353198074110}
-  m_LocalRotation: {x: 0.09463043, y: 0.18325013, z: -0.017724948, w: 0.9783406}
+  m_LocalRotation: {x: 0.09593012, y: 0.08430991, z: -0.008154911, w: 0.9917776}
   m_LocalPosition: {x: 0, y: 2, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3642,7 +3646,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5840255186920816596}
-  m_LocalRotation: {x: 0.09463041, y: 0.18325011, z: -0.017724946, w: 0.9783406}
+  m_LocalRotation: {x: 0.09593012, y: 0.08430991, z: -0.008154911, w: 0.9917776}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0

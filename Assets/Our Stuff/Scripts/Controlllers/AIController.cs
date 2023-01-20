@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -20,7 +21,8 @@ public class AIController : Controller
     [SerializeField] private float _sensingRadius = 3;
     [SerializeField] private float _scanFrequent = 1;
     [ReadOnly][SerializeField] private float _scanCD;
-    [ReadOnly][SerializeField] private Transform _target;
+    [ReadOnly] public Transform Target;
+    private Health _targetHealth;
 
     [Header("Alertion")]
     [SerializeField] private float _alertRadius;
@@ -53,12 +55,12 @@ public class AIController : Controller
     new private void Update()
     {
         base.Update();
-        if(_target!=null)
-            LookAt(_target.position);
+        if(Target!=null && !_characterHealth.IsStunned)
+            LookAt(Target.position);
     }
 
 
-
+    #region Return bools for State Machine
     public bool IsAlertAttack() 
     {
         AlertSystem();
@@ -69,13 +71,15 @@ public class AIController : Controller
     }
     public bool HasTarget() 
     {
-        if (_target == null)
+        if (Target == null)
             return false;
         else
             return true;
     }
+    #endregion
 
-    public void RoamCooldown()//done
+    #region Cooldowns
+    public void RoamCooldown()
     {
             if (_roamCD <= 0)
             {
@@ -88,7 +92,7 @@ public class AIController : Controller
             }
     }
 
-    public void ScanCooldown()//done
+    public void ScanCooldown()
     {
 
         if (_scanCD <= 0)
@@ -101,11 +105,13 @@ public class AIController : Controller
             _scanCD -= Time.deltaTime;
         }
     }
+    #endregion
 
-
-
-
-    public void WalkAround()//done
+    #region Movement
+    /// <summary>
+    /// Roam State Movement
+    /// </summary>
+    public void WalkAround()
     {
         if (Vector3.Distance(_spawnPoint, transform.position) < _patrolRange)
         {
@@ -124,7 +130,61 @@ public class AIController : Controller
             SetDestination(_spawnPoint);
     }
 
-    public void ScanForTarget()//done
+    /// <summary>
+    /// Follow State Movement
+    /// </summary>
+    public bool FollowTarget()
+    {
+        if (_targetHealth != null)
+        {
+            if (!_targetHealth.IsDead)
+            {
+                if (_agent.isActiveAndEnabled)
+                    SetDestination(Target.position);
+                    return true;
+                
+            }
+            else
+            {
+                Target = null;
+                _targetHealth= null;
+                
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Use This instead of _agent.SetDestination so the AI can teleport back to the Nav mesh rather than getting stuck
+    /// </summary>
+    /// <param name="pos">The Position The Agent Is Trying To Reach</param>
+    public void SetDestination(Vector3 pos)
+    {
+        if (CheckIfCanMove())
+        {
+            _agent.isStopped = false;
+            NavMeshHit hit;
+            if (!NavMesh.SamplePosition(transform.position, out hit, 1.0f, NavMesh.AllAreas))
+            {
+                if (NavMesh.SamplePosition(transform.position, out hit, _returningToNavMeshRange, NavMesh.AllAreas))
+                {
+                    _agent.Warp(hit.position);
+                }
+                else return;
+            }
+            _agent.SetDestination(pos);
+        }
+    }
+
+    public void StopMoving()
+    {
+        _agent.isStopped=true;
+    }
+
+    #endregion
+
+    #region Detection Systems
+    public void ScanForTarget()
     {
         List<Collider> colliders = Physics.OverlapSphere(transform.position, _scanRadius, _attackable).ToList();
         if (colliders == null)
@@ -162,12 +222,7 @@ public class AIController : Controller
         }
     }
 
-    public void FollowTarget()//done
-    {
-        if (_agent.isActiveAndEnabled)
-        SetDestination(_target.position);
-    }
-
+    
     private bool CheckIfInFront(Vector3 pos)
     {
 
@@ -185,9 +240,9 @@ public class AIController : Controller
     {
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, _target.transform.position - transform.position, out hit, _alertRadius, _canSee))
+        if (Physics.Raycast(transform.position, Target.transform.position - transform.position, out hit, _alertRadius, _canSee))
         {
-            if (hit.transform == _target)
+            if (hit.transform == Target)
             {
                 AlertionRay(Color.blue);
                 _currentAlert += Time.deltaTime;
@@ -197,12 +252,12 @@ public class AIController : Controller
         }
         AlertionRay(Color.red);
         _currentAlert -= Time.deltaTime;
-        if (_currentAlert < 0) { _target = null; }
+        if (_currentAlert < 0) { Target = null; }
     }
 
     private void AlertionRay(Color c)
     {
-        Debug.DrawRay(transform.position, _target.position - transform.position, c);
+        Debug.DrawRay(transform.position, Target.position - transform.position, c);
     }
     public void DetectionRay()
     {
@@ -213,8 +268,10 @@ public class AIController : Controller
         Debug.DrawRay(transform.position, transform.rotation * RightEye * _scanRadius, Color.green);
         Debug.DrawRay(transform.position, transform.rotation * LeftEye * _scanRadius, Color.green);
     }
+    #endregion
 
-    protected override void ApplyingForce()
+
+    protected override void ApplyingForce() //Applying Force for Navmesh Agent
     {
         if (_forceStrength > 0)
         {
@@ -223,26 +280,40 @@ public class AIController : Controller
         }
     }
 
-    public override void Hurt(GameObject Attacker = null, float Staggered = 1)
-    {
-        base.Hurt(Attacker,Staggered);
-        if (_target == null && Attacker != null) //|| Staggered && Attacker != null)
+    public override void Hurt(CharacterHealth.EffectFromImpactType impactType, float recievedStagger, float staggerResistance, GameObject attacker = null) 
+    { 
+        base.Hurt(impactType, recievedStagger, staggerResistance, attacker);
+        if (Target == null && attacker != null) 
         {
-            SetTarget(Attacker.transform);
+            SetTarget(attacker.transform);
             _currentAlert = _maxAlert;
         }
     }
 
+    /// <summary>
+    /// Attempting To Set a Target if he is Valid
+    /// </summary>
+    /// <param name="target"> The Target (The Player for Example) </param>
     private void SetTarget(Transform target)
     {
-        if(target.GetComponent<PlayerHealth>().IsDead)
+        _targetHealth = target.GetComponent<Health>();
+        if (_targetHealth != null)
+        {
+            if (_targetHealth.IsDead)
+            {
+                target = null;
+                return;
+            }
+        }
+        else
         {
             target = null;
             return;
         }
-        _target = target;
-        AiAtackManager.Target = target;
+        Target = target;
     }
+
+    #region Speed Get Set
     public override float GetSpeed()
     {
         return Speed * (1 - (_glubCurrentEffect / (_glubMax + (_glubMax / 30))));
@@ -258,20 +329,9 @@ public class AIController : Controller
         _anim.SetFloat("Speed", GetSpeed() / RegularAnimationSpeed);
 
     }
+    #endregion
 
-    public void SetDestination(Vector3 pos)
-    {
-        NavMeshHit hit;
-        if (!NavMesh.SamplePosition(transform.position, out hit, 1.0f, NavMesh.AllAreas)) 
-        {
-            if (NavMesh.SamplePosition(transform.position, out hit, _returningToNavMeshRange, NavMesh.AllAreas))
-            {
-                _agent.Warp(hit.position);
-            }
-            else return;
-        }
-        _agent.SetDestination(pos);
-    }
+    
 
 }
 

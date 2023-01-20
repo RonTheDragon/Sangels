@@ -9,6 +9,8 @@ public abstract class CharacterHealth : Health
     [Header("Stagger")]
     [SerializeField] protected float StaggerResistance;
     [ReadOnly] public bool IsStaggered;
+    [ReadOnly] public bool IsStunned;
+    [ReadOnly] public bool IsGettingUp;
 
     [Tooltip("The closer the damage amount to this number, the more painful the hurt animation looks")]
     [SerializeField] protected float MaxHurtAnimationDamage = 15;
@@ -21,19 +23,26 @@ public abstract class CharacterHealth : Health
     [SerializeField] protected float _fireExtinguishing = 25;
     [SerializeField] protected ParticleSystem FireParticle;
 
-
+    protected Animator _anim => GetComponentInChildren<Animator>();
     protected Controller controller => GetComponent<Controller>();
 
     [SerializeField] private Image _healthBar;
     private float _peviousCurrentHealth;
     private Action _loop;
 
+
+    public enum EffectFromImpactType
+    {
+        Hurt,
+        Stagger,
+        Stun
+    }
+
     new void Start()
     {
         base.Start();
         _loop += OnFire;
         _loop += UpdateHealthBar;
-        controller.OnStagger += () => IsStaggered=true;
     }
 
     protected void Update()
@@ -41,6 +50,7 @@ public abstract class CharacterHealth : Health
         _loop?.Invoke();
     }
 
+    #region Receive Special Effects
     public virtual void TakeFire(float Fire)
     {
         _fireCurrently += Fire;
@@ -50,23 +60,53 @@ public abstract class CharacterHealth : Health
     {
         controller.AddGlub(glub);
     }
+    #endregion
 
-    protected float TryStagger(Vector2 stagger)//1 till 2 is stagger, 1 till 0 is hurt(pain), stan is above 2
-   {
+    protected float CalculateReceivedStagger(Vector2 stagger)
+    {
         float staggerValue = UnityEngine.Random.Range(stagger.x, stagger.y);
-        if (staggerValue <= 0)
-        { 
-        Debug.LogWarning("staggerValue staggerValue <= 0 and its not ok!!!");
-            staggerValue = 1;
+
+        return staggerValue;
+    }
+
+    protected EffectFromImpactType CalculateImpactType(float RecievedStagger)
+    {
+        EffectFromImpactType ImpactType = EffectFromImpactType.Hurt;
+
+        if (RecievedStagger < StaggerResistance * 2 && !IsStaggered && !IsStunned && !IsGettingUp) // if can Stagger
+        {
+            ImpactType = EffectFromImpactType.Stagger;
+            IsStaggered= true;
         }
-        
-        //stagger you got hit
-        //if (staggerValue < 10)//could be a bug, do a propotion to be safe
-        //{
-        //    Debug.LogWarning($"watch out dumbmy. look out for staggerValue: {staggerValue}");
-        //    staggerValue = 10;
-        //}
-        return StaggerResistance / staggerValue;
+
+        else if (RecievedStagger >= StaggerResistance * 2 &&!IsStunned &&!IsGettingUp) // if can Stun
+        {
+            ImpactType = EffectFromImpactType.Stun;
+            IsStunned= true;
+        }
+
+        return ImpactType;
+    }
+
+    protected float CalculateKnockback(float Knockback,float Stagger,EffectFromImpactType ImpactType)
+    {
+        float ExtraKnockback;
+        switch (ImpactType)
+        {
+            case EffectFromImpactType.Stagger:
+                ExtraKnockback = (Stagger / StaggerResistance) -1;
+                Knockback *= Mathf.Lerp(1.4f,1.8f,ExtraKnockback);
+                return Knockback;
+
+            case EffectFromImpactType.Stun:
+                ExtraKnockback = Stagger - (StaggerResistance * 2);
+                ExtraKnockback = ExtraKnockback / 100;
+                Knockback *= 1.8f + ExtraKnockback;
+                return Knockback;
+
+            default: 
+                return Knockback;
+        }
     }
 
     void OnFire()
@@ -91,6 +131,8 @@ public abstract class CharacterHealth : Health
         }
     }
 
+
+    // REPLACE THIS WITH EVENT INVOKE DANIEL!!!
     void UpdateHealthBar()
     {
         if (_healthBar != null && _peviousCurrentHealth != CurrentHealth)

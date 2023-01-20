@@ -270,9 +270,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a288fb53d851f4549826da6a1c9cd9ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageAmount: 10
+  DamageAmount: 30
   Knockback: 10
-  Stagger: {x: 5, y: 20}
+  Stagger: {x: 30, y: 70}
   Fire: 0
   Attackable:
     serializedVersion: 2

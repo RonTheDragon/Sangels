@@ -12,16 +12,12 @@ internal class DeadPlayer : MonoBehaviour, Iinteractable
 
     public bool CanUse()
     {
-        if(_playerHealth.IsDead)
         return true;
-        Debug.Log("");
-        return false;
-
     }
 
     public virtual void Use()
     {
         _playerHealth.RevivePlayer(30);
-        Debug.Log("RevivingPlayer hahahash");
+        Destroy(this);
     }
 }

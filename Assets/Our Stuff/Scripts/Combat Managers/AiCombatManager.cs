@@ -1,51 +1,71 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 
 public class AiCombatManager : CombatManager
 {
-
-    [ReadOnly] public Transform Target;
-
     private AIController _aiController => GetComponentInParent<AIController>();
 
-    private void Start()
+    new protected void Start()
     {
-        _aiController.OnStagger += Staggered;
+        base.Start();
+
         Attackable = _gm.EnemiesCanAttack;
-        Loop += EndStaggerAnimationBool;
+
+        _aiController.OnStagger += Staggered;
+        _aiController.OnStun += Stunned;
     }
 
-    public void AttackTarget()
+    /// <summary> Caculating if the target can be attacked </summary>
+    public void TryAttackTarget()
     {
-        if (Target == null || _usingAttackTimeLeft>0) return;
-        if (SOMeleeAttack.MinDist < Vector3.Distance(transform.position, Target.position) && Vector3.Distance(transform.position, Target.position) < SOMeleeAttack.MaxDist)
+        if (_aiController.Target == null || CheckIfBusy())  return;  //  Cancel if Missing Target OR on Cooldown
+        float dist = Vector3.Distance(transform.position, _aiController.Target.position); // if in Distance
+        if (SOMeleeAttack.MinDist < dist && SOMeleeAttack.MaxDist > dist)
         {
-            Anim.SetTrigger(SOMeleeAttack.AnimationName);
-            _aiController.SetSpeed(SOMeleeAttack.SpeedWhileUsing);
-            _usingAttackTimeLeft = SOMeleeAttack.UsingTime;
+            AttackTarget();
         }
     }
-    
 
-    protected override void AttackEnded()
+    /// <summary> Launching an attack </summary>
+    protected void AttackTarget()
     {
+        _anim.SetTrigger(SOMeleeAttack.AnimationName);
+        _aiController.SetSpeed(SOMeleeAttack.SpeedWhileUsing);
+        _busyTimeLeft = SOMeleeAttack.UsingTime;
+    }
+    
+    /// <summary>
+    /// Ending The Attack
+    /// </summary>
+    protected override void BusyEnded()
+    {
+        base.BusyEnded();
         _aiController.SetSpeed(_aiController.NormalSpeed);
     }
+
+    #region AttackImpacts
 
     protected override void Staggered()
     {
         base.Staggered();
-        _aiController.SetSpeed(0);
+        _aiController.StopMoving();
     }
-    void EndStaggerAnimationBool()
+
+    protected override void Stunned(float StunTime)
     {
-        if (_usingAttackTimeLeft == 0)
-        {
-            _aiController._characterHealth.IsStaggered = false;
-            GetComponent<Animator>().SetBool("Stagger", _aiController._characterHealth.IsStaggered);
-        }
+        base.Stunned(StunTime);
+        _aiController.LookAtReset();
+        _aiController.StopMoving();
     }
+
+    protected override void EndStunned()
+    {
+        StandingUp();
+    }
+
+    #endregion
 }
 
