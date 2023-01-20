@@ -56,11 +56,11 @@ public abstract class CombatManager : MonoBehaviour
         {
             EndStunned();
         }
-        else if (_health.IsStaggered)
+        if (_health.IsStaggered)
         {
             EndStaggered();
         }
-        else if (_health.IsGettingUp)
+        if (_health.IsGettingUp)
         {
             EndStandingUp();
         }
