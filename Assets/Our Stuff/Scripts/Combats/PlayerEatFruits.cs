@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,12 +7,13 @@ using static SOFruit;
 
 public class PlayerEatFruits : Combat
 {
+    public Action<float, Color> OnGutChangeUI;
+
     private Fruit _currentFruitDigested;
     [SerializeField] private float _gutMaxCapacity = 100;
     [ReadOnly][SerializeField] private float _gutCurrert;
     [SerializeField] private float _gutDrainSpeed = 3;
 
-    [SerializeField] private Image _gutFill;
 
     //Effected By Fruits 
     private PlayerMeleeDamage _effectMelee => GetComponent<PlayerMeleeDamage>();
@@ -40,6 +42,7 @@ public class PlayerEatFruits : Combat
     [Header("Fepler Effects")]
     [Tooltip("Sets You On Fire")][SerializeField] private float _feplerWeakness = 50;
     [Tooltip("Burn Targets")][SerializeField] private float _feplerMelee = 50;
+
 
     // Start is called before the first frame update
     private void Start()
@@ -97,18 +100,18 @@ public class PlayerEatFruits : Combat
         {
             _gutCurrert = 0;
             ResetEffects();
-        }      
-
+        }
+        Color gutColor=Color.white;
         switch (_currentFruitDigested)
         {
-            case Fruit.Fepler: DigestingFepler(); _gutFill.color = Color.red; break;
-            case Fruit.Shbulk: DigestingScrumbulk(); _gutFill.color = _brown; break; 
-            case Fruit.Luber: DigestingLuber(); _gutFill.color = Color.cyan; break;
-            case Fruit.Glub: DigestingGlub(); _gutFill.color = Color.black; break;
-            default: break;
+            case Fruit.Fepler: DigestingFepler(); gutColor = Color.red; break;
+            case Fruit.Shbulk: DigestingScrumbulk(); gutColor = _brown; break; 
+            case Fruit.Luber: DigestingLuber(); gutColor = Color.cyan; break;
+            case Fruit.Glub: DigestingGlub(); gutColor = Color.black; break;
         }
-
-        _gutFill.fillAmount = _gutCurrert / _gutMaxCapacity;
+        
+        float fillAmount = _gutCurrert / _gutMaxCapacity;
+        OnGutChangeUI?.Invoke(fillAmount, gutColor);
     }
 
     private void ResetEffects()

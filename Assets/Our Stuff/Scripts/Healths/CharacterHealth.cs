@@ -26,9 +26,9 @@ public abstract class CharacterHealth : Health
     protected Animator _anim => GetComponentInChildren<Animator>();
     protected Controller controller => GetComponent<Controller>();
 
-    [SerializeField] private Image _healthBar;
     private float _peviousCurrentHealth;
     protected Action _loop;
+    public Action<float, Color> OnHealthChangeUI; 
 
 
     public enum EffectFromImpactType
@@ -135,18 +135,25 @@ public abstract class CharacterHealth : Health
     // REPLACE THIS WITH EVENT INVOKE DANIEL!!!
     protected void UpdateHealthBar()
     {
-        if (_healthBar != null && _peviousCurrentHealth != CurrentHealth)
+        if(OnHealthChangeUI!=null)
         {
-            float healthPercent = CurrentHealth / MaxHealth;
+            if (_peviousCurrentHealth != CurrentHealth)
+            {
+                float healthPercent = CurrentHealth / MaxHealth;
 
-            // Lerp between green and yellow at 50% health
-            Color color1 = Color.Lerp(Color.green, Color.yellow, (1 - healthPercent) * 2f);
-            // Lerp between yellow and red at 25% health
-            Color color2 = Color.Lerp(Color.yellow, Color.red, (0.5f - healthPercent) * 2f);
-            // Use the appropriate color based on the current health
-            _healthBar.color = (healthPercent > 0.5f) ? color1 : color2;
-            _healthBar.fillAmount = CurrentHealth / MaxHealth;
+                // Lerp between green and yellow at 50% health
+                Color color1 = Color.Lerp(Color.green, Color.yellow, (1 - healthPercent) * 2f);
+                // Lerp between yellow and red at 25% health
+                Color color2 = Color.Lerp(Color.yellow, Color.red, (0.5f - healthPercent) * 2f);
+                // Use the appropriate color based on the current health
+                Color color3= (healthPercent > 0.5f) ? color1 : color2;
+                float fillAmount = CurrentHealth / MaxHealth;
+                OnHealthChangeUI?.Invoke(fillAmount, color3);
+            }
+            _peviousCurrentHealth = CurrentHealth;
+
         }
-        _peviousCurrentHealth = CurrentHealth;
     }
+
+
 }

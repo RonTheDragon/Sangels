@@ -347,7 +347,6 @@ MonoBehaviour:
   _gutMaxCapacity: 100
   _gutCurrert: 0
   _gutDrainSpeed: 3
-  _gutFill: {fileID: 147683843849375430}
   _luberPassive: 0.5
   _luberWeakness: 2
   _luberMelee: 2
@@ -720,8 +719,7 @@ GameObject:
   - component: {fileID: 1506114500363170857}
   - component: {fileID: 1506114500363170856}
   - component: {fileID: 1506114500363170855}
-  - component: {fileID: 6032254611632039616}
-  - component: {fileID: 3458114600562438288}
+  - component: {fileID: 3119558993210799285}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -813,7 +811,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &6032254611632039616
+--- !u!114 &3119558993210799285
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -822,28 +820,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1506114500363170853}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e05989187a015540b05da8314291e84, type: 3}
+  m_Script: {fileID: 11500000, guid: 5bc1ceaf950af22488be1412e9e9c7f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 1506114500363170857}
-  fruitImages:
-  - {fileID: 21300000, guid: dc36dbe72dd89254180ffdf6d76db218, type: 3}
-  - {fileID: 21300000, guid: 43171b4738e05984eaa233a43e0caf12, type: 3}
-  - {fileID: 21300000, guid: b28d8cb6e4c029c42b91efb8fee8c814, type: 3}
-  _radius: 200
-  _lineThickness: 4
---- !u!114 &3458114600562438288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1506114500363170853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fa9511bf70b6be4d88a869e0f9f4d0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _player: {fileID: 5726065352780677289}
+  _playerHealthBar: {fileID: 1827830444938278312}
+  _playerGutBar: {fileID: 147683843849375430}
 --- !u!1 &1506114500605549629
 GameObject:
   m_ObjectHideFlags: 0
@@ -1072,7 +1054,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127943017131814319}
-  m_LocalRotation: {x: 0.09593012, y: 0.08430991, z: -0.008154911, w: 0.9917776}
+  m_LocalRotation: {x: 0.09463041, y: 0.18325011, z: -0.017724946, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -2115,7 +2097,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3497720927849900763}
-  m_LocalRotation: {x: 0.09593012, y: 0.08430991, z: -0.008154911, w: 0.9917776}
+  m_LocalRotation: {x: 0.09463041, y: 0.18325011, z: -0.017724946, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -3138,7 +3120,9 @@ MonoBehaviour:
   _fireDamage: 10
   _fireExtinguishing: 25
   FireParticle: {fileID: 3511390563526793401}
-  _healthBar: {fileID: 1827830444938278312}
+  _naturalHealing: 3
+  _safeTimeForNaturalHealing: 5
+  _naturalHealingLimit: 50
   FruitFireEffect: 0
   FruitKnockEffect: 1
   FruitArmorEffect: 1
@@ -3504,7 +3488,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5726065353198074110}
-  m_LocalRotation: {x: 0.09593012, y: 0.08430991, z: -0.008154911, w: 0.9917776}
+  m_LocalRotation: {x: 0.09463041, y: 0.18325011, z: -0.017724946, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 2, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3646,7 +3630,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5840255186920816596}
-  m_LocalRotation: {x: 0.09593012, y: 0.08430991, z: -0.008154911, w: 0.9917776}
+  m_LocalRotation: {x: 0.09463041, y: 0.18325011, z: -0.017724946, w: 0.9783406}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
