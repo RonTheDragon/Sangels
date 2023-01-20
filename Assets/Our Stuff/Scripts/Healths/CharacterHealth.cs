@@ -28,7 +28,7 @@ public abstract class CharacterHealth : Health
 
     [SerializeField] private Image _healthBar;
     private float _peviousCurrentHealth;
-    private Action _loop;
+    protected Action _loop;
 
 
     public enum EffectFromImpactType
@@ -38,7 +38,7 @@ public abstract class CharacterHealth : Health
         Stun
     }
 
-    new void Start()
+    protected new void Start()
     {
         base.Start();
         _loop += OnFire;
@@ -109,7 +109,7 @@ public abstract class CharacterHealth : Health
         }
     }
 
-    void OnFire()
+    protected virtual void OnFire()
     {
         if (_fireCurrently < _onFireSpectrum.x) { _fireCurrently = _onFireSpectrum.x; }
         else { _fireCurrently -= _fireExtinguishing * Time.deltaTime; }
@@ -133,7 +133,7 @@ public abstract class CharacterHealth : Health
 
 
     // REPLACE THIS WITH EVENT INVOKE DANIEL!!!
-    void UpdateHealthBar()
+    protected void UpdateHealthBar()
     {
         if (_healthBar != null && _peviousCurrentHealth != CurrentHealth)
         {

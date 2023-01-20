@@ -8,6 +8,15 @@ using UnityEngine.InputSystem.XR;
 
 public class PlayerHealth : CharacterHealth
 {
+    [Tooltip("Health Regained Per Second")]
+    [SerializeField] private float _naturalHealing = 3;
+    [Tooltip("The Amount of Time That the player needs not be hurt")]
+    [SerializeField] private float _safeTimeForNaturalHealing = 5;
+    [Tooltip("from 0% to 100%\nHealth Heal Itself by Natural Healing Only Up To This Point")]
+    [SerializeField] private float _naturalHealingLimit = 50;
+    private float _naturalHealingCD;
+
+
     [HideInInspector] public float FruitFireEffect = 0;
     [HideInInspector] public float FruitKnockEffect = 1;
     [HideInInspector] public float FruitArmorEffect = 1;
@@ -33,16 +42,21 @@ public class PlayerHealth : CharacterHealth
         string AttackerName = Attacker != null ? Attacker.name : "No One";
         //  Debug.Log($"{gameObject.name} took {damage} damage and {knockback} Knockback from {AttackerName}");
 
+        _naturalHealingCD = _safeTimeForNaturalHealing; // cant natural heal because of damage
+
         Die();
     }
 
-    new private void Update()
+    new protected void Start()
+    {
+        base.Start();
+        _loop += FireFruitEffect;
+        _loop += NaturalHealing;
+    }
+
+    new protected void Update()
     {
         base.Update();
-        if (FruitFireEffect != _onFireSpectrum.x)
-        {
-            _onFireSpectrum.x = FruitFireEffect;
-        }
     }
 
 
@@ -59,6 +73,50 @@ public class PlayerHealth : CharacterHealth
         _playerController.enabled = false;
     }
 
+    #region Fire
+    protected void FireFruitEffect()
+    {
+        if (FruitFireEffect != _onFireSpectrum.x)
+        {
+            _onFireSpectrum.x = FruitFireEffect;
+        }
+    }
+    protected override void OnFire()
+    {
+        base.OnFire();
+        if (_fireCurrently > 0) { _naturalHealingCD = _safeTimeForNaturalHealing; }
+    }
+    #endregion
+
+    #region Healing & Reviving
+
+    protected void NaturalHealing()
+    {
+        if (!_playerController.CheckIfCanMove()) // cant natural heal because under bad conditions
+        {
+            _naturalHealingCD = _safeTimeForNaturalHealing; 
+        }
+
+        if (_naturalHealingCD < 0)
+        {
+            _naturalHealingCD = 0;
+        }
+        else if (_naturalHealingCD == 0)
+        {
+            if (CurrentHealth < MaxHealth*_naturalHealingLimit*0.01f)
+            {
+                CurrentHealth += _naturalHealing * Time.deltaTime;
+            }
+        }
+        else
+        {
+            _naturalHealingCD -=Time.deltaTime;
+        }
+
+        if (CurrentHealth > MaxHealth) { CurrentHealth = MaxHealth; }
+    }
+
+
     [ContextMenu("Heal Player to full hp")]
     public void HealPlayerMaxHealth()
     {
@@ -74,5 +132,5 @@ public class PlayerHealth : CharacterHealth
         OnRevive.Invoke();
         _playerController.enabled = true;
     }
-
+    #endregion
 }

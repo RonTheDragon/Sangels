@@ -6,42 +6,29 @@ public class GoopExplosion : Explosion
 {
     [SerializeField] private GameObject _goop;
     private Rigidbody _rigidBody => GetComponent<Rigidbody>();
+    private PublicCollisions _collisions => _goop.GetComponent<PublicCollisions>();
     private bool _gooped;
-
-    [SerializeField] private float _effectCooldown = 0.5f;
-    private float _effectCool;
 
     private LayerMask _goopMask => GameManager.Instance.GoopStick;
 
- 
 
-    // Update is called once per frame
-    private void Update()
+    private void Start()
     {
-        // if (!gooped && RB.velocity.magnitude < 0.1f) { gooped = true; Goop.SetActive(true); transform.rotation = Quaternion.identity; RB.isKinematic = true; }
+        _collisions.OnTriggerStayEvent += OnTriggerStayEvent;
+    }
 
+    private void OnTriggerStayEvent(Collider other)
+    {
         if (_gooped)
-        {
-            if (_effectCool > 0)
-            {
-                _effectCool -= Time.deltaTime;
-            }
-            else
-            {
-                Collider[] colliders = Physics.OverlapSphere(transform.position, Radius);
-                foreach (Collider collider in colliders)
+        {     
+                if (Attackable == (Attackable | (1 << other.gameObject.layer)))
                 {
-                    if (Attackable == (Attackable | (1 << collider.gameObject.layer)))
-                    {
-                        Controller control = collider.GetComponent<Controller>();
-                        if (control != null)
-                        {
-                            control.AddGlub(100);
-                        }
-                    }
+                    Controller control = other.GetComponent<Controller>();
+                     if (control != null)
+                     {
+                         control.AddGlub(100);
+                     }
                 }
-                _effectCool = _effectCooldown;
-            }
         }
     }
 
@@ -66,4 +53,6 @@ public class GoopExplosion : Explosion
             _rigidBody.isKinematic = true;
         }
     }
+
+
 }
