@@ -13,7 +13,7 @@ public class ExplosiveHealing : MonoBehaviour
     {
         if (collision.gameObject != Shooter)
         {
-            HealingCloud cloud = ObjectPooler.Instance.SpawnFromPool(_cloud, transform.position, transform.rotation).GetComponent<HealingCloud>();
+            HealingCloud cloud = ObjectPooler.Instance.SpawnFromPool(_cloud, transform.position, Quaternion.identity).GetComponent<HealingCloud>();
             cloud.HealRadius = _healRadius;
             cloud.LureRadius = _lureRadius;
             cloud.HealAmount = _healAmount;
