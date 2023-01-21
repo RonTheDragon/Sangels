@@ -43,6 +43,8 @@ public class PlayerEatFruits : Combat
     [Tooltip("Sets You On Fire")][SerializeField] private float _feplerWeakness = 50;
     [Tooltip("Burn Targets")][SerializeField] private float _feplerMelee = 50;
 
+    [Header("Vitaliv Effects")]
+    [Tooltip("Heals You")][SerializeField] private float _vitalivPassive = 30;
 
     // Start is called before the first frame update
     private void Start()
@@ -108,6 +110,7 @@ public class PlayerEatFruits : Combat
             case Fruit.Shbulk: DigestingScrumbulk(); gutColor = _brown; break; 
             case Fruit.Luber: DigestingLuber(); gutColor = Color.cyan; break;
             case Fruit.Glub: DigestingGlub(); gutColor = Color.black; break;
+            case Fruit.Vitaliv: DigestingVitaliv(); gutColor = Color.magenta; break;
         }
         
         float fillAmount = _gutCurrert / _gutMaxCapacity;
@@ -124,6 +127,7 @@ public class PlayerEatFruits : Combat
         _effectHealth.FruitKnockEffect = 1;
         _effectHealth.FruitArmorEffect = 1;
         _effectHealth.FruitFireEffect = 0;
+        _effectHealth.FruitHealEffect = 0;
 
         // Melee
         _effectMelee.FruitStunEffect = 1;
@@ -186,5 +190,12 @@ public class PlayerEatFruits : Combat
         float MeleeFireEffect = 0;
         MeleeFireEffect += _gutCurrert / _gutMaxCapacity * _feplerMelee;
         _effectMelee.FruitFireEffect = MeleeFireEffect;
+    }
+
+    private void DigestingVitaliv()
+    {
+        float HealEffect = 0;
+        HealEffect += _gutCurrert / _gutMaxCapacity * _vitalivPassive;
+        _effectHealth.FruitHealEffect = HealEffect;
     }
 }

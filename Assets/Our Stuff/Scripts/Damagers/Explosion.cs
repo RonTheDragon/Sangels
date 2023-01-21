@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 public class Explosion : ProjectileDamage
 {
-    public float Radius;
+    public float _radius;
 
     [SerializeField] private List<ParticleSystem> _explosionParticles;
     [SerializeField] private float _timeTillTurnOff;
@@ -17,7 +17,7 @@ public class Explosion : ProjectileDamage
             p.Play();
         }
 
-        Collider[] cols = Physics.OverlapSphere(transform.position, Radius);
+        Collider[] cols = Physics.OverlapSphere(transform.position, _radius);
         foreach (Collider c in cols)
         {
             if (Attackable == (Attackable | (1 << c.gameObject.layer)))
@@ -27,7 +27,7 @@ public class Explosion : ProjectileDamage
                 {
                     Vector3 pos = c.ClosestPointOnBounds(transform.position);
                     float dist = Vector3.Distance(transform.position, pos);
-                    float DistanceMultipler = (-dist / Radius) + 1;
+                    float DistanceMultipler = (-dist / _radius) + 1;
                     hp.TakeDamage(DamageAmount * DistanceMultipler, Knockback * DistanceMultipler, transform.position, Stagger * DistanceMultipler, Shooter);
                     if (hp is CharacterHealth)
                     {

@@ -163,10 +163,21 @@ public class PlayerSlingshot : Combat
             _fruit.SpawnOnSlingshot(_projectileSpawnLocation);
             _currentCharge = _startCharge;
             _charging = true;
-            ProjectileDamage d = _fruit.GetComponent<ProjectileDamage>();
-            d.Shooter = transform.parent.gameObject;
             _fruitMass = _fruit.GetComponent<Rigidbody>().mass;
-            d.Attackable = _attackManager.Attackable;
+
+            ProjectileDamage d = _fruit.GetComponent<ProjectileDamage>();
+            if (d != null)
+            {
+                d.Shooter = transform.parent.gameObject;
+                d.Attackable = _attackManager.Attackable;
+            }
+            ExplosiveHealing h = _fruit.GetComponent<ExplosiveHealing>();
+            if (h != null)
+            {
+                h.Shooter = transform.parent.gameObject;
+                h.LureMask = _attackManager.Attackable;
+                h.HealMask = _attackManager.Healable;
+            }
         }
     }
 

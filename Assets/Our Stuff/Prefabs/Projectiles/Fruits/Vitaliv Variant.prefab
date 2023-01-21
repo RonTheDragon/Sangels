@@ -53,11 +53,41 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6673690505569125820, guid: db40b787fba5ab745be673b539756769, type: 3}
       propertyPath: m_Name
-      value: Vitaliv
+      value: Vitaliv Variant
       objectReference: {fileID: 0}
     - target: {fileID: 8376666565684435449, guid: db40b787fba5ab745be673b539756769, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 159f6250535941143b1759a6a4ff9850, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6163528034033057052, guid: db40b787fba5ab745be673b539756769, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: db40b787fba5ab745be673b539756769, type: 3}
+--- !u!1 &7604152926583151370 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6673690505569125820, guid: db40b787fba5ab745be673b539756769, type: 3}
+  m_PrefabInstance: {fileID: 3826607140959952566}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-4413459537046240060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7604152926583151370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06ce4a1afbe9def4a8113a0d0ab2a084, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Shooter: {fileID: 0}
+  _healRadius: 5
+  _lureRadius: 30
+  _healAmount: 10
+  _duration: 10
+  _cloud: Petal
+  LureMask:
+    serializedVersion: 2
+    m_Bits: 0
+  HealMask:
+    serializedVersion: 2
+    m_Bits: 0

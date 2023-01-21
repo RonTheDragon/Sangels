@@ -389,6 +389,9 @@ MonoBehaviour:
     - Tag: Fepler
       Prefab: {fileID: 3818098567790889554, guid: ae1430203fa0d9142a1d046bbb3e1f44, type: 3}
       Size: 20
+    - Tag: Vitaliv
+      Prefab: {fileID: 7604152926583151370, guid: a8debb2f8f0271b4cba6ecebb9b3add8, type: 3}
+      Size: 20
   - Tag: Explosions
     Pools:
     - Tag: FireExplosion
@@ -396,6 +399,9 @@ MonoBehaviour:
       Size: 20
     - Tag: Goop
       Prefab: {fileID: 3945015108336934066, guid: d4972aed479c1ae4e9abbc7eac0cef85, type: 3}
+      Size: 20
+    - Tag: Petal
+      Prefab: {fileID: 3813764260017638215, guid: 5731b25fb56f0654ba5a0f4ea8522b69, type: 3}
       Size: 20
   - Tag: Collectables
     Pools:

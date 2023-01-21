@@ -20,6 +20,10 @@ public class RoamState : State
     {
         if (!AiController.HasTarget())
         {
+            if (AiController.LuredTime > 0)
+            {
+                StateManager.ChangeState(new LuredState(StateManager, AiController));
+            }
             AiController.LookAtReset();
             AiController.DetectionRay();
             AiController.ScanCooldown();

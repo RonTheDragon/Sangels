@@ -20,6 +20,7 @@ public class PlayerHealth : CharacterHealth
     [HideInInspector] public float FruitFireEffect = 0;
     [HideInInspector] public float FruitKnockEffect = 1;
     [HideInInspector] public float FruitArmorEffect = 1;
+    [HideInInspector] public float FruitHealEffect = 0;
 
     public Action OnRevive;
     private PlayerController _playerController => (PlayerController)controller;
@@ -52,6 +53,7 @@ public class PlayerHealth : CharacterHealth
         base.Start();
         _loop += FireFruitEffect;
         _loop += NaturalHealing;
+        _loop += FruitHealing;
     }
 
     new protected void Update()
@@ -114,6 +116,14 @@ public class PlayerHealth : CharacterHealth
         }
 
         if (CurrentHealth > MaxHealth) { CurrentHealth = MaxHealth; }
+    }
+
+    protected void FruitHealing()
+    {
+        if (FruitHealEffect > 0)
+        {
+            CurrentHealth += FruitHealEffect * Time.deltaTime;
+        }
     }
 
 

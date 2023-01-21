@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem.XR;
 
 public class AIController : Controller
 {
@@ -30,7 +31,12 @@ public class AIController : Controller
     [SerializeField] private float _attackAlert = 0.5f;
     [SerializeField] private float _maxAlert = 3;
 
+
     // Invisible
+
+    //Lure
+    private Vector3 _lureDestination;
+    public float LuredTime;
 
     //Layer Masks
     private LayerMask _canSee;
@@ -103,6 +109,15 @@ public class AIController : Controller
         else
         {
             _scanCD -= Time.deltaTime;
+        }
+    }
+
+    public void LuredCooldown()
+    {
+        if (LuredTime > 0)
+        {
+            SetDestination(_lureDestination);
+            LuredTime -= Time.deltaTime;
         }
     }
     #endregion
@@ -269,6 +284,13 @@ public class AIController : Controller
         Debug.DrawRay(transform.position, transform.rotation * LeftEye * _scanRadius, Color.green);
     }
     #endregion
+
+    public void SetLure(Vector3 pos, float time)
+    {
+        _lureDestination = pos;
+        LuredTime = time;
+    }
+
 
 
     protected override void ApplyingForce() //Applying Force for Navmesh Agent

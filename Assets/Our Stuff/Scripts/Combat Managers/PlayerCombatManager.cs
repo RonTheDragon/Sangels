@@ -50,7 +50,8 @@ public class PlayerCombatManager : CombatManager
             ResetMaxAmmo();
         }
 
-        Attackable = _gm.PlayersCanAttack;  
+        Attackable = _gm.PlayersCanAttack;
+        Healable = _gm.PlayersOnly;
 
         _pc.OnStagger += Staggered;
         _pc.OnStun    += Stunned;

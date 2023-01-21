@@ -15,7 +15,7 @@ public class ExplosiveProjectile : ProjectileDamage
             explosion.DamageAmount = DamageAmount;
             explosion.Knockback= Knockback; 
             explosion.Stagger=Stagger;
-            explosion.Radius=_radius;
+            explosion._radius=_radius;
             explosion.Shooter=Shooter;
             explosion.Fire = Fire;
             explosion.Attackable=Attackable; 

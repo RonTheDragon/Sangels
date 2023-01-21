@@ -28,7 +28,9 @@ public abstract class CharacterHealth : Health
 
     private float _peviousCurrentHealth;
     protected Action _loop;
-    public Action<float, Color> OnHealthChangeUI; 
+    public Action<float, Color> OnHealthChangeUI;
+
+    private float _healingAmount, _healingTime;
 
 
     public enum EffectFromImpactType
@@ -42,6 +44,7 @@ public abstract class CharacterHealth : Health
     {
         base.Start();
         _loop += OnFire;
+        _loop += Healing;
         _loop += UpdateHealthBar;
     }
 
@@ -109,6 +112,21 @@ public abstract class CharacterHealth : Health
         }
     }
 
+    public void Heal(float amount, float time)
+    {
+        _healingTime = time;
+        _healingAmount = amount;
+    }
+
+    protected virtual void Healing()
+    {
+        if (_healingTime > 0)
+        {
+            CurrentHealth += _healingAmount * Time.deltaTime;
+            _healingTime -= Time.deltaTime;
+        }
+    }
+
     protected virtual void OnFire()
     {
         if (_fireCurrently < _onFireSpectrum.x) { _fireCurrently = _onFireSpectrum.x; }
@@ -132,7 +150,6 @@ public abstract class CharacterHealth : Health
     }
 
 
-    // REPLACE THIS WITH EVENT INVOKE DANIEL!!!
     protected void UpdateHealthBar()
     {
         if(OnHealthChangeUI!=null)

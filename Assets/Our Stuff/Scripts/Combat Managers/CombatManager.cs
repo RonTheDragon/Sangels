@@ -21,6 +21,7 @@ public abstract class CombatManager : MonoBehaviour
     protected float _busyTimeLeft;
 
     [HideInInspector] public LayerMask Attackable;
+    [HideInInspector] public LayerMask Healable;
 
     [HideInInspector] public List<Combat> Damagers = new List<Combat>();
 
