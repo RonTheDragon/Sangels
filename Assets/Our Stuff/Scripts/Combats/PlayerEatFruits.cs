@@ -45,6 +45,9 @@ public class PlayerEatFruits : Combat
 
     [Header("Vitaliv Effects")]
     [Tooltip("Heals You")][SerializeField] private float _vitalivPassive = 30;
+    [Tooltip("Agros Enemies")][SerializeField] private float _vitalivWeakness = 50;
+    [Tooltip("Dead Enemies Explode into Healing")][SerializeField] private float _vitalivMelee = 100;
+
 
     // Start is called before the first frame update
     private void Start()
@@ -122,6 +125,7 @@ public class PlayerEatFruits : Combat
         // Movement 
         _effectMovement.FruitJumpEffect = 1;
         _effectMovement.FruitSpeedEffect = 1;
+        _effectMovement.FruitAgroEffect= 0;
 
         // Health
         _effectHealth.FruitKnockEffect = 1;
@@ -134,6 +138,7 @@ public class PlayerEatFruits : Combat
         _effectMelee.FruitKnockEffect = 1;
         _effectMelee.FruitFireEffect = 0;
         _effectMelee.FruitGlubEffect = 0;
+        _effectMelee.FruitVitalivEffect = 0;
     }
 
     private void DigestingLuber()
@@ -197,5 +202,13 @@ public class PlayerEatFruits : Combat
         float HealEffect = 0;
         HealEffect += _gutCurrert / _gutMaxCapacity * _vitalivPassive;
         _effectHealth.FruitHealEffect = HealEffect;
+
+        float AgroEffect = 0;
+        AgroEffect += _gutCurrert / _gutMaxCapacity * _vitalivWeakness;
+        _effectMovement.FruitAgroEffect = AgroEffect;
+
+        float VitalivEffect = 0;
+        VitalivEffect += _gutCurrert / _gutMaxCapacity * _vitalivMelee;
+        _effectMelee.FruitVitalivEffect = VitalivEffect;
     }
 }

@@ -118,6 +118,12 @@ public abstract class CharacterHealth : Health
         _healingAmount = amount;
     }
 
+    public void HealInstantly(float amount)
+    {
+        CurrentHealth += amount;
+        if (CurrentHealth>MaxHealth) { CurrentHealth = MaxHealth; }
+    }
+
     protected virtual void Healing()
     {
         if (_healingTime > 0)

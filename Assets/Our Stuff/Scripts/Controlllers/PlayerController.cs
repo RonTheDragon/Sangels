@@ -49,6 +49,8 @@ public class PlayerController : Controller
 
     [HideInInspector] public float FruitSpeedEffect=1;
     [HideInInspector] public float FruitJumpEffect=1;
+    [HideInInspector] public float FruitAgroEffect = 0;
+    private float _fruitAgroCD;
 
     // Invisible //
 
@@ -83,6 +85,7 @@ public class PlayerController : Controller
         _loop+= Jumping;
         _loop += PlayerMovement;
         _loop += Slide;
+        _loop += FruitAgro;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible   = false;
@@ -223,6 +226,30 @@ public class PlayerController : Controller
         }
     }
     #endregion
+
+    protected void FruitAgro()
+    {
+        if (FruitAgroEffect > 0)
+        {
+            if (_fruitAgroCD <= 0)
+            {
+                _fruitAgroCD = 1;
+                Collider[] Lured = Physics.OverlapSphere(transform.position, FruitAgroEffect, _gm.PlayersCanAttack);
+                foreach (Collider c in Lured)
+                {
+                    AIController a = c.GetComponent<AIController>();
+                    if (a != null)
+                    { 
+                        a.Agro(gameObject);
+                    }
+                }
+            }
+        }
+        if (_fruitAgroCD > 0)
+        {
+            _fruitAgroCD-=Time.deltaTime;
+        }
+    }
 
     protected override void ApplyingForce() //Force Specific for Player
     {

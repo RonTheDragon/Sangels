@@ -305,7 +305,12 @@ public class AIController : Controller
     public override void Hurt(CharacterHealth.EffectFromImpactType impactType, float recievedStagger, float staggerResistance, GameObject attacker = null) 
     { 
         base.Hurt(impactType, recievedStagger, staggerResistance, attacker);
-        if (Target == null && attacker != null) 
+        Agro(attacker);
+    }
+
+    public void Agro(GameObject attacker)
+    {
+        if (Target == null && attacker != null)
         {
             SetTarget(attacker.transform);
             _currentAlert = _maxAlert;

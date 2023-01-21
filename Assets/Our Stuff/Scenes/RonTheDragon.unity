@@ -16819,6 +16819,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8454961298430194485, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
+      propertyPath: Groups.Array.data[1].Pools.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454961298430194485, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
+      propertyPath: Groups.Array.data[1].Pools.Array.data[3].Tag
+      value: PetalBlast
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454961298430194485, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
+      propertyPath: Groups.Array.data[1].Pools.Array.data[3].Size
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8454961298430194485, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
+      propertyPath: Groups.Array.data[1].Pools.Array.data[3].Prefab
+      value: 
+      objectReference: {fileID: 2917731572748967593, guid: 08b6ec372efbbc2499e4a86f9cfaee49, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47064cb861f30d54c9c8eb93363f79c1, type: 3}
 --- !u!1001 &1291185027049741645

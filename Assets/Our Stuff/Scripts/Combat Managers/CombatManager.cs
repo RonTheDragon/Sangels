@@ -53,6 +53,10 @@ public abstract class CombatManager : MonoBehaviour
 
     protected virtual void BusyEnded()
     {
+        if (_health.IsGettingUp)
+        {
+            EndStandingUp();
+        }
         if (_health.IsStunned)
         {
             EndStunned();
@@ -60,10 +64,6 @@ public abstract class CombatManager : MonoBehaviour
         if (_health.IsStaggered)
         {
             EndStaggered();
-        }
-        if (_health.IsGettingUp)
-        {
-            EndStandingUp();
         }
     }
 
@@ -86,9 +86,8 @@ public abstract class CombatManager : MonoBehaviour
     {
         _busyTimeLeft = _standUpTime;
         _anim.SetTrigger("StandUp");
-        _health.IsStunned = false;
         _health.IsGettingUp = true;
-        _anim.SetBool("Stop", false);
+        _health.IsStunned = false;
     }
 
     protected virtual void EndStaggered()
@@ -102,6 +101,7 @@ public abstract class CombatManager : MonoBehaviour
     protected virtual void EndStandingUp() 
     {
         _health.IsGettingUp = false;
+        _anim.SetBool("Stop", false);
     }
     #endregion
 

@@ -8,9 +8,19 @@ public class PlayerMeleeDamage : MeleeDamage
     [HideInInspector] public float FruitGlubEffect = 0;
     [HideInInspector] public float FruitKnockEffect = 1;
     [HideInInspector] public float FruitStunEffect = 1;
+    [HideInInspector] public float FruitVitalivEffect = 0;
 
     public override RegisteredDamaged SubmitToRegisteredObjects(Health TargetHealth)
     {
+        if (FruitVitalivEffect > 0)
+        {
+            if (TargetHealth is AiHealth)
+            {
+                AiHealth aiHealth = (AiHealth)TargetHealth;
+                aiHealth.Vitaliv(FruitVitalivEffect);
+            }
+        }
+
         TargetHealth.TakeDamage(
             _attackManager.SOMeleeAttack.DamageAmount,
             _attackManager.SOMeleeAttack.Knockback * FruitKnockEffect,

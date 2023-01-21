@@ -31,7 +31,6 @@ public class HealingCloud : MonoBehaviour
                     AIController a = c.GetComponent<AIController>();
                     if (a != null)
                     {
-                        Debug.Log("luring");
                         a.SetLure(transform.position, _lureCooldown+1);
                     }
                 }
