@@ -44,7 +44,7 @@ public class PlayerEatFruits : Combat
     [Tooltip("Burn Targets")][SerializeField] private float _feplerMelee = 50;
 
     [Header("Vitaliv Effects")]
-    [Tooltip("Heals You")][SerializeField] private float _vitalivPassive = 30;
+    [Tooltip("Heals You")][SerializeField] private float _vitalivPassive = 20;
     [Tooltip("Agros Enemies")][SerializeField] private float _vitalivWeakness = 50;
     [Tooltip("Dead Enemies Explode into Healing")][SerializeField] private float _vitalivMelee = 100;
 

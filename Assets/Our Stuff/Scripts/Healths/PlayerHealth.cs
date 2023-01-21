@@ -1,10 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Configuration;
-using UnityEditor.Animations;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 public class PlayerHealth : CharacterHealth
 {
