@@ -27,14 +27,11 @@ public class BouncingProjectile : ImpactProjectile
             Transform Target = FindBounceTarget();
                 if (Target != null && AlreadyHit.FirstOrDefault(c => c.transform == Target) == null)
                 {
-                    Debug.Log("bounced");
                     _fruit.transform.LookAt(Target.position);
                     _fruit.LaunchProjectile(_rigidBody.velocity.magnitude * _bouncePower);
                     BouncingCounter++;
                 }
         }  
-        
-       // Debug.Log("has bounced");
     }
 
 
