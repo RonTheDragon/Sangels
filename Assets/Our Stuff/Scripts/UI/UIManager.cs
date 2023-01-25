@@ -38,7 +38,7 @@ public class UIManager : MonoBehaviour
     }
 
 
-    private void InfoNearDeadPlayerInteractInfo(string TellToUser, Color color,float opacity)
+    private void InfoNearDeadPlayerInteractInfo(string TellToUser, Color color)
     {
         _interactInfo.text = TellToUser;
         _interactInfo.color = color;
