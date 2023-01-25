@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
         _playerHealth.OnHealthChangeUI += UpdateHealth;
         _playerHealth.OnHurt = () => _hpEffectCooldown = 1;
         _playerEatFruits.OnGutChangeUI += UpdateGut;
-        _deadPlayer.OnRevivingRange += InfoNearDeadPlayerInteractInfo;
+        //_deadPlayer.OnRevivingRange += InfoNearDeadPlayerInteractInfo;
         _loop += HealthEffect;
     }
 
@@ -38,11 +38,11 @@ public class UIManager : MonoBehaviour
     }
 
 
-    private void InfoNearDeadPlayerInteractInfo(string TellToUser, Color color)
-    {
-        _interactInfo.text = TellToUser;
-        _interactInfo.color = color;
-    }
+    //private void InfoNearDeadPlayerInteractInfo(string TellToUser, Color color)
+    //{
+    //    _interactInfo.text = TellToUser;
+    //    _interactInfo.color = color;
+    //}
 
     private void UpdateHealth(float fillAmount,Color color) 
     {
