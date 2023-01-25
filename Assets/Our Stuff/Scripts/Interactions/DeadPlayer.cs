@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,13 +11,18 @@ internal class DeadPlayer : MonoBehaviour, Iinteractable
     string Iinteractable.Information { get { return _info; } set { _info = value; } }
     Color Iinteractable.TextColor { get { return _textColor; } set { _textColor = value; } }
 
+    public Action<string, Color> OnRevivingRange;
+
+
     public bool CanUse()
     {
+        OnRevivingRange?.Invoke(_info, _textColor);
         return true;
     }
 
     public virtual void Use()
     {
+        
         _playerHealth.RevivePlayer(30);
         Destroy(this);
     }

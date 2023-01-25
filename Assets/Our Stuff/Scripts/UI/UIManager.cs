@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ public class UIManager : MonoBehaviour
     private GameManager _gm =>GameManager.Instance;
     private PlayerHealth _playerHealth => _player.GetComponent<PlayerHealth>();
     private PlayerEatFruits _playerEatFruits => _player.GetComponentInChildren<PlayerEatFruits>();
+    private DeadPlayer _deadPlayer => _player.GetComponent<DeadPlayer>();
 
     private Action _loop;
 
@@ -17,6 +19,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _playerHealthHitEffect;
     [SerializeField] private Image _playerGutBar;
 
+    [SerializeField] private TMP_Text _interactInfo;
+
     private float _hpEffectCooldown;
 
     private void Start()
@@ -24,7 +28,7 @@ public class UIManager : MonoBehaviour
         _playerHealth.OnHealthChangeUI += UpdateHealth;
         _playerHealth.OnHurt = () => _hpEffectCooldown = 1;
         _playerEatFruits.OnGutChangeUI += UpdateGut;
-
+        _deadPlayer.OnRevivingRange += InfoNearDeadPlayerInteractInfo;
         _loop += HealthEffect;
     }
 
@@ -34,7 +38,11 @@ public class UIManager : MonoBehaviour
     }
 
 
-
+    private void InfoNearDeadPlayerInteractInfo(string TellToUser, Color color,float opacity)
+    {
+        _interactInfo.text = TellToUser;
+        _interactInfo.color = color;
+    }
 
     private void UpdateHealth(float fillAmount,Color color) 
     {
