@@ -17,6 +17,7 @@ public class PlayerHealth : CharacterHealth
     [HideInInspector] public float FruitArmorEffect = 1;
     [HideInInspector] public float FruitHealEffect = 0;
 
+    public Action OnHurt;
     public Action OnRevive;
     private PlayerController _playerController => (PlayerController)controller;
     public override void TakeDamage(float damage, float knockback, Vector3 pushFrom, Vector2 Stagger, GameObject Attacker = null)
@@ -34,6 +35,7 @@ public class PlayerHealth : CharacterHealth
         _playerController.AddForce(-pushFrom, recievedKnockback);
 
         _playerController.Hurt(ImpactType, recievedStagger,StaggerResistance, Attacker);
+        OnHurt?.Invoke();
 
         string AttackerName = Attacker != null ? Attacker.name : "No One";
         //  Debug.Log($"{gameObject.name} took {damage} damage and {knockback} Knockback from {AttackerName}");
