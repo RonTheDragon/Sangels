@@ -19,7 +19,12 @@ public class PlayerHealth : CharacterHealth
 
     public Action OnHurt;
     public Action OnRevive;
+    public Action OnDeath;
     private PlayerController _playerController => (PlayerController)controller;
+    private Interaction _interaction => GetComponent<Interaction>();
+
+    private DeadPlayer _deadPlayer;
+
     public override void TakeDamage(float damage, float knockback, Vector3 pushFrom, Vector2 Stagger, GameObject Attacker = null)
     {
         if (IsDead) return;
@@ -62,14 +67,16 @@ public class PlayerHealth : CharacterHealth
 
     public override void Die()
     {
-        if (CurrentHealth > 0) return;
+        if (CurrentHealth > 0 || IsDead) return;
+        OnDeath?.Invoke();
         CurrentHealth = 0;
         //gameObject.SetActive(false);
         IsDead = true;
         _anim.SetBool("Stagger", false);//make the ai not seeing dead player
         _anim.SetBool("Fall", IsDead);
-        gameObject.AddComponent<DeadPlayer>();
+        _deadPlayer = gameObject.AddComponent<DeadPlayer>();
         _playerController.enabled = false;
+        _interaction.enabled = false;
     }
 
     #region Fire
@@ -91,6 +98,7 @@ public class PlayerHealth : CharacterHealth
 
     protected void NaturalHealing()
     {
+        if (IsDead) return;
         if (!_playerController.CheckIfCanMove()) // cant natural heal because under bad conditions
         {
             _naturalHealingCD = _safeTimeForNaturalHealing; 
@@ -117,6 +125,7 @@ public class PlayerHealth : CharacterHealth
 
     protected void FruitHealing()
     {
+        if (IsDead) return;
         if (FruitHealEffect > 0)
         {
             CurrentHealth += FruitHealEffect * Time.deltaTime;
@@ -136,8 +145,10 @@ public class PlayerHealth : CharacterHealth
         CurrentHealth = healthToRevive;
         IsDead=false;
         _anim.SetBool("Fall", IsDead);
+        Destroy(_deadPlayer);
         OnRevive.Invoke();
         _playerController.enabled = true;
+        _interaction.enabled = true;
     }
     #endregion
 }

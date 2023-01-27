@@ -7,6 +7,8 @@ public interface Iinteractable
     public string Information { get; set; }
     public Color TextColor { get; set; }
 
+    public float UseTime { get; set; }
+
     public void Use();
 
     public bool CanUse();

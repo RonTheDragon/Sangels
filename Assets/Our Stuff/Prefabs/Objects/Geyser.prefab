@@ -22209,12 +22209,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _info: Your Gayser
-  _textColor: {r: 1, g: 1, b: 1, a: 1}
+  _textColor: {r: 0, g: 1, b: 0.9905014, a: 1}
   CheckForPlayersRange: 7
   CheckForPlayersCooldown: 1
   GeyserCurrentState: 2
   SplashTime: 2
-  GeyserEffect: {fileID: 8008387830144750243}
+  _geyserEffect: {fileID: 8008387830144750243}
 --- !u!65 &1615252774
 BoxCollider:
   m_ObjectHideFlags: 0

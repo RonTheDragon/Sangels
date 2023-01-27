@@ -155,8 +155,11 @@ public class GameManager : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawCube(_playerSpawnPoint.position, Vector3.one);
+        if (TheLevelManager != null)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawCube(_playerSpawnPoint.position, Vector3.one);
+        }
     }
 
     public void AddGeyser(Geyser geyser)

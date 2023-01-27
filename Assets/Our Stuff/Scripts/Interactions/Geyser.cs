@@ -17,11 +17,13 @@ public class Geyser : MonoBehaviour , Iinteractable
     private GameManager _gm => GameManager.Instance;
     private LayerMask OnlyPlayersMask => _gm.PlayersOnly;
 
+    public float UseTime { get => 0; set => throw new System.NotImplementedException(); }
+
     public GeyserState GeyserCurrentState;
 
     [SerializeField] private float SplashTime = 3;
 
-    [SerializeField] private VisualEffect GeyserEffect;
+    [SerializeField] private VisualEffect _geyserEffect;
 
     public enum GeyserState
     {
@@ -89,20 +91,20 @@ public class Geyser : MonoBehaviour , Iinteractable
         _gm.SwitchGeyser(this);
         GeyserCurrentState = GeyserState.GeyserActive;
         StartCoroutine("Splash");
-        GeyserEffect.SendEvent("OnPlaySmoke");
+        _geyserEffect.SendEvent("OnPlaySmoke");
     }
 
     public void Rest()
     {
         GeyserCurrentState = GeyserState.GeyserResting;
         _info = "Activate To Set Spawnpoint";
-        GeyserEffect.SendEvent("OnStopSmoke");
+        _geyserEffect.SendEvent("OnStopSmoke");
     }
 
     private IEnumerator Splash()
     {
-        GeyserEffect.SendEvent("OnPlay");
+        _geyserEffect.SendEvent("OnPlay");
         yield return new WaitForSeconds(SplashTime);
-        GeyserEffect.SendEvent("OnStop");
+        _geyserEffect.SendEvent("OnStop");
     }
 }

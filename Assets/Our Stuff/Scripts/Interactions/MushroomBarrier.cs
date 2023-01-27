@@ -10,6 +10,8 @@ public class MushroomBarrier : MonoBehaviour , Iinteractable
     [SerializeField] protected Color _textColor = Color.white;
     Color Iinteractable.TextColor { get { return _textColor; } set { _textColor = value; } }
 
+    public float UseTime { get => 0; set => throw new System.NotImplementedException(); }
+
     [SerializeField] protected GameObject _barrier;
 
     public bool CanUse()

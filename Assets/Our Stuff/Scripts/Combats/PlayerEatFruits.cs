@@ -55,6 +55,8 @@ public class PlayerEatFruits : Combat
         _attackManager.Damagers.Add(this);
         _playerAttackManager.Eat += Eat;
         _playerAttackManager.Loop += Digestion;
+        _effectHealth.OnDeath += ClearGut;
+
         ResetEffects();
     }
 
@@ -103,8 +105,7 @@ public class PlayerEatFruits : Combat
         }
         else if (_gutCurrert < 0)
         {
-            _gutCurrert = 0;
-            ResetEffects();
+            ClearGut();
         }
         Color gutColor=Color.white;
         switch (_currentFruitDigested)
@@ -118,6 +119,12 @@ public class PlayerEatFruits : Combat
         
         float fillAmount = _gutCurrert / _gutMaxCapacity;
         OnGutChangeUI?.Invoke(fillAmount, gutColor);
+    }
+
+    private void ClearGut()
+    {
+        _gutCurrert = 0;
+        ResetEffects();
     }
 
     private void ResetEffects()

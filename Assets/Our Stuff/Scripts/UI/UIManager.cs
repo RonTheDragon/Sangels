@@ -9,17 +9,23 @@ public class UIManager : MonoBehaviour
     private GameManager _gm =>GameManager.Instance;
     private PlayerHealth _playerHealth => _player.GetComponent<PlayerHealth>();
     private PlayerEatFruits _playerEatFruits => _player.GetComponentInChildren<PlayerEatFruits>();
-    private DeadPlayer _deadPlayer => _player.GetComponent<DeadPlayer>();
+
+    private Interaction _interaction => _player.GetComponent<Interaction>();
 
     private Action _loop;
 
 
     // UI Elements
+    [Header("Health")]
     [SerializeField] private Image _playerHealthBar;
     [SerializeField] private Image _playerHealthHitEffect;
+    [Header("Gut")]
     [SerializeField] private Image _playerGutBar;
 
+    [Header("Interaction")]
+    [SerializeField] private GameObject _interactWindow;
     [SerializeField] private TMP_Text _interactInfo;
+    [SerializeField] private Image _progressBar;
 
     private float _hpEffectCooldown;
 
@@ -28,7 +34,12 @@ public class UIManager : MonoBehaviour
         _playerHealth.OnHealthChangeUI += UpdateHealth;
         _playerHealth.OnHurt = () => _hpEffectCooldown = 1;
         _playerEatFruits.OnGutChangeUI += UpdateGut;
-        //_deadPlayer.OnRevivingRange += InfoNearDeadPlayerInteractInfo;
+
+        _interaction.OnInteracting += UpdateInteractionInfo;
+        _interaction.OnStopInteracting += StopInteraction;
+        _interaction.OnInteractingProgress += UpdateInteractionProgress;
+
+
         _loop += HealthEffect;
     }
 
@@ -37,13 +48,7 @@ public class UIManager : MonoBehaviour
         _loop?.Invoke();
     }
 
-
-    //private void InfoNearDeadPlayerInteractInfo(string TellToUser, Color color)
-    //{
-    //    _interactInfo.text = TellToUser;
-    //    _interactInfo.color = color;
-    //}
-
+    #region Health
     private void UpdateHealth(float fillAmount,Color color) 
     {
         _playerHealthBar.fillAmount = fillAmount;
@@ -67,13 +72,32 @@ public class UIManager : MonoBehaviour
             _hpEffectCooldown -= Time.deltaTime;
         }
     }
-
+    #endregion
+    #region Gut
     private void UpdateGut(float fillAmount, Color color)
     {
         _playerGutBar.fillAmount = fillAmount;
         _playerGutBar.color = color;
     }
+    #endregion
+    #region Interaction
+    private void UpdateInteractionInfo(string text, Color color, bool canUse)
+    {
+        _interactWindow.SetActive(true);
+        _interactInfo.color = color;
+        _interactInfo.alpha = canUse? 1 : 0.5f;
+        _interactInfo.text = text;
+        _progressBar.fillAmount = 0;
+    }
 
+    private void StopInteraction()
+    {
+        _interactWindow.SetActive(false);
+    }
 
-
+    private void UpdateInteractionProgress(float current, float Max)
+    {
+        _progressBar.fillAmount = current / Max;
+    }
+    #endregion
 }
