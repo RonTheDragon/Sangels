@@ -1049,7 +1049,7 @@ Animator:
   m_GameObject: {fileID: 3273202489402000497}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8f56de3760a715149a876e25769833c8, type: 2}
+  m_Controller: {fileID: 9100000, guid: a74d996f7d0c73a41b40e8d202c60054, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1183,6 +1183,9 @@ MonoBehaviour:
   _minimumStunTime: 1.3
   _standUpTime: 3
   Attackable:
+    serializedVersion: 2
+    m_Bits: 0
+  Healable:
     serializedVersion: 2
     m_Bits: 0
   Damagers: []
@@ -2595,6 +2598,7 @@ MonoBehaviour:
   _currentAlert: 0
   _attackAlert: 0.5
   _maxAlert: 3
+  LuredTime: 0
 --- !u!195 &6394502825093494616
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2634,12 +2638,14 @@ MonoBehaviour:
   StaggerResistance: 50
   IsStaggered: 0
   IsStunned: 0
+  IsGettingUp: 0
   MaxHurtAnimationDamage: 15
   _fireCurrently: 0
   _fireDamage: 10
   _fireExtinguishing: 25
   FireParticle: {fileID: 9037062429920742491}
-  _healthBar: {fileID: 0}
+  _petalBlast: PetalBlast
+  _petalRadius: 5
 --- !u!136 &5711285248897493981
 CapsuleCollider:
   m_ObjectHideFlags: 0
