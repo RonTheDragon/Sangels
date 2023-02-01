@@ -31,6 +31,7 @@ public class PlayerCombatManager : CombatManager
     private bool _eat;
     private bool _canGetUp;
 
+    public Action<int> OnConsumeFruitUI;
     public Action Shoot;
     public Action OnStopHoldShoot;
     public Action Eat;
@@ -181,6 +182,7 @@ public class PlayerCombatManager : CombatManager
         if (CurrentAmmo.CurrentAmount > 0)
         {
             CurrentAmmo.CurrentAmount--;
+            OnConsumeFruitUI?.Invoke(CurrentAmmo.CurrentAmount);
             return true;
         }
         return false;

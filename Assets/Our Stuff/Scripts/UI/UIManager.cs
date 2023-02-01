@@ -10,6 +10,9 @@ public class UIManager : MonoBehaviour
     private PlayerHealth _playerHealth => _player.GetComponent<PlayerHealth>();
     private PlayerEatFruits _playerEatFruits => _player.GetComponentInChildren<PlayerEatFruits>();
 
+    private PlayerAmmoSwitch _playerAmmoSwitch => _player.GetComponentInChildren<PlayerAmmoSwitch>();
+    private PlayerCombatManager _playerCM => _player.GetComponentInChildren<PlayerCombatManager>();
+
     private Interaction _interaction => _player.GetComponent<Interaction>();
 
     private Action _loop;
@@ -27,6 +30,22 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _interactInfo;
     [SerializeField] private Image _progressBar;
 
+    [Header("UI Wheel")]
+    [SerializeField] private Color selectedColor;
+    [SerializeField] private TMP_Text _fruitAmount;
+    [SerializeField] private TMP_Text _fruitName;
+    [SerializeField] private Color isNotSelectedColor;
+    //[SerializeField] private Button _luberImage;
+    //[SerializeField] private Button _glubImage;
+    //[SerializeField] private Button Fepler;
+    //[SerializeField] private Button Vitaliv;
+    //[SerializeField] private Button Shbulk;
+    //[SerializeField] private Button Lipachu;
+
+
+
+
+
     private float _hpEffectCooldown;
 
     private void Start()
@@ -39,6 +58,8 @@ public class UIManager : MonoBehaviour
         _interaction.OnStopInteracting += StopInteraction;
         _interaction.OnInteractingProgress += UpdateInteractionProgress;
 
+        _playerAmmoSwitch.OnFruitSwitchUI += OnWheelItemSelected;
+        _playerCM.OnConsumeFruitUI += OnUpdateFruitAmount;
 
         _loop += HealthEffect;
     }
@@ -46,6 +67,18 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         _loop?.Invoke();
+    }
+
+    public void OnWheelItemSelected(string fruitName,int fruitAmount) 
+    {
+        _fruitName.text = fruitName;
+        _fruitAmount.text = $"Amount: {fruitAmount}";
+    }
+    public void OnUpdateFruitAmount(int fruitAmount)
+    {
+
+        _fruitAmount.text = $"Amount: {fruitAmount}";
+
     }
 
     #region Health

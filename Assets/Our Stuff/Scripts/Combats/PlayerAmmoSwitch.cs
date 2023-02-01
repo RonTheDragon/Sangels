@@ -1,10 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAmmoSwitch : Combat
 {
+    public Action<string,int> OnFruitSwitchUI;
     private PlayerCombatManager _playerAttackManager => (PlayerCombatManager)_attackManager;
+
 
     // Start is called before the first frame update
     private void Start()
@@ -29,6 +32,7 @@ public class PlayerAmmoSwitch : Combat
                     }
                     if (_playerAttackManager.AmmoTypes[_playerAttackManager.CurrentAmmoSlot].CurrentAmount > 0)
                     {
+                        //OnFruitSwitchUI.Invoke(_playerAttackManager.AmmoTypes[_playerAttackManager.CurrentAmmoSlot].FruitType.ToString(), _playerAttackManager.AmmoTypes[_playerAttackManager.CurrentAmmoSlot].CurrentAmount);
                         SwitchAmmo();
                         break;
                     }
@@ -66,6 +70,7 @@ public class PlayerAmmoSwitch : Combat
         {
             _playerAttackManager.CurrentAmmo = _playerAttackManager.AmmoTypes[_playerAttackManager.CurrentAmmoSlot];
             _playerAttackManager.UseScroll = 0;
+            OnFruitSwitchUI?.Invoke(_playerAttackManager.CurrentAmmo.FruitType.ToString(), _playerAttackManager.CurrentAmmo.CurrentAmount);
 
             //Debug.Log(CurrentAmmo);
         }
