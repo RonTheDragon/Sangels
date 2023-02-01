@@ -8,7 +8,7 @@ abstract public class Controller : MonoBehaviour
 {
     [Header("Walking")]
     [Tooltip("The movement speed")]
-    [ReadOnly] public float Speed = 10;
+    public float Speed = 10;
     public float NormalSpeed = 10;
     public float RegularAnimationSpeed = 10;
 
