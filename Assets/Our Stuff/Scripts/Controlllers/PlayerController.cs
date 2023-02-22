@@ -128,7 +128,8 @@ public class PlayerController : Controller
                 _anim.SetBool("Walking", true);
                 if (!_slingshot.IsAiming && Speed != 0)
                     transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
-                _moveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;               
+                _moveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+                SetSpeed();
                 _cc.Move(_moveDir * GetSpeed() * Time.deltaTime); 
             }
             else
