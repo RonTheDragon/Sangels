@@ -11,6 +11,7 @@ abstract public class Controller : MonoBehaviour
     public float Speed = 10;
     public float NormalSpeed = 10;
     public float RegularAnimationSpeed = 10;
+    public float RotateSpeed = 50;
 
     [Header("Animation Rigging")]
     [SerializeField] private Transform _lookingAt;

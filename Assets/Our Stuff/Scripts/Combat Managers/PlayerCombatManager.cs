@@ -16,7 +16,7 @@ public class PlayerCombatManager : CombatManager
 
     [Header("Refrences")]
     public Camera Cam;
-    public CinemachineFreeLook Cinemachine;
+    public CinemachineVirtualCamera Cinemachine;
     private PlayerController _pc => GetComponentInParent<PlayerController>();
 
     private PlayerHealth _playerHealth => _health as PlayerHealth;

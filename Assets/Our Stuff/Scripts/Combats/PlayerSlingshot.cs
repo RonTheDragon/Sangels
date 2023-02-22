@@ -1,10 +1,6 @@
 using Cinemachine;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 
 public class PlayerSlingshot : Combat
 {
@@ -14,7 +10,8 @@ public class PlayerSlingshot : Combat
     [Header("Aiming")]
     [SerializeField] private float _aimingSpeed;
     [ReadOnly][SerializeField] private float _currentFOV;
-    [SerializeField] private float _aimingFOV = 1;
+    [SerializeField] private float _aimingFOV = 20;
+    [SerializeField] private float _notAimingFOV = 40;
     [ReadOnly] public bool IsAiming;
     [SerializeField][Range(10, 100)] private int _linePoints = 25;
     [SerializeField][Range(0.01f, 0.25f)] private float _timeBetweenPoints = 0.01f;
@@ -37,7 +34,7 @@ public class PlayerSlingshot : Combat
     private bool _charging;
 
     private Transform _cam;
-    private CinemachineFreeLook _cinemachine;
+    [SerializeField]private CinemachineVirtualCamera _cinemachine;
     private Projectile _fruit;
     private float _fruitMass;
 
@@ -46,10 +43,7 @@ public class PlayerSlingshot : Combat
     private PlayerController _playerController => GetComponentInParent<PlayerController>();
     private LineRenderer _line => _cinemachine.GetComponent<LineRenderer>();
     private PlayerCombatManager _playerAttackManager => (PlayerCombatManager)_attackManager;
-    private CinemachineCameraOffset _offset => _cinemachine.GetComponent<CinemachineCameraOffset>();
-
-    [SerializeField] private CinemachineFreeLook _cfl;
-    private InputHandler _inputHandler => _cfl.GetComponent<InputHandler>();
+    private InputHandler _inputHandler => _cinemachine.GetComponent<InputHandler>();
 
 
     // Start is called before the first frame update
@@ -93,7 +87,7 @@ public class PlayerSlingshot : Combat
 
     private void Aim()
     {
-        _currentFOV = _offset.m_Offset.z;
+        _currentFOV = _cinemachine.m_Lens.FieldOfView;
         if (IsAiming)
         {
             _playerController.LookAt(_cam.position + _cam.forward * 20);
@@ -101,14 +95,14 @@ public class PlayerSlingshot : Combat
 
             if (_currentCharge > _startCharge) 
             DrawProjection();
-            if (_currentFOV < _aimingFOV)
+            if (_currentFOV > _aimingFOV)
             {
-                _currentFOV += _aimingSpeed * Time.deltaTime;
-                _offset.m_Offset.Set(0, 0, _currentFOV);
+                _currentFOV -= _aimingSpeed * Time.deltaTime;
+                _cinemachine.m_Lens.FieldOfView= _currentFOV;
             }
             else {
                 _currentFOV = _aimingFOV;
-                _offset.m_Offset.Set(0, 0, _currentFOV);
+                _cinemachine.m_Lens.FieldOfView= _currentFOV;
             }
         }
         else
@@ -116,14 +110,14 @@ public class PlayerSlingshot : Combat
             _playerController.LookAtReset();
 
             _line.enabled = false;
-            if (_currentFOV > 0)
+            if (_currentFOV < _notAimingFOV)
             {
-                _currentFOV -= _aimingSpeed * Time.deltaTime;
-                _offset.m_Offset.Set(0, 0, _currentFOV);
+                _currentFOV += _aimingSpeed * Time.deltaTime;
+                _cinemachine.m_Lens.FieldOfView = _currentFOV;
             }
             else {
-                _currentFOV = 0;
-                _offset.m_Offset.Set(0, 0, _currentFOV);
+                _currentFOV = _notAimingFOV;
+                _cinemachine.m_Lens.FieldOfView = _currentFOV;
             }
         }
     }
