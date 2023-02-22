@@ -206,7 +206,7 @@ public class PlayerController : Controller
     {
         _isGrounded = Physics.CheckBox(_boxPosition, _boxSize, quaternion.identity, _jumpable);
         
-        _isSliding = (!(Vector3.Angle(Vector3.up, _hitNormal) <= _slopeLimit));
+        _isSliding = _isGrounded ? (!(Vector3.Angle(Vector3.up, _hitNormal) <= _slopeLimit)):false;
         _hitNormal = _hitNormal * .99f;
     }
 
