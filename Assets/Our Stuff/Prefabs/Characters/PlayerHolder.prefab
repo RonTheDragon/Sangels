@@ -5237,8 +5237,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 5
   NormalSpeed: 5
-  RegularAnimationSpeed: 10
-  RotateSpeed: 0.5
+  RegularAnimationSpeed: 4
+  RotateSpeed: 0.2
   _lookingAt: {fileID: 400005232067196757}
   _rig: {fileID: 3411079627600858810}
   _lookingSpeed: 10
@@ -5248,10 +5248,11 @@ MonoBehaviour:
   _playerNumber: 0
   _jump: 8
   _gravity: 20
-  _jumpForceDirection: {x: 0, y: 0, z: 0}
-  _jumpForceStrength: 0
+  _jumpTowardDirectionStrength: 0.6
   _loseJumpForceStrength: 2
   _canDoubleJump: 0
+  _jumpForceDirection: {x: 0, y: 0, z: 0}
+  _jumpForceStrength: 0
   _slopeLimit: 45
   _slideSpeed: 5
   _isSliding: 0
@@ -5748,7 +5749,7 @@ MonoBehaviour:
   _xAxis:
     Value: 0
     m_SpeedMode: 1
-    m_MaxSpeed: 1
+    m_MaxSpeed: 0.12
     m_AccelTime: 0.02
     m_DecelTime: 0.02
     m_InputAxisName: 
@@ -5766,7 +5767,7 @@ MonoBehaviour:
   _yAxis:
     Value: 0
     m_SpeedMode: 1
-    m_MaxSpeed: 1
+    m_MaxSpeed: 0.1
     m_AccelTime: 0.02
     m_DecelTime: 0.02
     m_InputAxisName: 

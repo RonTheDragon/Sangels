@@ -3,7 +3,6 @@ using System;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class PlayerController : Controller
 {
@@ -69,9 +68,13 @@ public class PlayerController : Controller
     // Stored Data
     private Vector2 _movement;
     private bool _jumped;
+    private bool _releasedJump;
     private float _gravityPull;
     private float _f;
     private LayerMask _jumpable;
+
+    float targetAngle;
+    float Angle;
 
     // Ground Check 
     private Vector3 _boxPosition => _cc.transform.position + (Vector3.up * _cc.bounds.extents.y) * _checkboxY;
@@ -114,8 +117,8 @@ public class PlayerController : Controller
 
             Vector2 Movement = _movement.normalized; //Get input from player for movement
 
-            float targetAngle = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + _camTransform.eulerAngles.y; //get where player is looking
-            float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, !_slingshot.IsAiming ? targetAngle : _camTransform.eulerAngles.y, ref _f, !_slingshot.IsAiming ? RotateSpeed : 0.01f); //Smoothing
+            targetAngle = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + _camTransform.eulerAngles.y; //get where player is looking
+            Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, !_slingshot.IsAiming ? targetAngle : _camTransform.eulerAngles.y, ref _f, !_slingshot.IsAiming ? RotateSpeed : 0.01f); //Smoothing
                                                                                                                                                           //Debug.Log($"targetAngle: {targetAngle}, Angle: {Angle}");
             if (_slingshot.IsAiming)
                 transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
@@ -125,16 +128,8 @@ public class PlayerController : Controller
                 _anim.SetBool("Walking", true);
                 if (!_slingshot.IsAiming && Speed != 0)
                     transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
-                _moveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
-
-                if (_slingshot.IsAiming)
-                {
-                    _cc.Move(_moveDir * GetSpeed() * Time.deltaTime);
-                }
-                else
-                {
-                    _cc.Move((_moveDir * GetSpeed() * Time.deltaTime)/ ((Mathf.Abs(_gm.AngleDifference(targetAngle,Angle))*0.01f)+1));
-                }
+                _moveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;               
+                _cc.Move(_moveDir * GetSpeed() * Time.deltaTime); 
             }
             else
             {
@@ -149,20 +144,27 @@ public class PlayerController : Controller
     /// <summary> Allows the player to jump. </summary>
     private void Jumping()
     {
-        if (_isGrounded) { _cantJumpTimeLeft = _cantJumpTime; _canDoubleJump = true; }
+        if (!_jumped) { _releasedJump = true; }
+
+        if (_isGrounded) { _cantJumpTimeLeft = _cantJumpTime; _jumpForceStrength = 0; }
         else { _cantJumpTimeLeft -= Time.deltaTime; }
 
         if (CheckIfCanMove())
         {
-            if (_jumped && _cantJumpTimeLeft>0 && !_isSliding)
+            if (_jumped && !_isSliding)
             {
-                AddJumpForce(Vector3.up+ (_moveDir* _jumpTowardDirectionStrength), _jump * FruitJumpEffect);
-            }
-            else if(_jumped && _canDoubleJump && !_isSliding)
-            {
-                _gravityPull = .1f;
-                AddJumpForce(Vector3.up + (_moveDir * _jumpTowardDirectionStrength), (_jump*1.2f) * FruitJumpEffect);
-                _canDoubleJump = false;
+                if (_cantJumpTimeLeft > 0)
+                {
+                    AddJumpForce(Vector3.up + (_moveDir * _jumpTowardDirectionStrength), _jump * FruitJumpEffect);
+                    _canDoubleJump = true;
+                    _releasedJump = false;
+                }
+                else if (_canDoubleJump && _releasedJump)
+                {
+                    _gravityPull = .1f;
+                    AddJumpForce(Vector3.up + (_moveDir * _jumpTowardDirectionStrength), (_jump * 1.2f) * FruitJumpEffect);
+                    _canDoubleJump = false;
+                }
             }
         }
         else
@@ -326,6 +328,10 @@ public class PlayerController : Controller
     {
         float theSpeed= Speed * FruitSpeedEffect * (1 - (_glubCurrentEffect / (_glubMax + (_glubMax / 10))));
         if (!_isGrounded) { theSpeed *= 0.5f; }
+        if (!_slingshot.IsAiming)
+        {
+            theSpeed /= ((Mathf.Abs(_gm.AngleDifference(targetAngle, Angle)) * 0.01f) + 1);
+        }
         return theSpeed;
     }
     public override void SetSpeed(float speed = -1)
